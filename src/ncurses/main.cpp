@@ -1,9 +1,9 @@
 #include <iostream>
 #include <ncurses.h>
 
-int main(void)
-{
-    initscr();
+#include "NcursesGraphic.hpp"
+#include "spc/graphic/IGraphic.hpp"
 
-    return (0);
+extern "C" {
+arc::grph::IGraphic *expose(void) { return new arc::grph::NcursesGraphic(); }
 }
