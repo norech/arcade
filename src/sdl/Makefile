@@ -15,7 +15,7 @@ LFLAGS = -lncurses
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
 
-TARGET = ../../lib/arcade_ncurses.so
+TARGET = ../../lib/arcade_sdl2.so
 
 TARGET_TEST = unit_tests
 
@@ -46,9 +46,8 @@ clean_tests:
 $(TARGET): build_all
 
 clean:
-	rm -f $(OBJ)
 	rm -f *.gc* unit_tests
-
+	rm -rf $(OBJ)
 
 fclean: clean
 	rm -f $(TARGET)
