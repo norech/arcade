@@ -7,7 +7,7 @@
 
 CXX = g++
 
-CFLAGS = -W -Wall -Werror -std=c++20 -g -I../../include
+CXXFLAGS = -W -Wall -Werror -std=c++20 -g -I../../include
 
 LFLAGS = -ldl
 

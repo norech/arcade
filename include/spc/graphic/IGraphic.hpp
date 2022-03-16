@@ -46,6 +46,11 @@ public:
     virtual void render() = 0;
 
     /**
+     * Returns the amount of time since the last call to `tick`.
+     */
+    virtual float tick() = 0;
+
+    /**
      * @brief Polls the events.
      * @param input An event to fill.
      *

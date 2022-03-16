@@ -34,6 +34,7 @@ fclean:
 
 api:
 	git clone git@github.com:norech/special-arcade.git /tmp/arcade
+	cd /tmp/arcade && git checkout impl1
 	rm -rf $(API_DIR)
 	mkdir -p $(API_DIR)
 	cp -r /tmp/arcade/interface/* $(API_DIR)
