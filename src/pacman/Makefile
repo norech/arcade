@@ -15,11 +15,11 @@ LFLAGS = -lncurses
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
 
-TARGET = ../../lib/arcade_ncurses.so
+TARGET = ../../lib/arcade_pacman.so
 
 TARGET_TEST = unit_tests
 
-SRC =	NcursesGraphic.cpp \
+SRC =	PacmanGame.cpp \
 
 TESTS =	\
 

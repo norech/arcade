@@ -9,7 +9,7 @@
 
 namespace arc::grph {
 
-    SdlCanvas::SdlCanvas(IGraphic *graphic)
+    SdlCanvas::SdlCanvas(SdlGraphic *graphic)
     {
         _graphic = dynamic_cast<SdlGraphic *>(graphic);
 
@@ -37,7 +37,7 @@ namespace arc::grph {
 
     }
 
-    void SdlCanvas::drawpoint(int x, int y, const IColor &color)
+    void SdlCanvas::drawPoint(int x, int y, const IColor &color)
     {
         SDL_Rect rect = {x * 100, y * 100, 100, 100};
         SDL_Surface *drawSurface = SDL_GetWindowSurface(_graphic->_window);

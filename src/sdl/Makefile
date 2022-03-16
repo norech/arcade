@@ -7,7 +7,7 @@
 
 CXX = g++
 
-CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g \
+CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g -lSDL2 \
 		-I../../include
 
 LFLAGS = -lncurses

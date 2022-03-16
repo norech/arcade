@@ -14,14 +14,14 @@ namespace arc::grph {
 
     class SdlCanvas : public Canvas {
         public:
-            SdlCanvas(IGraphic *graphic);
+            SdlCanvas(SdlGraphic *graphic);
             ~SdlCanvas();
 
             void startDraw() override;
 
             void endDraw() override;
 
-            void drawpoint(int x, int y, const IColor &color);
+            void drawPoint(int x, int y, const IColor &color) override;
 
 
         protected:

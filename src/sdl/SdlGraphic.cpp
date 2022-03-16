@@ -10,7 +10,7 @@
 
 namespace arc::grph {
 
-SdlGraphic::SdlGraphic(std::string &name, int size_x, int size_y): _name(name), _size_x(size_x), _size_y(size_y)
+SdlGraphic::SdlGraphic(std::string &name, int size_x [[maybe_unused]], int size_y [[maybe_unused]]): _name(name), _size_x(800), _size_y(600)
 {
 
 }
