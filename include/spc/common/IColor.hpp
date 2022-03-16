@@ -22,13 +22,13 @@ public:
      *
      * @return ColorCode
      */
-    ColorCode getColorCode() const;
+    virtual ColorCode getColorCode() const = 0;
 
     /**
      * @brief Get the symbol to use for rendering the color on non-graphical.
      * @return The symbol to use for rendering the color on non-graphical.
      */
-    char getSymbol() const;
+    virtual char getSymbol() const = 0;
 };
 
 }  // namespace arc

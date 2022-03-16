@@ -26,7 +26,7 @@ class Loader {
             throw LoaderError(dlerror());
         }
 
-        LoaderFunction func = (LoaderFunction)dlsym(handle, "entryPoint");
+        LoaderFunction func = (LoaderFunction)dlsym(handle, "expose");
         if (!func) {
             throw LoaderError(dlerror());
         }
