@@ -46,7 +46,7 @@ public:
     virtual void render() = 0;
 
     /**
-     * Returns the amount of time since the last call to `tick`.
+     * Returns the amount of time in seconds since the last call to `tick`.
      */
     virtual float tick() = 0;
 

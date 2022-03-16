@@ -17,6 +17,8 @@ namespace arc::grph {
 
             void render() override;
 
+            float tick() override;
+
             bool pollEvent(Event &input) override;
 
             void loadCanvas(std::shared_ptr<ICanvas> &canvas) override;

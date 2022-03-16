@@ -10,23 +10,24 @@
 
 namespace arc::grph {
 
-    class graphic : public IGraphic
+    class Graphic : public IGraphic
     {
         public:
-            graphic() = default;
-            ~graphic() = default;
+            Graphic() = default;
+            ~Graphic() = default;
 
-            void init() override = default;
-            void close() override = default;
-            void renderer() override = default;
+            void init() override {}
+            void close() override {}
+            void render() override {}
 
+            float tick() override {return (0);}
+            bool pollEvent(Event &input [[maybe_unused]]) override { return (false);}
+            bool isOpen() override {return (false);}
 
-            bool pollEvent(Event &input) override = default;
-            bool isOpen() override = default;
+            void loadCanvas(std::shared_ptr<ICanvas> &canvas [[maybe_unused]]) override {}
+            void unloadCanvas(std::shared_ptr<ICanvas> &canvas [[maybe_unused]]) override {}
+            void destroy() override {}
 
-            void loadCanvas(std::shared_ptr<ICanvas> &canvas) override = default;
-            void unloadCanvas(std::shared_ptr<ICanvas> &canvas) override = default;
-            void destroy() override = default;
 
     };
 }
