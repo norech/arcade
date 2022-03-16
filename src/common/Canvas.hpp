@@ -19,7 +19,7 @@ namespace arc::grph {
             void startDraw() override {}
             void endDraw() override {}
 
-            void drawPoint(int x, int y, const IColor &color) override {}
+            void drawPoint(int x [[maybe_unused]], int y [[maybe_unused]], const IColor &color [[maybe_unused]]) override {}
 
     };
 

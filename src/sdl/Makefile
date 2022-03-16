@@ -19,7 +19,8 @@ TARGET = ../../lib/arcade_sdl2.so
 
 TARGET_TEST = unit_tests
 
-SRC =	SdlGraphic.cpp
+SRC =	SdlGraphic.cpp \
+		SdlCanvas.cpp
 
 TESTS =	\
 

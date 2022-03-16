@@ -42,5 +42,7 @@ namespace arc::grph {
         SDL_Rect rect = {x * 100, y * 100, 100, 100};
         SDL_Surface *drawSurface = SDL_GetWindowSurface(_graphic->_window);
 
+        SDL_FillRect(drawSurface, &rect, SDL_MapRGB(drawSurface->format, (color.getColorCode() & 0xFF0000) >> 4,
+            (color.getColorCode() & 0x00FF00) >> 2, color.getColorCode() & 0x0000FF));
     }
 }
