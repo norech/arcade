@@ -8,6 +8,7 @@
 API_DIR = $(PWD)/include/spc
 
 all:
+	make -C src/common/
 	make -C src/core/
 	make -C src/ncurses/
 	make -C src/sdl/
@@ -16,18 +17,22 @@ core:
 	make -C src/core/
 
 games:
+	make -C src/common/
 	make -C src/games/
 
 graphicals:
+	make -C src/common/
 	make -C src/ncurses/
 	make -C src/sdl/
 
 clean:
+	make -C src/common/ clean
 	make -C src/core/ clean
-	#make -C src/ncurses/ clean
+	make -C src/ncurses/ clean
 	make -C src/sdl/ clean
 
 fclean:
+	make -C src/common/ fclean
 	make -C src/core/ fclean
 	make -C src/ncurses/ fclean
 	make -C src/sdl/ fclean
