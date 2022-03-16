@@ -24,7 +24,7 @@ graphicals:
 
 clean:
 	make -C src/core/ clean
-	make -C src/ncurses/ clean
+	#make -C src/ncurses/ clean
 	make -C src/sdl/ clean
 
 fclean:

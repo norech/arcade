@@ -6,22 +6,24 @@
 
 namespace arc::grph {
 
-class NcursesGraphic : public IGraphic {
-  void init() override;
+    class NcursesGraphic : public IGraphic {
+        public:
 
-  bool isOpen() override;
+            void init() override;
 
-  void close() override;
+            bool isOpen() override;
 
-  void render() override;
+            void close() override;
 
-  bool pollEvent(Event &input) override;
+            void render() override;
 
-  void loadCanvas(std::shared_ptr<ICanvas> &canvas) override;
+            bool pollEvent(Event &input) override;
 
-  void unloadCanvas(std::shared_ptr<ICanvas> &canvas) override;
+            void loadCanvas(std::shared_ptr<ICanvas> &canvas) override;
 
-  void destroy() override;
-};
+            void unloadCanvas(std::shared_ptr<ICanvas> &canvas) override;
+
+            void destroy() override;
+    };
 
 } // namespace arc::grph

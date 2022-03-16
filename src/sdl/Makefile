@@ -15,7 +15,7 @@ LFLAGS = -lncurses
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
 
-TARGET = ../../lib/arcade_ncurses.so
+TARGET = ../../lib/arcade_sdl2.so
 
 TARGET_TEST = unit_tests
 
