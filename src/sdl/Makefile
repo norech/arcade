@@ -46,11 +46,11 @@ clean_tests:
 $(TARGET): build_all
 
 clean:
-	rm -f $(TARGET)
+	rm -f *.gc* unit_tests
+	rm -rf $(OBJ)
 
 fclean: clean
-	rm -f $(OBJ)
-	rm -f *.gc* unit_tests
+	rm -f $(TARGET)
 
 re: fclean all
 
