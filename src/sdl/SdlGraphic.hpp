@@ -27,8 +27,8 @@ namespace arc::grph {
 
             void destroy() override;
 	        SDL_Window *_window;
-        private:
             SDL_Renderer *_renderer;
+        private:
             std::string _name;
             int _size_x;
             int _size_y;

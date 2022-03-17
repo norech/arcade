@@ -34,7 +34,7 @@ namespace arc::grph {
 
     void SdlCanvas::endDraw()
     {
-
+        SDL_RenderClear(_graphic->_renderer);
     }
 
     void SdlCanvas::drawPoint(int x, int y, const IColor &color)
@@ -44,5 +44,6 @@ namespace arc::grph {
 
         SDL_FillRect(drawSurface, &rect, SDL_MapRGB(drawSurface->format, (color.getColorCode() & 0xFF0000) >> 4,
             (color.getColorCode() & 0x00FF00) >> 2, color.getColorCode() & 0x0000FF));
+        SDL_RenderDrawRect(_graphic->_renderer, &rect);
     }
 }

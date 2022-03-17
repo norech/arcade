@@ -6,7 +6,7 @@ namespace arc::game {
 
 void PacmanGame::init()
 {
-    _palette.setColor(0, 'P', YELLOW);
+    _palette.setColor(0, 'P', GREEN);
     _palette.setColor(1, 'G', RED);
 }
 
@@ -20,37 +20,41 @@ void PacmanGame::update(float dt [[maybe_unused]])
         }
 
         if (event.type == Event::KEYDOWN) {
-            if (event.keyboardInput.keyCode == KeyCode::Z)
+            if (event.keyboardInput.keyCode == KeyCode::Z) {
                 _playerY--;
-            if (event.keyboardInput.keyCode == KeyCode::S)
+                std::cout << "z is pressed\n" << std::flush;
+            }
+            if (event.keyboardInput.keyCode == KeyCode::S) {
                 _playerY++;
-            if (event.keyboardInput.keyCode == KeyCode::Q)
+                std::cout << "s is pressed\n" << std::flush;
+            }
+            if (event.keyboardInput.keyCode == KeyCode::Q) {
                 _playerX--;
-            if (event.keyboardInput.keyCode == KeyCode::D)
+                std::cout << "q is pressed\n" << std::flush;
+
+            }
+            if (event.keyboardInput.keyCode == KeyCode::D) {
                 _playerX++;
+                std::cout << "q is pressed\n" << std::flush;
+            }
         }
     }
 }
 
 void PacmanGame::render()
 {
-    std::cout << "ici1\n" << std::flush;
-
     _canvas->startDraw();
 
-    std::cout << "ici2\n" << std::flush;
 
     _canvas->drawPoint(_playerX, _playerY, _palette[0]);
-    std::cout << "ici3\n" << std::flush;
     _canvas->endDraw();
-    std::cout << "ici4\n" << std::flush;
     _graphic->render();
-    std::cout << "ici5\n" << std::flush;
 }
 
 void PacmanGame::loadGraphic(grph::IGraphic* graphic)
 {
     _graphic.reset(graphic);
+    _graphic->loadCanvas(_canvas);
 }
 
 void PacmanGame::unloadGraphic() { _graphic.reset(); }

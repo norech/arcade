@@ -29,7 +29,7 @@ void SdlGraphic::init()
         std::cerr << "error init SDL" << std::endl;
         std::exit(84);
     }
-    _window = SDL_CreateWindow("test", SDL_WINDOWPOS_UNDEFINED,
+    _window = SDL_CreateWindow("arcade", SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED, _size_x, _size_y, windowFlag);
     if (_window == NULL) {
         std::cerr << SDL_GetError() << std::endl;
@@ -52,7 +52,14 @@ void SdlGraphic::close()
 
 void SdlGraphic::render()
 {
+    SDL_Rect rect = {00,100, 100, 100};
+    SDL_Surface *drawSurface = SDL_GetWindowSurface(_window);
+
+    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
     SDL_RenderClear(_renderer);
+
+    SDL_FillRect(drawSurface, &rect, SDL_MapRGB(drawSurface->format, 255, 0, 0));
+    SDL_RenderDrawRect(_renderer, &rect);
     SDL_RenderPresent(_renderer);
 }
 
