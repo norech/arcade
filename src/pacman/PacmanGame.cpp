@@ -31,11 +31,10 @@ void PacmanGame::update(float dt [[maybe_unused]])
             if (event.keyboardInput.keyCode == KeyCode::Q) {
                 _playerX--;
                 std::cout << "q is pressed\n" << std::flush;
-
             }
             if (event.keyboardInput.keyCode == KeyCode::D) {
                 _playerX++;
-                std::cout << "q is pressed\n" << std::flush;
+                std::cout << "d is pressed\n" << std::flush;
             }
         }
     }
@@ -43,10 +42,11 @@ void PacmanGame::update(float dt [[maybe_unused]])
 
 void PacmanGame::render()
 {
+    _graphic->clear();
     _canvas->startDraw();
 
-
     _canvas->drawPoint(_playerX, _playerY, _palette[0]);
+
     _canvas->endDraw();
     _graphic->render();
 }

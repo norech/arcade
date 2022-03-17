@@ -41,6 +41,11 @@ public:
     virtual void close() = 0;
 
     /**
+     * Clears the screen.
+     */
+    virtual void clear() = 0;
+
+    /**
      * Render the screen buffer on the screen.
      */
     virtual void render() = 0;

@@ -7,10 +7,10 @@
 
 CXX = g++
 
-CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g -lSDL2 \
+CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g \
 		-I../../include
 
-LFLAGS = -lncurses
+LFLAGS = -lSDL2
 
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage

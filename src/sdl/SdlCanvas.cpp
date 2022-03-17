@@ -6,44 +6,33 @@
 */
 
 #include "SdlCanvas.hpp"
+#include <SDL2/SDL_render.h>
 
 namespace arc::grph {
 
-    SdlCanvas::SdlCanvas(SdlGraphic *graphic)
-    {
-        _graphic = dynamic_cast<SdlGraphic *>(graphic);
+SdlCanvas::SdlCanvas(SdlGraphic* graphic) { _graphic = graphic; }
 
-        if (_graphic == nullptr) {
-            std::cerr << "error not sfml graphics" << std::endl;
-            if (graphic != nullptr) {
-                graphic->close();
-            } else {
-                exit(84);
-            }
-        }
-    }
+SdlCanvas::~SdlCanvas() { }
 
-    SdlCanvas::~SdlCanvas()
-    {
-    }
+void SdlCanvas::startDraw()
+{
+    SDL_SetRenderDrawColor(_graphic->_renderer, 0, 0, 0, 255);
+    SDL_RenderClear(_graphic->_renderer);
+}
 
-    void SdlCanvas::startDraw()
-    {
+void SdlCanvas::endDraw() { }
 
-    }
+void SdlCanvas::drawPoint(int x, int y, const IColor& color)
+{
+    SDL_Rect rect = { x * 100, y * 100, 100, 100 };
 
-    void SdlCanvas::endDraw()
-    {
-        SDL_RenderClear(_graphic->_renderer);
-    }
+    int r = (color.getColorCode() & 0xFF0000) >> 16;
+    int g = (color.getColorCode() & 0x00FF00) >> 8;
+    int b = (color.getColorCode() & 0x0000FF);
 
-    void SdlCanvas::drawPoint(int x, int y, const IColor &color)
-    {
-        SDL_Rect rect = {x * 100, y * 100, 100, 100};
-        SDL_Surface *drawSurface = SDL_GetWindowSurface(_graphic->_window);
+    SDL_SetRenderDrawColor(_graphic->_renderer, r, g, b, 255);
+    SDL_RenderFillRect(_graphic->_renderer, &rect);
+    SDL_RenderDrawRect(_graphic->_renderer, &rect);
+}
 
-        SDL_FillRect(drawSurface, &rect, SDL_MapRGB(drawSurface->format, (color.getColorCode() & 0xFF0000) >> 4,
-            (color.getColorCode() & 0x00FF00) >> 2, color.getColorCode() & 0x0000FF));
-        SDL_RenderDrawRect(_graphic->_renderer, &rect);
-    }
 }
