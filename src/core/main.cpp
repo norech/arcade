@@ -13,7 +13,7 @@ using GameLoader = arc::core::Loader<IGame>;
 int main(void)
 {
     IGame* game = GameLoader::load("./lib/arcade_pacman.so");
-    IGraphic* graphic = GraphicLoader::load("./lib/arcade_sdl.so");
+    IGraphic* graphic = GraphicLoader::load("./lib/arcade_sfml.so");
 
     game->init();
     graphic->init();

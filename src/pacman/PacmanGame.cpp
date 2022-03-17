@@ -1,6 +1,8 @@
 #include "PacmanGame.hpp"
 #include "spc/common/KeyCode.hpp"
 
+#include <iostream>
+
 namespace arc::game {
 
 void PacmanGame::init()
@@ -19,14 +21,22 @@ void PacmanGame::update(float dt [[maybe_unused]])
         }
 
         if (event.type == Event::KEYDOWN) {
-            if (event.keyboardInput.keyCode == KeyCode::Z)
+            if (event.keyboardInput.keyCode == KeyCode::Z) {
+                std::cout << "press Z" << std::endl;
                 _playerY--;
-            if (event.keyboardInput.keyCode == KeyCode::S)
+            }
+            if (event.keyboardInput.keyCode == KeyCode::S) {
+                std::cout << "press S" << std::endl;
                 _playerY++;
-            if (event.keyboardInput.keyCode == KeyCode::Q)
+            }
+            if (event.keyboardInput.keyCode == KeyCode::Q) {
+                std::cout << "press Q" << std::endl;
                 _playerX--;
-            if (event.keyboardInput.keyCode == KeyCode::D)
+            }
+            if (event.keyboardInput.keyCode == KeyCode::D) {
+                std::cout << "press D" << std::endl;
                 _playerX++;
+            }
         }
     }
 }
@@ -44,9 +54,14 @@ void PacmanGame::render()
 void PacmanGame::loadGraphic(grph::IGraphic* graphic)
 {
     _graphic.reset(graphic);
+    graphic->loadCanvas(_canvas);
 }
 
-void PacmanGame::unloadGraphic() { _graphic.reset(); }
+void PacmanGame::unloadGraphic()
+{
+    _graphic->unloadCanvas(_canvas);
+    _graphic.reset();
+}
 
 void PacmanGame::destroy() { }
 
