@@ -20,6 +20,7 @@ TARGET = ../../lib/arcade_ncurses.so
 TARGET_TEST = unit_tests
 
 SRC =	NcursesGraphic.cpp \
+		NcursesCanvas.cpp
 
 TESTS =	\
 
