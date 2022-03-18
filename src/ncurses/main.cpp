@@ -5,5 +5,6 @@
 #include "spc/graphic/IGraphic.hpp"
 
 extern "C" {
-    arc::grph::IGraphic *expose(void) { return new arc::grph::NcursesGraphic(); }
+arc::grph::IGraphic* expose(void) { return new arc::grph::NcursesGraphic(); }
+void unexpose(arc::grph::NcursesGraphic* g) { delete g; }
 }

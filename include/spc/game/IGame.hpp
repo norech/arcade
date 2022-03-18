@@ -64,6 +64,12 @@ public:
     virtual void unloadGraphic() = 0;
 
     /**
+     * @brief Called each frame, checks if another graphical library should
+     * be loaded.
+     */
+    virtual bool mustLoadAnotherGraphic() const = 0;
+
+    /**
      * Triggers any last operations before the game is destroyed.
      *
      * @brief Destroy the game.

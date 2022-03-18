@@ -14,7 +14,8 @@ class PacmanGame : public IGame {
  private:
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
-    std::shared_ptr<grph::IGraphic> _graphic;
+    grph::IGraphic* _graphic;
+    bool _mustLoadAnotherGraphic = false;
     int _playerX = 0;
     int _playerY = 0;
     int _score = 0;
@@ -30,6 +31,8 @@ class PacmanGame : public IGame {
     void render() override;
 
     void loadGraphic(grph::IGraphic* graphic) override;
+
+    bool mustLoadAnotherGraphic() const override;
 
     void unloadGraphic() override;
 
