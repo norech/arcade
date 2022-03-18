@@ -7,6 +7,7 @@
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
+#include "vector"
 
 namespace arc::game {
 
@@ -18,7 +19,10 @@ class PacmanGame : public IGame {
     bool _mustLoadAnotherGraphic = false;
     int _playerX = 0;
     int _playerY = 0;
+    int _vectorPlayerx;
+    int _vectorPlayery;
     int _score = 0;
+    std::vector<std::string> _map;
 
  public:
     PacmanGame() = default;

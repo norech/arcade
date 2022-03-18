@@ -8,8 +8,35 @@ namespace arc::game {
 
 void PacmanGame::init()
 {
-    _palette.setColor(0, 'P', GREEN);
-    _palette.setColor(1, 'G', RED);
+    _playerX = 9;
+    _playerY = 15;
+    _vectorPlayerx = -1;
+    _vectorPlayery = 0;
+    _palette.setColor(0, 'P', YELLOW);
+    _palette.setColor(1, 'G', BLACK);
+    _palette.setColor(2, '#', BLUE);
+    _map.push_back(std::string("###################"));
+    _map.push_back(std::string("#        #        #"));
+    _map.push_back(std::string("# ## ### # ### ## #"));
+    _map.push_back(std::string("#                 #"));
+    _map.push_back(std::string("# ## # ##### # ## #"));
+    _map.push_back(std::string("#    #   #   #    #"));
+    _map.push_back(std::string("#### ### # ### ####"));
+    _map.push_back(std::string("   # #       # #   "));
+    _map.push_back(std::string("#### # ## ## # ####"));
+    _map.push_back(std::string("       #   #       "));
+    _map.push_back(std::string("#### # ##### # ####"));
+    _map.push_back(std::string("   # #       # #   "));
+    _map.push_back(std::string("#### ### # ### ####"));
+    _map.push_back(std::string("#    #   #   #    #"));
+    _map.push_back(std::string("# ## # ##### # ## #"));
+    _map.push_back(std::string("#                 #"));
+    _map.push_back(std::string("# ## ### # ### ## #"));
+    _map.push_back(std::string("#        #        #"));
+    _map.push_back(std::string("###################"));
+
+
+    
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])
@@ -49,6 +76,15 @@ void PacmanGame::render()
 {
     _graphic->clear();
     _canvas->startDraw();
+
+    for (size_t y = 0; y < _map.size(); y++) {
+        for (size_t x = 0; x < _map.at(y).size(); x++) {
+            if (_map.at(y).at(x) == '#') {
+                _canvas->drawPoint(x, y, this->_palette[2]);
+            }
+        }
+    }
+
 
     _canvas->drawPoint(this->_playerX, this->_playerY, this->_palette[0]);
 
