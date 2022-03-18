@@ -10,7 +10,7 @@ CXX = g++
 CXXFLAGS	= -shared -static-libgcc -static-libstdc++ -fPIC -fno-gnu-unique \
 		-W -Wall -Werror -std=c++20 -g -I../../include
 
-LFLAGS = -lncurses
+LFLAGS = -lSDL2
 
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
@@ -19,7 +19,8 @@ TARGET = ../../lib/arcade_sdl2.so
 
 TARGET_TEST = unit_tests
 
-SRC =	\
+SRC =	SdlGraphic.cpp \
+		SdlCanvas.cpp
 
 TESTS =	\
 
