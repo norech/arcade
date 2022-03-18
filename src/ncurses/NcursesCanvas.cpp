@@ -33,7 +33,6 @@ namespace arc::grph {
 
     void NcursesCanvas::drawPoint(int x, int y, const IColor &color)
     {
-        std::cout << "here" << std::flush;
         mvaddch(y + 1, x + 1, color.getSymbol());
     }
 }

@@ -22,19 +22,15 @@ void PacmanGame::update(float dt [[maybe_unused]])
         if (event.type == Event::KEYDOWN) {
             if (event.keyboardInput.keyCode == KeyCode::Z) {
                 _playerY--;
-                std::cout << "z is pressed\n" << std::flush;
             }
             if (event.keyboardInput.keyCode == KeyCode::S) {
                 _playerY++;
-                std::cout << "s is pressed\n" << std::flush;
             }
             if (event.keyboardInput.keyCode == KeyCode::Q) {
                 _playerX--;
-                std::cout << "q is pressed\n" << std::flush;
             }
             if (event.keyboardInput.keyCode == KeyCode::D) {
                 _playerX++;
-                std::cout << "d is pressed\n" << std::flush;
             }
         }
     }

@@ -24,5 +24,5 @@ namespace arc::grph {
             void drawPoint(int x, int y, const IColor &color);
         private:
             NcursesGraphic *_graphic;
-    };  
+    };
 }

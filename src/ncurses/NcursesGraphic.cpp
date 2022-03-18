@@ -7,6 +7,7 @@
 
 #include "NcursesGraphic.hpp"
 #include "NcursesCanvas.hpp"
+#include <iostream>
 
 namespace arc::grph {
 
@@ -21,10 +22,10 @@ namespace arc::grph {
 
     void NcursesGraphic::init()
     {
-        _window = newwin(0, 0, 800, 600);
         _window = initscr();
-        timeout(500);
+        timeout(25);
         curs_set(0);
+        noecho();
     }
 
     bool NcursesGraphic::isOpen()
@@ -38,6 +39,7 @@ namespace arc::grph {
 
     void NcursesGraphic::close()
     {
+        echo();
         endwin();
     }
 
@@ -48,14 +50,14 @@ namespace arc::grph {
 
     void NcursesGraphic::clear()
     {
-        clear();
+        wclear(_window);
     }
 
     bool NcursesGraphic::pollEvent(Event &input)
     {
         int key = getch();
 
-        if (key != '\0') {
+        if (key != ERR) {
             input.type = Event::EventType::KEYDOWN;
             input.keyboardInput.keyCode = key;
             return (true);
