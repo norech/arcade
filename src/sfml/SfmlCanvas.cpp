@@ -7,22 +7,16 @@
 
 #include "SfmlCanvas.hpp"
 
-arc::grph::SfmlCanvas::SfmlCanvas(SfmlGraphic *graphic)
+arc::grph::SfmlCanvas::SfmlCanvas(SfmlGraphic* graphic)
 {
     this->_graphic = graphic;
 }
 
-arc::grph::SfmlCanvas::~SfmlCanvas()
-{
-}
+arc::grph::SfmlCanvas::~SfmlCanvas() { }
 
-void arc::grph::SfmlCanvas::startDraw()
-{
-}
+void arc::grph::SfmlCanvas::startDraw() { }
 
-void arc::grph::SfmlCanvas::endDraw()
-{
-}
+void arc::grph::SfmlCanvas::endDraw() { }
 
 void arc::grph::SfmlCanvas::drawPoint(int x, int y, const IColor& color)
 {
@@ -30,8 +24,8 @@ void arc::grph::SfmlCanvas::drawPoint(int x, int y, const IColor& color)
     int g = (color.getColorCode() & 0x00FF00) >> 8;
     int b = (color.getColorCode() & 0x0000FF);
 
-    sf::RectangleShape rectangle(sf::Vector2f(100, 100));
-    rectangle.setFillColor(sf::Color(r,g,b, 255));
-    rectangle.setPosition(x * 100, y * 100);
+    sf::RectangleShape rectangle(sf::Vector2f(20, 20));
+    rectangle.setFillColor(sf::Color(r, g, b, 255));
+    rectangle.setPosition(x * 20, y * 20);
     this->_graphic->_window.draw(rectangle);
 }
