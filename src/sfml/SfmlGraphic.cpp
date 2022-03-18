@@ -15,6 +15,7 @@ arc::grph::SfmlGraphic::~SfmlGraphic() { }
 
 void arc::grph::SfmlGraphic::init()
 {
+    _shouldClose = false;
     this->_window.create(sf::VideoMode(800, 600), "SFML");
 }
 
