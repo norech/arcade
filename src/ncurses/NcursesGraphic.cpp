@@ -25,14 +25,14 @@ void NcursesGraphic::init()
         start_color();
         use_default_colors();
         init_color(COLOR_BLACK, 1, 1, 1);
-        init_pair(0, COLOR_WHITE, COLOR_BLACK); // black
-        init_pair(1, COLOR_BLACK, COLOR_WHITE); // white
-        init_pair(2, COLOR_WHITE, COLOR_RED); // red
-        init_pair(3, COLOR_WHITE, COLOR_GREEN); // green
-        init_pair(4, COLOR_WHITE, COLOR_BLUE); // blue
-        init_pair(5, COLOR_WHITE, COLOR_YELLOW); // yellow
-        init_pair(6, COLOR_WHITE, COLOR_CYAN); // cyan
-        init_pair(7, COLOR_WHITE, COLOR_MAGENTA); // magenta
+        init_pair(0, COLOR_BLACK, COLOR_BLACK); // black
+        init_pair(1, COLOR_WHITE, COLOR_WHITE); // white
+        init_pair(2, COLOR_RED, COLOR_RED); // red
+        init_pair(3, COLOR_GREEN, COLOR_GREEN); // green
+        init_pair(4, COLOR_BLUE, COLOR_BLUE); // blue
+        init_pair(5, COLOR_YELLOW, COLOR_YELLOW); // yellow
+        init_pair(6, COLOR_CYAN, COLOR_CYAN); // cyan
+        init_pair(7, COLOR_MAGENTA, COLOR_MAGENTA); // magenta
     }
 }
 
@@ -60,7 +60,7 @@ void NcursesGraphic::clear()
 
     attron(COLOR_PAIR(backgroundColor));
     for (int i = 0; i < 600 / 20; i++) {
-        mvprintw(i, 0, std::string(800 / 20, ' ').c_str());
+        mvprintw(i, 0, std::string(800 / 20 * 2, ' ').c_str());
     }
     attroff(COLOR_PAIR(backgroundColor));
 }

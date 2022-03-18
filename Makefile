@@ -21,14 +21,14 @@ games:
 
 graphicals:
 	make -C src/common/
-	#make -C src/ncurses/
+	make -C src/ncurses/
 	make -C src/sdl/
 	make -C src/sfml/
 
 clean:
 	make -C src/common/ clean
 	make -C src/core/ clean
-	#make -C src/ncurses/ clean
+	make -C src/ncurses/ clean
 	make -C src/sdl/ clean
 	make -C src/pacman/ clean
 	make -C src/sfml/ clean
@@ -36,7 +36,7 @@ clean:
 fclean:
 	make -C src/common/ fclean
 	make -C src/core/ fclean
-	#make -C src/ncurses/ fclean
+	make -C src/ncurses/ fclean
 	make -C src/sdl/ fclean
 	make -C src/pacman/ fclean
 	make -C src/sfml fclean
