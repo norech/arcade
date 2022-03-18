@@ -23,6 +23,7 @@ class PacmanGame : public IGame {
     int _vectorPlayery;
     int _score = 0;
     std::vector<std::string> _map;
+    float _timer;
 
  public:
     PacmanGame() = default;

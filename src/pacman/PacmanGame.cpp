@@ -8,6 +8,7 @@ namespace arc::game {
 
 void PacmanGame::init()
 {
+    _timer = 0;
     _playerX = 9;
     _playerY = 15;
     _vectorPlayerx = -1;
@@ -34,8 +35,6 @@ void PacmanGame::init()
     _map.push_back(std::string("# ## ### # ### ## #"));
     _map.push_back(std::string("#        #        #"));
     _map.push_back(std::string("###################"));
-
-
     
 }
 
@@ -52,18 +51,38 @@ void PacmanGame::update(float dt [[maybe_unused]])
             if (event.keyboardInput.keyCode == KeyCode::P)
                 _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == KeyCode::Z) {
-                _playerY--;
+                _vectorPlayery = -1;
+                _vectorPlayerx = 0;
             }
             if (event.keyboardInput.keyCode == KeyCode::S) {
-                _playerY++;
+                _vectorPlayery = 1;
+                _vectorPlayerx = 0;
             }
             if (event.keyboardInput.keyCode == KeyCode::Q) {
-                _playerX--;
+                _vectorPlayery = 0;
+                _vectorPlayerx = -1;
             }
             if (event.keyboardInput.keyCode == KeyCode::D) {
-                _playerX++;
+                _vectorPlayery = 0;
+                _vectorPlayerx = 1;
             }
         }
+    }
+    _timer += dt;
+    if (_playerX + _vectorPlayerx == -1) {
+        _playerX = 18;
+    }
+    if (_playerX + _vectorPlayerx >= 19) {
+        _playerX = 0;
+    }
+    if (_map.at(_playerY + _vectorPlayery).at(_playerX + _vectorPlayerx) == '#') {
+        _vectorPlayerx = 0;
+        _vectorPlayery = 0;
+    }
+    if (_timer >= 0.60) {
+        _playerX += _vectorPlayerx;
+        _playerY += _vectorPlayery;
+        _timer = 0;
     }
 }
 
