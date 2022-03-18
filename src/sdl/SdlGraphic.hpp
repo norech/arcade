@@ -9,7 +9,7 @@ namespace arc::grph {
 
 class SdlGraphic : public Graphic {
  public:
-    SdlGraphic(std::string& name, int size_x, int size_y);
+    SdlGraphic();
     ~SdlGraphic();
 
     void init() override;

@@ -10,9 +10,8 @@
 
 namespace arc::grph {
 
-SdlGraphic::SdlGraphic(
-    std::string& name, int size_x [[maybe_unused]], int size_y [[maybe_unused]])
-    : _name(name)
+SdlGraphic::SdlGraphic()
+    : _name("arcade")
     , _size_x(800)
     , _size_y(600)
 {

@@ -11,28 +11,20 @@
 
 namespace arc::grph {
 
-    NcursesCanvas::NcursesCanvas(NcursesGraphic* graphic)
-    {
-        _graphic = graphic;
-    }
+NcursesCanvas::NcursesCanvas(NcursesGraphic* graphic) { _graphic = graphic; }
 
-    NcursesCanvas::~NcursesCanvas()
-    {
+NcursesCanvas::~NcursesCanvas() { }
 
-    }
+void NcursesCanvas::startDraw() { }
 
-    void NcursesCanvas::startDraw()
-    {
+void NcursesCanvas::endDraw() { }
 
-    }
+void NcursesCanvas::drawPoint(int x, int y, const IColor& color)
+{
+    int colorId = _graphic->getColorIndex(color.getColorCode());
 
-    void NcursesCanvas::endDraw()
-    {
-
-    }
-
-    void NcursesCanvas::drawPoint(int x, int y, const IColor &color)
-    {
-        mvaddch(y + 1, x + 1, color.getSymbol());
-    }
+    attron(COLOR_PAIR(colorId));
+    mvaddch(y, x, color.getSymbol());
+    attroff(COLOR_PAIR(colorId));
+}
 }

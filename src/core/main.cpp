@@ -13,7 +13,7 @@ using GameLoader = arc::core::Loader<IGame>;
 int main(void)
 {
     std::array<std::string, 2> graphics
-        = { "./lib/arcade_sdl2.so", "./lib/arcade_sfml.so", "./lib/arcade_ncurses.so" };
+        = { "./lib/arcade_sdl2.so", "./lib/arcade_ncurses.so" };
     IGame* game = GameLoader::load("./lib/arcade_pacman.so");
 
     IGraphic* graphic = GraphicLoader::load("./lib/arcade_sdl2.so");
@@ -32,7 +32,6 @@ int main(void)
             GraphicLoader::unload(graphic);
 
             currentGraphicId = (currentGraphicId + 1) % graphics.size();
-            currentGraphicId = 0;
             graphic = GraphicLoader::load(graphics[currentGraphicId]);
             graphic->init();
             game->loadGraphic(graphic);

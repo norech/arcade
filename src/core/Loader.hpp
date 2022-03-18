@@ -33,6 +33,9 @@ class Loader {
         }
 
         T* ret = func();
+        if (!ret) {
+            throw LoaderError("Returned nullptr");
+        }
         _loaded.insert(std::make_pair(ret, handle));
         return ret;
     }

@@ -24,7 +24,7 @@ void SdlCanvas::endDraw() { }
 
 void SdlCanvas::drawPoint(int x, int y, const IColor& color)
 {
-    SDL_Rect rect = { x * 100, y * 100, 100, 100 };
+    SDL_Rect rect = { x * 20, y * 20, 20, 20 };
 
     int r = (color.getColorCode() & 0xFF0000) >> 16;
     int g = (color.getColorCode() & 0x00FF00) >> 8;
