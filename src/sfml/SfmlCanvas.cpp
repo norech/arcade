@@ -30,8 +30,8 @@ void arc::grph::SfmlCanvas::drawPoint(int x, int y, const IColor& color)
     int g = (color.getColorCode() & 0x00FF00) >> 8;
     int b = (color.getColorCode() & 0x0000FF);
 
-    sf::RectangleShape rectangle(sf::Vector2f(10, 10));
+    sf::RectangleShape rectangle(sf::Vector2f(100, 100));
     rectangle.setFillColor(sf::Color(r,g,b, 255));
-    rectangle.setPosition(x, y);
+    rectangle.setPosition(x * 100, y * 100);
     this->_graphic->_window.draw(rectangle);
 }

@@ -35,6 +35,11 @@ void arc::grph::SfmlGraphic::close()
     this->_window.close();
 }
 
+void arc::grph::SfmlGraphic::clear()
+{
+    this->_window.clear();
+}
+
 void arc::grph::SfmlGraphic::render()
 {
     this->_window.display();
@@ -54,13 +59,11 @@ bool arc::grph::SfmlGraphic::pollEvent(Event& input [[maybe_unused]]) {
         return true;
     }
     if (sfmlEvent.type == sf::Event::KeyPressed) {
-        if (sfmlEvent.key.code < sf::Keyboard::A ||
-            sfmlEvent.key.code > sf::Keyboard::Z) {
+        if (sfmlEvent.key.code < sf::Keyboard::A || sfmlEvent.key.code > sf::Keyboard::Z) {
             return false;
         }
         input.type = Event::KEYDOWN;
-        input.keyboardInput.keyCode
-                = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
+        input.keyboardInput.keyCode = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
         return true;
     }
     return false;

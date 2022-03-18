@@ -41,8 +41,14 @@ void PacmanGame::update(float dt [[maybe_unused]])
     }
 }
 
+bool PacmanGame::mustLoadAnotherGraphic() const
+{
+    return this->_mustLoadAnotherGraphic;
+}
+
 void PacmanGame::render()
 {
+    _graphic->clear();
     _canvas->startDraw();
 
     _canvas->drawPoint(_playerX, _playerY, _palette[0]);

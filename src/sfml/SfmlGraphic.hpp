@@ -29,6 +29,7 @@ namespace arc::grph {
             void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
             void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
             void destroy() override;
+            void clear() override;
 
             sf::RenderWindow _window;
         protected:
