@@ -16,6 +16,7 @@ template <typename T>
 class Loader {
  private:
     typedef T* (*LoaderFunction)();
+    typedef void (*UnloaderFunction)(T*);
     static inline std::unordered_map<T*, void*> _loaded;
 
  public:
@@ -39,6 +40,12 @@ class Loader {
     static void unload(T* t)
     {
         void* handle = _loaded.find(t)->second;
+        UnloaderFunction func = (UnloaderFunction)dlsym(handle, "unexpose");
+        if (!func) {
+            throw LoaderError(dlerror());
+        }
+        func(t);
+
         if (dlclose(handle) != 0) {
             throw LoaderError(dlerror());
         }

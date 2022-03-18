@@ -19,6 +19,8 @@ void PacmanGame::update(float dt [[maybe_unused]])
         }
 
         if (event.type == Event::KEYDOWN) {
+            if (event.keyboardInput.keyCode == KeyCode::P)
+                _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == KeyCode::Z)
                 _playerY--;
             if (event.keyboardInput.keyCode == KeyCode::S)
@@ -31,11 +33,16 @@ void PacmanGame::update(float dt [[maybe_unused]])
     }
 }
 
+bool PacmanGame::mustLoadAnotherGraphic() const
+{
+    return this->_mustLoadAnotherGraphic;
+}
+
 void PacmanGame::render()
 {
     _canvas->startDraw();
 
-    _canvas->drawPoint(_playerX, _playerY, _palette[0]);
+    _canvas->drawPoint(this->_playerX, this->_playerY, this->_palette[0]);
 
     _canvas->endDraw();
     _graphic->render();
@@ -43,10 +50,12 @@ void PacmanGame::render()
 
 void PacmanGame::loadGraphic(grph::IGraphic* graphic)
 {
-    _graphic.reset(graphic);
+    this->_mustLoadAnotherGraphic = false;
+    _graphic = graphic;
+    this->_graphic->loadCanvas(_canvas);
 }
 
-void PacmanGame::unloadGraphic() { _graphic.reset(); }
+void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void PacmanGame::destroy() { }
 

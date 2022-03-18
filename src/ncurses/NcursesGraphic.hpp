@@ -18,6 +18,8 @@ class NcursesGraphic : public IGraphic {
 
     float tick() override;
 
+    void clear() override;
+
     bool pollEvent(Event& input) override;
 
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;

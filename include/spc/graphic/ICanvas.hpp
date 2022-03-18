@@ -20,19 +20,19 @@ public:
     /**
      * @brief Start the drawing of the canvas.
      */
-    virtual void startDraw();
+    virtual void startDraw() = 0;
 
     /**
      * @brief Stop the drawing of the canvas.
      */
-    virtual void endDraw();
+    virtual void endDraw() = 0;
 
     /**
      * Draws a point on the canvas.
      * A point may represent a single pixel or any other single unit in a
      * grid.
      */
-    virtual void drawPoint(int x, int y, const IColor& color);
+    virtual void drawPoint(int x, int y, const IColor& color) = 0;
 };
 
 }  // namespace arc::grph
