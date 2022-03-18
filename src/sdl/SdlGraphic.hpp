@@ -31,6 +31,7 @@ class SdlGraphic : public Graphic {
 
  private:
     std::string _name;
+    bool _shouldClose;
     int _size_x;
     int _size_y;
 };
