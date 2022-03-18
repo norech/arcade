@@ -8,5 +8,6 @@
 #include "SfmlGraphic.hpp"
 
 extern "C" {
-    arc::grph::IGraphic* expose(void) { return new arc::grph::SfmlGraphic(); }
+arc::grph::IGraphic* expose(void) { return new arc::grph::SfmlGraphic(); }
+void unexpose(arc::grph::IGraphic* g) { delete g; }
 }
