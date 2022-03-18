@@ -45,6 +45,8 @@ void SdlGraphic::init()
 
 void SdlGraphic::close()
 {
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
     SDL_Quit();
     _window = nullptr;
 }
@@ -96,13 +98,7 @@ void SdlGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas [[maybe_unused]])
     canvas.reset();
 }
 
-void SdlGraphic::destroy()
-{
-    SDL_DestroyRenderer(_renderer);
-    SDL_DestroyWindow(_window);
-    SDL_Quit();
-    _window = nullptr;
-}
+void SdlGraphic::destroy() { close(); }
 
 float SdlGraphic::tick() { return (0); }
 }
