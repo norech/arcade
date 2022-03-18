@@ -44,7 +44,11 @@ void SdlGraphic::init()
     }
 }
 
-void SdlGraphic::close() { SDL_Quit(); }
+void SdlGraphic::close()
+{
+    SDL_Quit();
+    _window = nullptr;
+}
 
 void SdlGraphic::clear()
 {
@@ -85,7 +89,7 @@ bool SdlGraphic::isOpen()
 
 void SdlGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas [[maybe_unused]])
 {
-    canvas = std::make_shared<SdlCanvas>(this);
+    canvas.reset(new SdlCanvas(this));
 }
 
 void SdlGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas [[maybe_unused]])
@@ -93,7 +97,13 @@ void SdlGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas [[maybe_unused]])
     canvas.reset();
 }
 
-void SdlGraphic::destroy() { }
+void SdlGraphic::destroy()
+{
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
+    SDL_Quit();
+    _window = nullptr;
+}
 
 float SdlGraphic::tick() { return (0); }
 }
