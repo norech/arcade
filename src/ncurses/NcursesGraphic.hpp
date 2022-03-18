@@ -2,12 +2,16 @@
 
 #include <ncurses.h>
 
+#include "../common/graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
 
 namespace arc::grph {
 
-class NcursesGraphic : public IGraphic {
+class NcursesGraphic : public Graphic {
  public:
+    NcursesGraphic();
+    ~NcursesGraphic();
+
     void init() override;
 
     bool isOpen() override;
@@ -18,6 +22,8 @@ class NcursesGraphic : public IGraphic {
 
     float tick() override;
 
+    void clear() override;
+
     bool pollEvent(Event& input) override;
 
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
@@ -25,6 +31,10 @@ class NcursesGraphic : public IGraphic {
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
     void destroy() override;
+
+    int getColorIndex(const ColorCode& color);
+
+    WINDOW* _window;
 };
 
 } // namespace arc::grph
