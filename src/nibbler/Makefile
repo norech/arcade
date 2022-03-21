@@ -10,12 +10,12 @@ CXX = g++
 CXXFLAGS	= -shared -static-libgcc -fPIC -fno-gnu-unique \
 		-W -Wall -Werror -std=c++20 -g -I../../include
 
-LFLAGS = -lncurses
+LFLAGS =
 
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
 
-TARGET = ../../lib/arcade_pacman.so
+TARGET = ../../lib/arcade_nibbler.so
 
 TARGET_TEST = unit_tests
 

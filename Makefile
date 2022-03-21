@@ -14,6 +14,7 @@ all:
 	make -C src/sdl/
 	make -C src/pacman/
 	make -C src/sfml/
+	make -C src/nibbler
 
 core:
 	make -C src/core/
@@ -21,6 +22,7 @@ core:
 games:
 	make -C src/common/
 	make -C src/pacman/
+	make -C src/nibbler/
 
 graphicals:
 	make -C src/common/
@@ -35,6 +37,7 @@ clean:
 	make -C src/sdl/ clean
 	make -C src/pacman/ clean
 	make -C src/sfml/ clean
+	make -C src/nibbler/ clean
 
 fclean:
 	make -C src/common/ fclean
@@ -42,7 +45,8 @@ fclean:
 	make -C src/ncurses/ fclean
 	make -C src/sdl/ fclean
 	make -C src/pacman/ fclean
-	make -C src/sfml fclean
+	make -C src/sfml/ fclean
+	make -C src/nibbler/ fclean
 
 api:
 	git clone git@github.com:norech/special-arcade.git /tmp/arcade

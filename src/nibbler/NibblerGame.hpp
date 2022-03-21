@@ -8,6 +8,8 @@
 #ifndef NIBBLERGAME_HPP_
 #define NIBBLERGAME_HPP_
 
+#include <vector>
+
 #include "../common/Palette.hpp"
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
@@ -26,12 +28,18 @@ namespace arc::game {
             void unloadGraphic() override;
             bool mustLoadAnotherGraphic() const override;
             void destroy() override;
+            void drawMap();
 
         protected:
         private:
             grph::Palette _palette;
             std::shared_ptr<grph::ICanvas> _canvas;
             grph::IGraphic* _graphic;
+            bool _mustLoadAnotherGraphic = false;
+            int _playerX = 0;
+            int _playerY = 0;
+            int _score = 0;
+            std::vector<std::string> _map;
     };
 }
 

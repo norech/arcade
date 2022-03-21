@@ -2,8 +2,6 @@
 #include "spc/common/KeyCode.hpp"
 #include <iostream>
 
-#include <iostream>
-
 namespace arc::game {
 
 void PacmanGame::init()
