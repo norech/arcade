@@ -22,8 +22,8 @@ class PacmanGame : public IGame {
     int _vectorPlayerx;
     int _vectorPlayery;
     int _score = 0;
-    int _inky_x = 0;
-    int _inky_y = 0;
+    int _Binky_x = 0;
+    int _Binky_y = 0;
     std::vector<std::string> _map;
     float _timer;
 

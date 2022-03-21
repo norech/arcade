@@ -13,10 +13,10 @@ void PacmanGame::init()
     _playerY = 15;
     _vectorPlayerx = -1;
     _vectorPlayery = 0;
-    _inky_x = 9;
-    _inky_y = 9;
+    _Binky_x = 9;
+    _Binky_y = 9;
     _palette.setColor(0, 'P', YELLOW);
-    _palette.setColor(1, 'G', RED);
+    _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
     _map.push_back(std::string("###################"));
     _map.push_back(std::string("#        #        #"));
