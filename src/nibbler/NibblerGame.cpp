@@ -20,24 +20,25 @@ arc::game::NibblerGame::~NibblerGame()
 void arc::game::NibblerGame::init() {
     _palette.setColor(0, 'P', GREEN);
     _palette.setColor(1, 'W', YELLOW);
+    _palette.setColor(2, 'O', RED);
     _map.push_back("########################################");
     _map.push_back("#                                      #");
-    _map.push_back("#             ######       ######      #");
-    _map.push_back("#                  #                   #");
+    _map.push_back("#    O         ######       ######     #");
+    _map.push_back("#                  #    O          O   #");
     _map.push_back("#                  #                   #");
     _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
+    _map.push_back("#          O              O            #");
     _map.push_back("#                                      #");
     _map.push_back("#           ################           #");
-    _map.push_back("#                                      #");
+    _map.push_back("#     O                                #");
     _map.push_back("#           ################           #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
+    _map.push_back("#                                O     #");
+    _map.push_back("#          O                           #");
     _map.push_back("#       #                              #");
     _map.push_back("#       #         #                    #");
-    _map.push_back("#       #         #                    #");
-    _map.push_back("#       #         #                    #");
-    _map.push_back("#       #          ## ###########      #");
+    _map.push_back("#       #         #      O          O  #");
+    _map.push_back("#       #    O     #                   #");
+    _map.push_back("#   O    #          ## ###########     #");
     _map.push_back("#                                      #");
     _map.push_back("########################################");
     _playerX = 10;
@@ -68,6 +69,8 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 _playerX++;
             }
         }
+        if (_map.at(_playerY).at(_playerX) == 'O')
+            _map.at(_playerY).at(_playerX) = ' ';
         if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::D)
             _playerX--;
         if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::Q)
@@ -111,6 +114,8 @@ void arc::game::NibblerGame::drawMap() {
         for (size_t j = 0; j < _map.at(i).size(); j++) {
             if (_map.at(i).at(j) == '#')
                 _canvas->drawPoint(j, i, this->_palette[1]);
+            if (_map.at(i).at(j) == 'O')
+                _canvas->drawPoint(j, i, this->_palette[2]);
         }
     }
 }
