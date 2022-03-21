@@ -22,22 +22,22 @@ void arc::game::NibblerGame::init() {
     _palette.setColor(1, 'W', YELLOW);
     _map.push_back("########################################");
     _map.push_back("#                                      #");
+    _map.push_back("#             ######       ######      #");
+    _map.push_back("#                  #                   #");
+    _map.push_back("#                  #                   #");
     _map.push_back("#                                      #");
     _map.push_back("#                                      #");
     _map.push_back("#                                      #");
+    _map.push_back("#           ################           #");
+    _map.push_back("#                                      #");
+    _map.push_back("#           ################           #");
     _map.push_back("#                                      #");
     _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
-    _map.push_back("#                                      #");
+    _map.push_back("#       #                              #");
+    _map.push_back("#       #         #                    #");
+    _map.push_back("#       #         #                    #");
+    _map.push_back("#       #         #                    #");
+    _map.push_back("#       #          ## ###########      #");
     _map.push_back("#                                      #");
     _map.push_back("########################################");
     _playerX = 10;
@@ -68,15 +68,15 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 _playerX++;
             }
         }
+        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::D)
+            _playerX--;
+        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::Q)
+            _playerX++;
+        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::S)
+            _playerY--;
+        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::Z)
+            _playerY++;
     }
-    if (_playerX > 38)
-        _playerX--;
-    if (_playerX < 1)
-        _playerX++;
-    if (_playerY > 18)
-        _playerY--;
-    if (_playerY < 1)
-        _playerY++;
 }
 
 void arc::game::NibblerGame::render() {
