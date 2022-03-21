@@ -20,6 +20,7 @@ TARGET = ../../lib/arcade_pacman.so
 TARGET_TEST = unit_tests
 
 SRC =	PacmanGame.cpp \
+		../common/VectorInt.cpp
 
 TESTS =	\
 

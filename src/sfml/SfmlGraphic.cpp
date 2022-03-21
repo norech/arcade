@@ -20,7 +20,7 @@ arc::grph::SfmlGraphic::~SfmlGraphic()
 void arc::grph::SfmlGraphic::init()
 {
     this->_window.create(sf::VideoMode(800, 600), "SFML");
-    this->_window.setFramerateLimit(20);
+    this->_window.setFramerateLimit(30);
 }
 
 bool arc::grph::SfmlGraphic::isOpen()

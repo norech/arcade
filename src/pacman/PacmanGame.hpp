@@ -7,6 +7,7 @@
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
+#include "../common/VectorInt.hpp"
 #include "vector"
 
 namespace arc::game {
@@ -17,13 +18,10 @@ class PacmanGame : public IGame {
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic;
     bool _mustLoadAnotherGraphic = false;
-    int _playerX = 0;
-    int _playerY = 0;
-    int _vectorPlayerx;
-    int _vectorPlayery;
+    VectorInt _player;
+    VectorInt _player_mov;
     int _score = 0;
-    int _Binky_x = 0;
-    int _Binky_y = 0;
+    VectorInt _Blink;
     std::vector<std::string> _map;
     float _timer;
 
@@ -44,6 +42,8 @@ class PacmanGame : public IGame {
     void unloadGraphic() override;
 
     void destroy() override;
+    bool getCollide(VectorInt nextPos);
+
 };
 
 } // namespace arc::grph

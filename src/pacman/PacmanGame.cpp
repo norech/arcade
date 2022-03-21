@@ -9,12 +9,9 @@ namespace arc::game {
 void PacmanGame::init()
 {
     _timer = 0;
-    _playerX = 9;
-    _playerY = 15;
-    _vectorPlayerx = -1;
-    _vectorPlayery = 0;
-    _Binky_x = 9;
-    _Binky_y = 9;
+    _player = arc::game::VectorInt(9, 15);
+    _player_mov = arc::game::VectorInt(-1, 0);
+    _Blink = arc::game::VectorInt(9, 9);
     _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
@@ -48,42 +45,35 @@ void PacmanGame::update(float dt [[maybe_unused]])
         if (event.type == Event::QUIT) {
             _graphic->close();
         }
-
         if (event.type == Event::KEYDOWN) {
             if (event.keyboardInput.keyCode == KeyCode::P)
                 _mustLoadAnotherGraphic = true;
-            if (event.keyboardInput.keyCode == KeyCode::Z) {
-                _vectorPlayery = -1;
-                _vectorPlayerx = 0;
+            if (event.keyboardInput.keyCode == KeyCode::Z && this->getCollide(arc::game::VectorInt(0, -1)) == false) {
+               _player_mov.setValue(0, -1);
             }
-            if (event.keyboardInput.keyCode == KeyCode::S) {
-                _vectorPlayery = 1;
-                _vectorPlayerx = 0;
+            if (event.keyboardInput.keyCode == KeyCode::S && this->getCollide(arc::game::VectorInt(0, 1)) == false) {
+                _player_mov.setValue(0, 1);
             }
-            if (event.keyboardInput.keyCode == KeyCode::Q) {
-                _vectorPlayery = 0;
-                _vectorPlayerx = -1;
+            if (event.keyboardInput.keyCode == KeyCode::Q && this->getCollide(arc::game::VectorInt(-1, 0)) == false) {
+                _player_mov.setValue(-1, 0);
             }
-            if (event.keyboardInput.keyCode == KeyCode::D) {
-                _vectorPlayery = 0;
-                _vectorPlayerx = 1;
+            if (event.keyboardInput.keyCode == KeyCode::D && this->getCollide(arc::game::VectorInt(1, 0)) == false) {
+                _player_mov.setValue(1, 0);
             }
         }
     }
     _timer += dt;
-    if (_playerX + _vectorPlayerx == -1) {
-        _playerX = 18;
+    if (_player._x + _player_mov._x == -1) {
+        _player._x = 18;
     }
-    if (_playerX + _vectorPlayerx >= 19) {
-        _playerX = 0;
+    if (_player._x + _player_mov._x >= 19) {
+        _player._x = 0;
     }
-    if (_map.at(_playerY + _vectorPlayery).at(_playerX + _vectorPlayerx) == '#') {
-        _vectorPlayerx = 0;
-        _vectorPlayery = 0;
+    if (this->getCollide(_player_mov) == true) {
+        _player_mov = arc::game::VectorInt(0, 0);
     }
-    if (_timer >= 0.60) {
-        _playerX += _vectorPlayerx;
-        _playerY += _vectorPlayery;
+    if (_timer >= 0.50) {
+        _player += _player_mov;
         _timer = 0;
     }
 }
@@ -106,9 +96,9 @@ void PacmanGame::render()
         }
     }
 
-    _canvas->drawPoint(this->_inky_x, this->_inky_y, this->_palette[1]);
+    _canvas->drawPoint(this->_Blink._x, this->_Blink._y, this->_palette[1]);
 
-    _canvas->drawPoint(this->_playerX, this->_playerY, this->_palette[0]);
+    _canvas->drawPoint(this->_player._x, this->_player._y, this->_palette[0]);
 
     _canvas->endDraw();
     _graphic->render();
@@ -125,4 +115,14 @@ void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void PacmanGame::destroy() { }
 
+bool PacmanGame::getCollide(VectorInt nextPos)
+{
+    if (this->_map.at(_player._y + nextPos._y).at(_player._x + nextPos._x) == '#') {
+        return (true);
+    }
+    return (false);
+}
+
 } // namespace arc::game
+
+
