@@ -7,8 +7,8 @@
 
 CXX = g++
 
-CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g \
-		-I../../include
+CXXFLAGS	=	-shared -static-libgcc -fPIC -fno-gnu-unique -W -Wall -Werror \
+		-std=c++20 -g -I../../include
 
 LFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
