@@ -21,33 +21,28 @@ SdlGraphic::~SdlGraphic() { }
 
 void SdlGraphic::init()
 {
-    int renderFlag = SDL_RENDERER_ACCELERATED;
     int windowFlag = 0;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "error init SDL" << std::endl;
         std::exit(84);
     }
-    _window = SDL_CreateWindow("arcade", SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, _size_x, _size_y, windowFlag);
+    _shouldClose = false;
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_CreateWindowAndRenderer(
+        _size_x, _size_y, windowFlag, &_window, &_renderer);
     if (_window == NULL) {
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    _renderer = SDL_CreateRenderer(_window, -1, renderFlag);
     if (_renderer == NULL) {
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
 }
 
-void SdlGraphic::close()
-{
-    SDL_Quit();
-    _window = nullptr;
-}
+void SdlGraphic::close() { _shouldClose = true; }
 
 void SdlGraphic::clear()
 {
@@ -79,6 +74,8 @@ bool SdlGraphic::pollEvent(Event& input [[maybe_unused]])
 
 bool SdlGraphic::isOpen()
 {
+    if (_shouldClose)
+        return (false);
     if (_window == NULL) {
         return (false);
     } else {

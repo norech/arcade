@@ -42,7 +42,17 @@ class Loader {
 
     static void unload(T* t)
     {
-        void* handle = _loaded.find(t)->second;
+        if (t == nullptr) {
+            throw LoaderError("Trying to unload nullptr");
+        }
+        auto it = _loaded.find(t);
+        if (it == _loaded.end()) {
+            throw LoaderError("Trying to unload an unexisting object");
+        }
+        void* handle = it->second;
+        if (handle == nullptr) {
+            throw LoaderError("Trying to unload an unexisting object");
+        }
         UnloaderFunction func = (UnloaderFunction)dlsym(handle, "unexpose");
         if (!func) {
             throw LoaderError(dlerror());
@@ -52,6 +62,7 @@ class Loader {
         if (dlclose(handle) != 0) {
             throw LoaderError(dlerror());
         }
+        _loaded.erase(it);
     }
 };
 
