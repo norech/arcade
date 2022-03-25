@@ -21,28 +21,12 @@ void arc::game::NibblerGame::init() {
     _palette.setColor(0, 'P', GREEN);
     _palette.setColor(1, 'W', YELLOW);
     _palette.setColor(2, 'O', RED);
-    _map.push_back("########################################");
-    _map.push_back("#                                      #");
-    _map.push_back("#    O         ######       ######     #");
-    _map.push_back("#                  #    O          O   #");
-    _map.push_back("#                  #                   #");
-    _map.push_back("#                                      #");
-    _map.push_back("#          O              O            #");
-    _map.push_back("#                                      #");
-    _map.push_back("#           ################           #");
-    _map.push_back("#     O                                #");
-    _map.push_back("#           ################           #");
-    _map.push_back("#                                O     #");
-    _map.push_back("#          O                           #");
-    _map.push_back("#       #                              #");
-    _map.push_back("#       #         #                    #");
-    _map.push_back("#       #         #      O          O  #");
-    _map.push_back("#       #    O     #                   #");
-    _map.push_back("#   O    #          ## ###########     #");
-    _map.push_back("#                                      #");
-    _map.push_back("########################################");
+    this->initMap();
     _playerX = 10;
     _playerY = 10;
+    _velocityX = 0;
+    _velocityY = 0;
+    _move = 0;
 };
 
 void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
@@ -58,28 +42,37 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == arc::KeyCode::Z) {
                 _playerY--;
+                _velocityX = 0;
+                _velocityY = -1;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::S) {
                 _playerY++;
+                _velocityX = 0;
+                _velocityY = 1;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::Q) {
                 _playerX--;
+                _velocityX = -1;
+                _velocityY = 0;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::D) {
                 _playerX++;
+                _velocityX = 1;
+                _velocityY = 0;
             }
         }
-        if (_map.at(_playerY).at(_playerX) == 'O')
-            _map.at(_playerY).at(_playerX) = ' ';
-        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::D)
-            _playerX--;
-        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::Q)
-            _playerX++;
-        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::S)
-            _playerY--;
-        if (_map.at(_playerY).at(_playerX) == '#' && event.keyboardInput.keyCode == arc::KeyCode::Z)
-            _playerY++;
+        std::cout << "vxl = " << _velocityX << " vyl = " << _velocityY << std::endl;
     }
+    if (_map.at(_playerY).at(_playerX) == 'O')
+        _map.at(_playerY).at(_playerX) = ' ';
+    _move++;
+    if (_map.at(_playerY).at(_playerX) == '#') {
+        _velocityX = 0;
+        _velocityY = 0;
+        _move = 0;
+    }
+    this->movePlayer();
+    this->collision();
 }
 
 void arc::game::NibblerGame::render() {
@@ -118,4 +111,49 @@ void arc::game::NibblerGame::drawMap() {
                 _canvas->drawPoint(j, i, this->_palette[2]);
         }
     }
+}
+
+void arc::game::NibblerGame::initMap()
+{
+    _map.push_back("########################################");
+    _map.push_back("#                                      #");
+    _map.push_back("#    O         ######       ######     #");
+    _map.push_back("#                  #    O          O   #");
+    _map.push_back("#                  #                   #");
+    _map.push_back("#                                      #");
+    _map.push_back("#          O              O            #");
+    _map.push_back("#                                      #");
+    _map.push_back("#           ################           #");
+    _map.push_back("#     O                                #");
+    _map.push_back("#           ################           #");
+    _map.push_back("#                                O     #");
+    _map.push_back("#          O                           #");
+    _map.push_back("#       #                              #");
+    _map.push_back("#       #         #                    #");
+    _map.push_back("#       #         #      O          O  #");
+    _map.push_back("#       #    O     #                   #");
+    _map.push_back("#   O    #          ## ###########     #");
+    _map.push_back("#                                      #");
+    _map.push_back("########################################");
+}
+
+void arc::game::NibblerGame::movePlayer()
+{
+    if (_map.at(_playerY).at(_playerX) != '#' && _move == 100) {
+        _playerX += _velocityX;
+        _playerY += _velocityY;
+        _move = 0;
+    }
+}
+
+void arc::game::NibblerGame::collision()
+{
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == 1)
+        _playerX--;
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == -1)
+        _playerX++;
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == 1)
+        _playerY--;
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == -1)
+        _playerY++;
 }

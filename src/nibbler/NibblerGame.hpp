@@ -28,7 +28,11 @@ namespace arc::game {
             void unloadGraphic() override;
             bool mustLoadAnotherGraphic() const override;
             void destroy() override;
+
+            void initMap();
             void drawMap();
+            void movePlayer();
+            void collision();
 
         protected:
         private:
@@ -39,6 +43,9 @@ namespace arc::game {
             int _playerX = 0;
             int _playerY = 0;
             int _score = 0;
+            int _velocityX = 0;
+            int _velocityY = 0;
+            int _move = 0;
             std::vector<std::string> _map;
     };
 }
