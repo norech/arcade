@@ -3,5 +3,7 @@
 
 extern "C" {
 arc::game::IGame* expose(void) { return new arc::game::PacmanGame(); }
-void unexpose(arc::game::IGame* game) { delete game; }
+void unexpose(arc::game::IGame* game) { delete game;}
 }
+
+

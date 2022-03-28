@@ -52,6 +52,8 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "hash_map": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "ctime": "cpp",
+        "map": "cpp"
     }
 }
