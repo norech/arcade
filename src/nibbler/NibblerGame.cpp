@@ -18,6 +18,8 @@ arc::game::NibblerGame::~NibblerGame()
 }
 
 void arc::game::NibblerGame::init() {
+    std::vector<int> pos;
+
     _palette.setColor(0, 'P', GREEN);
     _palette.setColor(1, 'W', YELLOW);
     _palette.setColor(2, 'O', RED);
@@ -27,6 +29,9 @@ void arc::game::NibblerGame::init() {
     _velocityX = 0;
     _velocityY = 0;
     _move = 0;
+    pos.push_back(10);
+    pos.push_back(10);
+    _position.push_back(pos);
 };
 
 void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
@@ -44,33 +49,32 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 _playerY--;
                 _velocityX = 0;
                 _velocityY = -1;
+                _position.at(0).at(1)--;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::S) {
                 _playerY++;
                 _velocityX = 0;
                 _velocityY = 1;
+                _position.at(0).at(1)++;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::Q) {
                 _playerX--;
                 _velocityX = -1;
                 _velocityY = 0;
+                _position.at(0).at(0)--;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::D) {
                 _playerX++;
                 _velocityX = 1;
                 _velocityY = 0;
+                _position.at(0).at(0)++;
             }
+            this->collision();
         }
-        std::cout << "vxl = " << _velocityX << " vyl = " << _velocityY << std::endl;
     }
     if (_map.at(_playerY).at(_playerX) == 'O')
         _map.at(_playerY).at(_playerX) = ' ';
     _move++;
-    if (_map.at(_playerY).at(_playerX) == '#') {
-        _velocityX = 0;
-        _velocityY = 0;
-        _move = 0;
-    }
     this->movePlayer();
     this->collision();
 }
@@ -142,18 +146,58 @@ void arc::game::NibblerGame::movePlayer()
     if (_map.at(_playerY).at(_playerX) != '#' && _move == 100) {
         _playerX += _velocityX;
         _playerY += _velocityY;
+        _position.at(0).at(0) += _velocityX;
+        _position.at(0).at(1) += _velocityY;
         _move = 0;
     }
 }
 
 void arc::game::NibblerGame::collision()
 {
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == 1)
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == 1) {
         _playerX--;
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == -1)
+        _position.at(0).at(0)--;
+    }
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == -1) {
         _playerX++;
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == 1)
+        _position.at(0).at(0)++;
+    }
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == 1) {
         _playerY--;
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == -1)
+        _position.at(0).at(1)--;
+    }
+    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == -1) {
         _playerY++;
+        _position.at(0).at(1)++;
+    }
+}
+
+void arc::game::NibblerGame::tailPosition()
+{
+    std::vector<int> pos;
+    size_t size = _position.size() - 1;
+
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == 'O') {
+        //if (size > 1 && _position.at(size).at(0) == _position.at(size - 1).at(0)) {
+        //    pos.push_back(_position.at(size).at(0));
+        //    pos.push_back(_position.at(size).at(1) - _velocityY);
+        //}
+        //if (size > 1 && _position.at(size).at(1) == _position.at(size - 1).at(1)) {
+        //    pos.push_back(_position.at(size).at(0) - _velocityX);
+        //    pos.push_back(_position.at(size).at(1));
+        //}
+        //if (size == 1) {
+        //    pos.push_back(_position.at(size).at(0) - _velocityX);
+        //    pos.push_back(_position.at(size).at(1));
+        //}
+        pos.push_back(_position.at(size).at(0) - _velocityX);
+        pos.push_back(_position.at(size).at(1) - _velocityY);
+        _position.push_back(pos);
+    }
+    std::cout << _position.at(0).at(0) << " " << _position.at(0).at(1) << std::endl;
+    for (size_t i = 1; i < _position.size(); i++) {
+        _position.at(i).at(0) += _velocityX;
+        _position.at(i).at(1) += _velocityY;
+        std::cout << _position.at(i).at(0) << " " << _position.at(i).at(1) << std::endl;
+    }
 }

@@ -33,6 +33,8 @@ namespace arc::game {
             void drawMap();
             void movePlayer();
             void collision();
+            void tailPosition();
+            void drawTail();
 
         protected:
         private:
@@ -47,6 +49,7 @@ namespace arc::game {
             int _velocityY = 0;
             int _move = 0;
             std::vector<std::string> _map;
+            std::vector<std::vector<int>> _position;
     };
 }
 
