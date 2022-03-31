@@ -34,7 +34,7 @@ void PacmanGame::init()
     _map.push_back(std::string("# ## ### # ### ## #"));
     _map.push_back(std::string("#        #        #"));
     _map.push_back(std::string("###################"));
-    
+
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])

@@ -8,6 +8,8 @@
 #include "CacaGraphic.hpp"
 #include "CacaCanvas.hpp"
 #include <iostream>
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>  
 
 namespace arc::grph {
 
@@ -32,6 +34,7 @@ void CacaGraphic::init()
     //    throw std::runtime_error("Can't get canvas");
     //}
     caca_set_display_title(_display, "Arcade");
+    caca_set_display_time(_display, 250);
     caca_set_color_ansi(_canvas, CACA_BLACK, CACA_WHITE);
 }
 
@@ -58,6 +61,7 @@ void CacaGraphic::clear()
 void CacaGraphic::render()
 {
     caca_refresh_display(_display);
+    std::this_thread::sleep_for(std::chrono::milliseconds(25));
 }
 
 float CacaGraphic::tick()
@@ -70,7 +74,7 @@ bool CacaGraphic::pollEvent(Event &event)
 {
     caca_event_t ev;
 
-    caca_get_event(_display, CACA_EVENT_KEY_PRESS, &ev, 250);
+    caca_get_event(_display, CACA_EVENT_KEY_PRESS, &ev, 25);
 
     if (ev.type == CACA_EVENT_QUIT) {
         event.type = Event::QUIT;
