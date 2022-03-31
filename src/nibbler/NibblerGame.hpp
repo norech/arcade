@@ -48,6 +48,7 @@ namespace arc::game {
             int _velocityX = 0;
             int _velocityY = 0;
             int _move = 0;
+            int _turn = 0;
             std::vector<std::string> _map;
             std::vector<std::vector<int>> _position;
     };

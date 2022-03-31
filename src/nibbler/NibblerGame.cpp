@@ -32,6 +32,7 @@ void arc::game::NibblerGame::init() {
     pos.push_back(10);
     pos.push_back(10);
     _position.push_back(pos);
+    _turn = 0;
 };
 
 void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
@@ -50,28 +51,33 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 _velocityX = 0;
                 _velocityY = -1;
                 _position.at(0).at(1)--;
+                _turn = arc::KeyCode::Z;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::S) {
                 _playerY++;
                 _velocityX = 0;
                 _velocityY = 1;
                 _position.at(0).at(1)++;
+                _turn = arc::KeyCode::S;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::Q) {
                 _playerX--;
                 _velocityX = -1;
                 _velocityY = 0;
                 _position.at(0).at(0)--;
+                _turn = arc::KeyCode::Q;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::D) {
                 _playerX++;
                 _velocityX = 1;
                 _velocityY = 0;
                 _position.at(0).at(0)++;
+                _turn = arc::KeyCode::D;
             }
             this->collision();
         }
     }
+    this->tailPosition();
     if (_map.at(_playerY).at(_playerX) == 'O')
         _map.at(_playerY).at(_playerX) = ' ';
     _move++;
@@ -84,7 +90,8 @@ void arc::game::NibblerGame::render() {
     _canvas->startDraw();
 
     this->drawMap();
-    _canvas->drawPoint(this->_playerX, this->_playerY, this->_palette[0]);
+    //_canvas->drawPoint(this->_playerX, this->_playerY, this->_palette[0]);
+    this->drawTail();
 
     _canvas->endDraw();
     _graphic->render();
@@ -148,6 +155,18 @@ void arc::game::NibblerGame::movePlayer()
         _playerY += _velocityY;
         _position.at(0).at(0) += _velocityX;
         _position.at(0).at(1) += _velocityY;
+        std::cout << _position.at(0).at(0) << " " << _position.at(0).at(1) << std::endl;
+        for (size_t i = 1; i < _position.size(); i++) {
+            if (i == 1 && _turn != 0) {
+                _position.at(i).at(0) = _position.at(0).at(0);
+                _position.at(i).at(1) = _position.at(0).at(1);
+                _turn = 0;
+            } else {
+                _position.at(i).at(0) = _position.at(i - 1).at(0) - _velocityX;
+                _position.at(i).at(1) = _position.at(i - 1).at(1) - _velocityY;
+            }
+            std::cout << _position.at(i).at(0) << " " << _position.at(i).at(1) << std::endl;
+        }
         _move = 0;
     }
 }
@@ -178,26 +197,15 @@ void arc::game::NibblerGame::tailPosition()
     size_t size = _position.size() - 1;
 
     if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == 'O') {
-        //if (size > 1 && _position.at(size).at(0) == _position.at(size - 1).at(0)) {
-        //    pos.push_back(_position.at(size).at(0));
-        //    pos.push_back(_position.at(size).at(1) - _velocityY);
-        //}
-        //if (size > 1 && _position.at(size).at(1) == _position.at(size - 1).at(1)) {
-        //    pos.push_back(_position.at(size).at(0) - _velocityX);
-        //    pos.push_back(_position.at(size).at(1));
-        //}
-        //if (size == 1) {
-        //    pos.push_back(_position.at(size).at(0) - _velocityX);
-        //    pos.push_back(_position.at(size).at(1));
-        //}
         pos.push_back(_position.at(size).at(0) - _velocityX);
         pos.push_back(_position.at(size).at(1) - _velocityY);
         _position.push_back(pos);
     }
-    std::cout << _position.at(0).at(0) << " " << _position.at(0).at(1) << std::endl;
-    for (size_t i = 1; i < _position.size(); i++) {
-        _position.at(i).at(0) += _velocityX;
-        _position.at(i).at(1) += _velocityY;
-        std::cout << _position.at(i).at(0) << " " << _position.at(i).at(1) << std::endl;
+}
+
+void arc::game::NibblerGame::drawTail()
+{
+    for (size_t i = 0; i < _position.size(); i++) {
+        _canvas->drawPoint(_position.at(i).at(0), _position.at(i).at(1), this->_palette[0]);
     }
 }
