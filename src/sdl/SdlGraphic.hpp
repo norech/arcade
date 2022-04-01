@@ -25,6 +25,8 @@ class SdlGraphic : public Graphic {
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
+    void registerSprite(game::ISprite &sprite);
+
     void destroy() override;
     SDL_Window* _window;
     SDL_Renderer* _renderer;

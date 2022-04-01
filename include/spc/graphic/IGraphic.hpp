@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "../common/Event.hpp"
+#include "../game/ISprite.hpp"
 #include "./ICanvas.hpp"
 
 namespace arc::grph {
@@ -78,6 +79,11 @@ public:
      * Is a modifiable shared pointer to the canvas.
      */
     virtual void unloadCanvas(std::shared_ptr<ICanvas> &canvas) = 0;
+
+    /**
+     * @brief Registers the sprite to the graphical library
+     */
+    virtual void registerSprite(game::ISprite &sprite) = 0;
 
     /**
      * @brief Destroy the graphical library.

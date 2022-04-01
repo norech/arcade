@@ -102,4 +102,6 @@ void SdlGraphic::destroy()
 }
 
 float SdlGraphic::tick() { return (0); }
+
+void SdlGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }
 }

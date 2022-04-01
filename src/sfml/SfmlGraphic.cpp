@@ -73,3 +73,5 @@ void arc::grph::SfmlGraphic::unloadCanvas(
 };
 
 void arc::grph::SfmlGraphic::destroy() { this->_window.close(); };
+
+void arc::grph::SfmlGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }

@@ -105,4 +105,5 @@ int NcursesGraphic::getColorIndex(const ColorCode& color)
     }
     return colorId;
 }
+void NcursesGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }
 }

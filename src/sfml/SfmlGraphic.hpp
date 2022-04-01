@@ -30,6 +30,7 @@ class SfmlGraphic : public IGraphic {
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void destroy() override;
     void clear() override;
+    void registerSprite(game::ISprite &sprite);
 
     sf::RenderWindow _window;
 
