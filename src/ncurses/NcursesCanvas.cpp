@@ -19,6 +19,11 @@ void NcursesCanvas::startDraw() { }
 
 void NcursesCanvas::endDraw() { }
 
+CanvasCapacity NcursesCanvas::getCapacities() const
+{
+    return CanvasCapacity::BASIC;
+}
+
 void NcursesCanvas::drawPoint(int x, int y, const IColor& color)
 {
     int colorId = _graphic->getColorIndex(color.getColorCode());

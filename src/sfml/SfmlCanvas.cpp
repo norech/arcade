@@ -14,6 +14,11 @@ arc::grph::SfmlCanvas::SfmlCanvas(SfmlGraphic* graphic)
 
 arc::grph::SfmlCanvas::~SfmlCanvas() { }
 
+arc::grph::CanvasCapacity arc::grph::SfmlCanvas::getCapacities() const
+{
+    return arc::grph::CanvasCapacity::BASIC;
+}
+
 void arc::grph::SfmlCanvas::startDraw() { }
 
 void arc::grph::SfmlCanvas::endDraw() { }
