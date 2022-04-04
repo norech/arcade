@@ -24,14 +24,13 @@ void arc::game::NibblerGame::init() {
     _palette.setColor(1, 'W', YELLOW);
     _palette.setColor(2, 'O', RED);
     this->initMap();
-    _playerX = 10;
-    _playerY = 10;
     _velocityX = 0;
     _velocityY = 0;
     _move = 0;
     pos.push_back(10);
     pos.push_back(10);
     _position.push_back(pos);
+    _pos_copy.push_back(_position.at(0));
     _turn = 0;
 };
 
@@ -47,28 +46,24 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
             if (event.keyboardInput.keyCode == arc::KeyCode::P)
                 _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == arc::KeyCode::Z) {
-                _playerY--;
                 _velocityX = 0;
                 _velocityY = -1;
                 _position.at(0).at(1)--;
                 _turn = arc::KeyCode::Z;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::S) {
-                _playerY++;
                 _velocityX = 0;
                 _velocityY = 1;
                 _position.at(0).at(1)++;
                 _turn = arc::KeyCode::S;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::Q) {
-                _playerX--;
                 _velocityX = -1;
                 _velocityY = 0;
                 _position.at(0).at(0)--;
                 _turn = arc::KeyCode::Q;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::D) {
-                _playerX++;
                 _velocityX = 1;
                 _velocityY = 0;
                 _position.at(0).at(0)++;
@@ -78,9 +73,7 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
         }
     }
     this->tailPosition();
-    if (_map.at(_playerY).at(_playerX) == 'O')
-        _map.at(_playerY).at(_playerX) = ' ';
-    _move++;
+    this->eatFood();
     this->movePlayer();
     this->collision();
 }
@@ -90,7 +83,6 @@ void arc::game::NibblerGame::render() {
     _canvas->startDraw();
 
     this->drawMap();
-    //_canvas->drawPoint(this->_playerX, this->_playerY, this->_palette[0]);
     this->drawTail();
 
     _canvas->endDraw();
@@ -112,17 +104,6 @@ bool arc::game::NibblerGame::mustLoadAnotherGraphic() const {
 };
 
 void arc::game::NibblerGame::destroy() {}
-
-void arc::game::NibblerGame::drawMap() {
-    for (size_t i = 0; i < _map.size(); i++) {
-        for (size_t j = 0; j < _map.at(i).size(); j++) {
-            if (_map.at(i).at(j) == '#')
-                _canvas->drawPoint(j, i, this->_palette[1]);
-            if (_map.at(i).at(j) == 'O')
-                _canvas->drawPoint(j, i, this->_palette[2]);
-        }
-    }
-}
 
 void arc::game::NibblerGame::initMap()
 {
@@ -148,45 +129,52 @@ void arc::game::NibblerGame::initMap()
     _map.push_back("########################################");
 }
 
+void arc::game::NibblerGame::drawMap() {
+    for (size_t i = 0; i < _map.size(); i++) {
+        for (size_t j = 0; j < _map.at(i).size(); j++) {
+            if (_map.at(i).at(j) == '#')
+                _canvas->drawPoint(j, i, this->_palette[1]);
+            if (_map.at(i).at(j) == 'O')
+                _canvas->drawPoint(j, i, this->_palette[2]);
+        }
+    }
+}
+
 void arc::game::NibblerGame::movePlayer()
 {
-    if (_map.at(_playerY).at(_playerX) != '#' && _move == 100) {
-        _playerX += _velocityX;
-        _playerY += _velocityY;
+    size_t y = 0;
+
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) != '#' && _move == 100) {
         _position.at(0).at(0) += _velocityX;
         _position.at(0).at(1) += _velocityY;
-        std::cout << _position.at(0).at(0) << " " << _position.at(0).at(1) << std::endl;
         for (size_t i = 1; i < _position.size(); i++) {
-            if (i == 1 && _turn != 0) {
-                _position.at(i).at(0) = _position.at(0).at(0);
-                _position.at(i).at(1) = _position.at(0).at(1);
-                _turn = 0;
-            } else {
-                _position.at(i).at(0) = _position.at(i - 1).at(0) - _velocityX;
-                _position.at(i).at(1) = _position.at(i - 1).at(1) - _velocityY;
-            }
-            std::cout << _position.at(i).at(0) << " " << _position.at(i).at(1) << std::endl;
+            _position.at(i).at(0) = _pos_copy.at(y).at(0);
+            _position.at(i).at(1) = _pos_copy.at(y).at(1);
+            y++;
         }
         _move = 0;
+        y = 0;
     }
+    for (size_t i = 0; i < _position.size(); i++) {
+        _pos_copy.at(y).at(0) = _position.at(i).at(0);
+        _pos_copy.at(y).at(1) = _position.at(i).at(1);
+        y++;
+    }
+    _move++;
 }
 
 void arc::game::NibblerGame::collision()
 {
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == 1) {
-        _playerX--;
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == '#' && _velocityX == 1) {
         _position.at(0).at(0)--;
     }
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityX == -1) {
-        _playerX++;
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == '#' && _velocityX == -1) {
         _position.at(0).at(0)++;
     }
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == 1) {
-        _playerY--;
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == '#' && _velocityY == 1) {
         _position.at(0).at(1)--;
     }
-    if (_map.at(_playerY).at(_playerX) == '#' && _velocityY == -1) {
-        _playerY++;
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == '#' && _velocityY == -1) {
         _position.at(0).at(1)++;
     }
 }
@@ -200,6 +188,7 @@ void arc::game::NibblerGame::tailPosition()
         pos.push_back(_position.at(size).at(0) - _velocityX);
         pos.push_back(_position.at(size).at(1) - _velocityY);
         _position.push_back(pos);
+        _pos_copy.push_back(pos);
     }
 }
 
@@ -208,4 +197,10 @@ void arc::game::NibblerGame::drawTail()
     for (size_t i = 0; i < _position.size(); i++) {
         _canvas->drawPoint(_position.at(i).at(0), _position.at(i).at(1), this->_palette[0]);
     }
+}
+
+void arc::game::NibblerGame::eatFood()
+{
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == 'O')
+        _map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) = ' ';
 }

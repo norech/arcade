@@ -35,6 +35,8 @@ namespace arc::game {
             void collision();
             void tailPosition();
             void drawTail();
+            void eatFood();
+            void followTail(std::vector<std::vector<int>> position, size_t pos, int px, int py);
 
         protected:
         private:
@@ -51,7 +53,8 @@ namespace arc::game {
             int _turn = 0;
             std::vector<std::string> _map;
             std::vector<std::vector<int>> _position;
+            std::vector<std::vector<int>> _pos_copy;
     };
-}
+};
 
 #endif /* !NIBBLERGAME_HPP_ */
