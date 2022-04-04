@@ -8,6 +8,7 @@
 API_DIR = $(PWD)/include/spc
 
 all:
+	mkdir -p lib
 	make -C src/common/
 	make -C src/core/
 	make -C src/ncurses/
@@ -16,13 +17,16 @@ all:
 	make -C src/sfml/
 
 core:
+	mkdir -p lib
 	make -C src/core/
 
 games:
+	mkdir -p lib
 	make -C src/common/
 	make -C src/pacman/
 
 graphicals:
+	mkdir -p lib
 	make -C src/common/
 	make -C src/ncurses/
 	make -C src/sdl/
