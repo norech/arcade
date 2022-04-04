@@ -22,7 +22,7 @@ void arc::game::NibblerGame::init() {
 
     _palette.setColor(0, 'P', GREEN);
     _palette.setColor(1, 'W', YELLOW);
-    _palette.setColor(2, 'O', RED);
+    _palette.setColor(2, 'O', MAGENTA);
     this->initMap();
     _velocityX = 0;
     _velocityY = 0;
@@ -31,7 +31,6 @@ void arc::game::NibblerGame::init() {
     pos.push_back(10);
     _position.push_back(pos);
     _pos_copy.push_back(_position.at(0));
-    _turn = 0;
 };
 
 void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
@@ -49,25 +48,21 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 _velocityX = 0;
                 _velocityY = -1;
                 _position.at(0).at(1)--;
-                _turn = arc::KeyCode::Z;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::S) {
                 _velocityX = 0;
                 _velocityY = 1;
                 _position.at(0).at(1)++;
-                _turn = arc::KeyCode::S;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::Q) {
                 _velocityX = -1;
                 _velocityY = 0;
                 _position.at(0).at(0)--;
-                _turn = arc::KeyCode::Q;
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::D) {
                 _velocityX = 1;
                 _velocityY = 0;
                 _position.at(0).at(0)++;
-                _turn = arc::KeyCode::D;
             }
             this->collision();
         }
