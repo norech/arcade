@@ -20,12 +20,16 @@ void Manager::loadGame(const std::string& game)
 void Manager::loadGraphic(const std::string& graphic)
 {
     if (_graphic != nullptr) {
-        _game->unloadGraphic();
+        if (_game != nullptr)
+            _game->unloadGraphic();
         _graphic->destroy();
         GraphicLoader::unload(_graphic);
     }
     _graphic = GraphicLoader::load(graphic);
     _graphic->init();
+
+    if (_game != nullptr)
+        _game->loadGraphic(_graphic);
 }
 
 game::IGame* Manager::getGame() { return _game; }
