@@ -33,6 +33,12 @@ void CacaCanvas::endDraw()
 void CacaCanvas::drawPoint(int x, int y, const IColor &color)
 {
     caca_set_color_ansi(_graphic->_canvas, _graphic->getCacaColor(color), CACA_BLACK);
-    caca_put_char(_graphic->_canvas, x, y, color.getSymbol());
+    caca_printf(_graphic->_canvas, x, y, "%c", color.getSymbol());
+}
+
+void CacaCanvas::drawText(int x, int y, const std::string &text, const IColor &color)
+{
+    caca_set_color_ansi(_graphic->_canvas, _graphic->getCacaColor(color), CACA_BLACK);
+    caca_printf(_graphic->_canvas, x, y, "%s", text.c_str());
 }
 }

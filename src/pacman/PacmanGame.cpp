@@ -16,6 +16,7 @@ void PacmanGame::init()
     _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
+    _palette.setColor(3, 't', WHITE);
     _map.push_back(std::string("###################"));
     _map.push_back(std::string("#        #        #"));
     _map.push_back(std::string("# ## ### # ### ## #"));
@@ -101,7 +102,7 @@ void PacmanGame::render()
 
     _canvas->drawPoint(this->_player.value.x, this->_player.value.y, this->_palette[0]);
 
-    _canvas->drawText(1, 1, "abcdefghijklmnopqrstuvwxyz", this->_palette[0]);
+    _canvas->drawText(1, 1, "abcdefghijklmnopqrstuvwxyz", this->_palette[1]);
     _canvas->endDraw();
     _graphic->render();
 }
@@ -119,6 +120,8 @@ void PacmanGame::destroy() { }
 
 bool PacmanGame::getCollide(VectorInt nextPos)
 {
+    if (_player.value.x + nextPos.value.x < 0 || _player.value.x + nextPos.value.x > 18)
+        return (false);
     if (this->_map.at(_player.value.y + nextPos.value.y).at(_player.value.x + nextPos.value.x) == '#') {
         return (true);
     }
