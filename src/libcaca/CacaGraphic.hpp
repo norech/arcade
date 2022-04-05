@@ -32,7 +32,10 @@ namespace arc::grph {
 
             void destroy() override;
 
+            void registerSprite(game::ISprite &sprite) override;
+
             int getColorIndex(const ColorCode& color);
+            int getCacaColor(const IColor& color);
             caca_canvas_t *_canvas;
             caca_display_t *_display;
     };

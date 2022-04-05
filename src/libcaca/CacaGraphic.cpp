@@ -9,7 +9,7 @@
 #include "CacaCanvas.hpp"
 #include <iostream>
 #include <thread>         // std::this_thread::sleep_for
-#include <chrono>  
+#include <chrono>
 
 namespace arc::grph {
 
@@ -104,4 +104,34 @@ void CacaGraphic::destroy()
     close();
 }
 
+void CacaGraphic::registerSprite(game::ISprite &sprite [[maybe_unused]])
+{
+    return;
 }
+
+int CacaGraphic::getCacaColor(const IColor &code)
+{
+    switch (code.getColorCode()) {
+        case ColorCode::BLACK:
+            return CACA_BLACK;
+        case ColorCode::RED:
+            return CACA_RED;
+        case ColorCode::GREEN:
+            return CACA_GREEN;
+        case ColorCode::YELLOW:
+            return CACA_YELLOW;
+        case ColorCode::BLUE:
+            return CACA_BLUE;
+        case ColorCode::MAGENTA:
+            return CACA_MAGENTA;
+        case ColorCode::CYAN:
+            return CACA_CYAN;
+        case ColorCode::WHITE:
+            return CACA_WHITE;
+        default:
+            return CACA_BLACK;
+    }
+}
+
+}
+

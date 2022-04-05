@@ -55,7 +55,7 @@ void NcursesGraphic::render() { refresh(); }
 
 void NcursesGraphic::clear()
 {
-    int backgroundColor = getColorIndex(ColorCode::RED);
+    int backgroundColor = getColorIndex(ColorCode::BLACK);
     wclear(_window);
 
     attron(COLOR_PAIR(backgroundColor));
