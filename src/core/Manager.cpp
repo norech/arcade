@@ -5,12 +5,15 @@
 
 namespace arc::core {
 
+using GraphicLoader = arc::core::Loader<grph::IGraphic>;
+using GameLoader = arc::core::Loader<game::IGame>;
+
 void Manager::loadGame(const std::string& game)
 {
     if (_game != nullptr) {
         throw ManagerError("Game already loaded");
     }
-    _game = core::Loader<game::IGame>::load(game);
+    _game = GameLoader::load(game);
     _game->init();
 }
 
@@ -19,9 +22,9 @@ void Manager::loadGraphic(const std::string& graphic)
     if (_graphic != nullptr) {
         _game->unloadGraphic();
         _graphic->destroy();
-        core::Loader<grph::IGraphic>::unload(_graphic);
+        GraphicLoader::unload(_graphic);
     }
-    _graphic = core::Loader<grph::IGraphic>::load(graphic);
+    _graphic = GraphicLoader::load(graphic);
     _graphic->init();
 }
 
@@ -50,8 +53,8 @@ void Manager::destroy()
     _game->unloadGraphic();
     _graphic->destroy();
     _game->destroy();
-    core::Loader<grph::IGraphic>::unload(_graphic);
-    core::Loader<game::IGame>::unload(_game);
+    GraphicLoader::unload(_graphic);
+    GameLoader::unload(_game);
 }
 
 bool Manager::canUpdate() { return _graphic->isOpen(); }
@@ -67,9 +70,15 @@ void Manager::update()
     _game->update(_graphic->tick());
     _game->render();
     if (_mustLoadAnotherGraphic || _game->mustLoadAnotherGraphic()) {
+        _game->unloadGraphic();
+        _graphic->destroy();
+        GraphicLoader::unload(_graphic);
+        _graphic = nullptr;
+
         _mustLoadAnotherGraphic = false;
         _currentGraphicId = (_currentGraphicId + 1) % _graphicPaths.size();
-        loadGraphic(_graphicPaths[_currentGraphicId]);
+        _graphic = GraphicLoader::load(_graphicPaths[_currentGraphicId]);
+        _graphic->init();
         _game->loadGraphic(_graphic);
     }
 }
