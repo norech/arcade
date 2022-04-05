@@ -18,6 +18,7 @@ void arc::grph::SfmlGraphic::init()
     _shouldClose = false;
     this->_window.create(sf::VideoMode(800, 600), "SFML");
     this->_window.setFramerateLimit(30);
+    this->_font.loadFromFile("./font.ttf");
 }
 
 bool arc::grph::SfmlGraphic::isOpen()

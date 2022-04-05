@@ -2,8 +2,8 @@
 
 #include "../common/graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
-#include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL2/SDL_ttf.h>
 
 namespace arc::grph {
 
@@ -30,6 +30,7 @@ class SdlGraphic : public Graphic {
     void destroy() override;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
+    TTF_Font *_font;
 
  private:
     std::string _name;

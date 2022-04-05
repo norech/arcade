@@ -33,4 +33,13 @@ void NcursesCanvas::drawPoint(int x, int y, const IColor& color)
     mvaddch(y, x * 2 + 1, ' ');
     attroff(COLOR_PAIR(colorId));
 }
+
+void NcursesCanvas::drawText(int x, int y, const std::string &text, const IColor &color [[maybe_unused]])
+{
+    //int colorId = _graphic->getColorIndex(color.getColorCode());
+
+    //attron(COLOR_PAIR(colorId));
+    mvprintw(y, x * 2, "%s", text.c_str());
+    //attroff(COLOR_PAIR(colorId));
+}
 }

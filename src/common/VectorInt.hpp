@@ -11,10 +11,9 @@
 
 namespace arc::game {
 
-    class VectorInt : public Vector {
+    class VectorInt : public Vector{
         public:
-            int _x;
-            int _y;
+            Vector2 value;
             VectorInt();
             VectorInt(int x, int y);
 
@@ -23,8 +22,8 @@ namespace arc::game {
             VectorInt &operator+=(VectorInt &vect);
             VectorInt &operator-=(VectorInt &vect);
 
-            void reset(void) override;
-            void setValue(int x, int y) override;
+            void reset(void);
+            void setValue(int x, int y);
 
         protected:
         private:

@@ -35,6 +35,8 @@ void SdlGraphic::init()
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
+    TTF_Init();
+    _font = TTF_OpenFont("./font.ttf", 20);
 
     if (_renderer == NULL) {
         std::cerr << SDL_GetError() << std::endl;
@@ -95,6 +97,7 @@ void SdlGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas [[maybe_unused]])
 
 void SdlGraphic::destroy()
 {
+    TTF_CloseFont(_font);
     SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
     SDL_Quit();

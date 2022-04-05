@@ -20,6 +20,7 @@ namespace arc::grph {
             void startDraw() override;
             void endDraw() override;
             void drawPoint(int x, int y, const IColor& color);
+            void drawText(int x, int y, const std::string &text, const IColor &color);
         private:
             CacaGraphic *_graphic;
     };
