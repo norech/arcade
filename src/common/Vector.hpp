@@ -7,11 +7,11 @@
 
 #pragma once
 
-#include "spc/game/IVector.hpp"
+#include "spc/common/Vector2.hpp"
 
 namespace arc::game
 {
-    class Vector : public IVector
+    class Vector
     {
     private:
     public:
@@ -20,8 +20,8 @@ namespace arc::game
         virtual void reset(void) {};
         virtual void setValue(int x[[maybe_unused]], int y[[maybe_unused]]) {};
 
-        virtual IVector &operator+=(IVector &vect [[maybe_unused]]) { return (vect);};
-        virtual IVector &operator-=(IVector &vect [[maybe_unused]]) { return (vect);};
+        virtual Vector2 &operator+=(Vector2 &vect [[maybe_unused]]) { return (vect);};
+        virtual Vector2 &operator-=(Vector2 &vect [[maybe_unused]]) { return (vect);};
     };
 
 }
