@@ -17,6 +17,7 @@ void arc::grph::SfmlGraphic::init()
 {
     _shouldClose = false;
     this->_window.create(sf::VideoMode(800, 600), "SFML");
+    this->_window.setFramerateLimit(30);
 }
 
 bool arc::grph::SfmlGraphic::isOpen()
@@ -35,7 +36,9 @@ void arc::grph::SfmlGraphic::clear() { this->_window.clear(); }
 
 void arc::grph::SfmlGraphic::render() { this->_window.display(); }
 
-float arc::grph::SfmlGraphic::tick() { return (0); }
+float arc::grph::SfmlGraphic::tick() {
+    return (0.025);
+}
 
 bool arc::grph::SfmlGraphic::pollEvent(Event& input [[maybe_unused]])
 {

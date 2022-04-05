@@ -50,7 +50,7 @@ void SdlGraphic::clear()
     SDL_RenderClear(_renderer);
 }
 
-void SdlGraphic::render() { SDL_RenderPresent(_renderer); }
+void SdlGraphic::render() { SDL_RenderPresent(_renderer); SDL_Delay(25);}
 
 bool SdlGraphic::pollEvent(Event& input [[maybe_unused]])
 {
@@ -101,7 +101,9 @@ void SdlGraphic::destroy()
     _window = nullptr;
 }
 
-float SdlGraphic::tick() { return (0); }
+
+float SdlGraphic::tick() { return (0.025); }
 
 void SdlGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }
+
 }

@@ -77,7 +77,7 @@ bool NcursesGraphic::pollEvent(Event& input)
     return (false);
 }
 
-float NcursesGraphic::tick() { return (0); }
+float NcursesGraphic::tick() { return (0.025); }
 
 void NcursesGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
 {
