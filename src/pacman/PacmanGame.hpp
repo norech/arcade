@@ -4,9 +4,11 @@
 #include <ncurses.h>
 
 #include "../common/Palette.hpp"
+#include "../common/VectorInt.hpp"
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
+#include "vector"
 
 namespace arc::game {
 
@@ -17,9 +19,12 @@ class PacmanGame : public IGame {
     grph::IGraphic* _graphic;
     IManager* _manager;
     bool _mustLoadAnotherGraphic = false;
-    int _playerX = 0;
-    int _playerY = 0;
+    VectorInt _player;
+    VectorInt _player_mov;
     int _score = 0;
+    VectorInt _Blink;
+    std::vector<std::string> _map;
+    float _timer;
 
  public:
     PacmanGame() = default;
@@ -40,6 +45,8 @@ class PacmanGame : public IGame {
     void destroy() override;
 
     void setManager(IManager* manager) override;
+
+    bool getCollide(VectorInt nextPos);
 };
 
 } // namespace arc::grph

@@ -9,8 +9,9 @@ class Manager : IManager {
  private:
     grph::IGraphic* _graphic = nullptr;
     game::IGame* _game = nullptr;
-    std::vector<std::string> _graphicPaths = { "./lib/arcade_sdl2.so",
-        "./lib/arcade_ncurses.so", "./lib/arcade_sfml.so" };
+    std::vector<std::string> _graphicPaths
+        = { "./lib/arcade_sdl2.so", "./lib/arcade_sfml.so",
+              "./lib/arcade_ncurses.so", "./lib/arcade_libcaca.so" };
     int _currentGraphicId = 0;
     bool _mustLoadAnotherGraphic = false;
 

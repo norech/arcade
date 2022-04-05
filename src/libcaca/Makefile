@@ -7,20 +7,20 @@
 
 CXX = g++
 
-CXXFLAGS	= -shared -static-libgcc -fPIC -fno-gnu-unique \
-		-W -Wall -Werror -std=c++20 -g -I../../include
+CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g \
+		-I../../include
 
-LFLAGS = -lncurses
+LFLAGS = -lcaca
 
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
 
-TARGET = ../../lib/arcade_pacman.so
+TARGET = ../../lib/arcade_libcaca.so
 
 TARGET_TEST = unit_tests
 
-SRC =	PacmanGame.cpp \
-		../common/VectorInt.cpp
+SRC =	CacaGraphic.cpp \
+		CacaCanvas.cpp
 
 TESTS =	\
 

@@ -55,7 +55,7 @@ void NcursesGraphic::render() { refresh(); }
 
 void NcursesGraphic::clear()
 {
-    int backgroundColor = getColorIndex(ColorCode::RED);
+    int backgroundColor = getColorIndex(ColorCode::BLACK);
     wclear(_window);
 
     attron(COLOR_PAIR(backgroundColor));
@@ -77,7 +77,7 @@ bool NcursesGraphic::pollEvent(Event& input)
     return (false);
 }
 
-float NcursesGraphic::tick() { return (0); }
+float NcursesGraphic::tick() { return (0.025); }
 
 void NcursesGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
 {

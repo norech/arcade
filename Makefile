@@ -15,6 +15,7 @@ all:
 	make -C src/sdl/
 	make -C src/pacman/
 	make -C src/sfml/
+	make -C src/libcaca/
 
 core:
 	mkdir -p lib
@@ -31,6 +32,7 @@ graphicals:
 	make -C src/ncurses/
 	make -C src/sdl/
 	make -C src/sfml/
+	make -C src/libcaca/
 
 clean:
 	make -C src/common/ clean
@@ -39,6 +41,7 @@ clean:
 	make -C src/sdl/ clean
 	make -C src/pacman/ clean
 	make -C src/sfml/ clean
+	make -C src/libcaca/ clean
 
 fclean:
 	make -C src/common/ fclean
@@ -47,7 +50,7 @@ fclean:
 	make -C src/sdl/ fclean
 	make -C src/pacman/ fclean
 	make -C src/sfml fclean
-
+	make -C src/libcaca/ fclean
 api:
 	git clone git@github.com:norech/special-arcade.git /tmp/arcade
 	cd /tmp/arcade && git checkout impl1

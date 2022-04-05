@@ -5,5 +5,7 @@
 extern "C" {
 arc::DLType getType(void) { return arc::DLType::GAME; }
 arc::game::IGame* expose(void) { return new arc::game::PacmanGame(); }
-void unexpose(arc::game::IGame* game) { delete game; }
+void unexpose(arc::game::IGame* game) { delete game;}
 }
+
+
