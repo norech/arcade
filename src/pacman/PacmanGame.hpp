@@ -15,6 +15,7 @@ class PacmanGame : public IGame {
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic;
+    IManager* _manager;
     bool _mustLoadAnotherGraphic = false;
     int _playerX = 0;
     int _playerY = 0;
@@ -37,6 +38,8 @@ class PacmanGame : public IGame {
     void unloadGraphic() override;
 
     void destroy() override;
+
+    void setManager(IManager* manager) override;
 };
 
 } // namespace arc::grph

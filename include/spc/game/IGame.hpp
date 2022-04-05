@@ -9,6 +9,10 @@ namespace arc::grph {
 class IGraphic;
 }
 
+namespace arc {
+class IManager;
+}
+
 namespace arc::game {
 
 /**
@@ -64,8 +68,14 @@ public:
     virtual void unloadGraphic() = 0;
 
     /**
+     * @brief Sets the manager.
+     */
+    virtual void setManager(IManager* manager) = 0;
+
+    /**
      * @brief Called each frame, checks if another graphical library should
      * be loaded.
+     * @deprecated Use the IManager provided by `setManager` instead.
      */
     virtual bool mustLoadAnotherGraphic() const = 0;
 

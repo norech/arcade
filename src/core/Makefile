@@ -18,7 +18,7 @@ TARGET = ../../arcade
 
 TARGET_TEST = unit_tests
 
-SRC =	\
+SRC =	Manager.cpp \
 
 TESTS =	\
 

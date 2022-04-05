@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "../common/Event.hpp"
+#include "../common/IManager.hpp"
 #include "../game/ISprite.hpp"
 #include "./ICanvas.hpp"
 
@@ -61,8 +62,8 @@ public:
      * @param input An event to fill.
      *
      * @return true An input was found since the last call to this method.
-     * The input is then available in the `getLastInput` method.
      * @return false No input was found since the last call to this method.
+     * @note The games should use IManager::pollEvent instead.
      */
     virtual bool pollEvent(Event &input) = 0;
 

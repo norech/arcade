@@ -15,6 +15,7 @@ void PacmanGame::init()
 void PacmanGame::update(float dt [[maybe_unused]])
 {
     Event event;
+    // TODO: replace _graphic->pollEvent(event) with _manager->pollEvent(event)
     while (_graphic->pollEvent(event)) {
 
         if (event.type == Event::QUIT) {
@@ -22,6 +23,7 @@ void PacmanGame::update(float dt [[maybe_unused]])
         }
 
         if (event.type == Event::KEYDOWN) {
+            // TODO: remove this condition
             if (event.keyboardInput.keyCode == KeyCode::P)
                 _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == KeyCode::Z) {
@@ -66,5 +68,7 @@ void PacmanGame::loadGraphic(grph::IGraphic* graphic)
 void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void PacmanGame::destroy() { }
+
+void PacmanGame::setManager(IManager* manager) { _manager = manager; }
 
 } // namespace arc::game
