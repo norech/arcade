@@ -23,6 +23,7 @@ class SfmlCanvas : public Canvas {
     void startDraw() override;
     void endDraw() override;
     void drawPoint(int x, int y, const IColor& color) override;
+    void drawText(int x, int y, const std::string &text, const IColor &color);
 
  protected:
  private:

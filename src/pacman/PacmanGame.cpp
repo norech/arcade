@@ -101,6 +101,7 @@ void PacmanGame::render()
 
     _canvas->drawPoint(this->_player.value.x, this->_player.value.y, this->_palette[0]);
 
+    _canvas->drawText(1, 1, "abcdefghijklmnopqrstuvwxyz", this->_palette[0]);
     _canvas->endDraw();
     _graphic->render();
 }
