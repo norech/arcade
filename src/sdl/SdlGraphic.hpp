@@ -25,12 +25,15 @@ class SdlGraphic : public Graphic {
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
+    void registerSprite(game::ISprite &sprite);
+
     void destroy() override;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
 
  private:
     std::string _name;
+    bool _shouldClose;
     int _size_x;
     int _size_y;
 };

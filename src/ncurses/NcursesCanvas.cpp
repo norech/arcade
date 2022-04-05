@@ -19,12 +19,18 @@ void NcursesCanvas::startDraw() { }
 
 void NcursesCanvas::endDraw() { }
 
+CanvasCapacity NcursesCanvas::getCapacities() const
+{
+    return CanvasCapacity::BASIC;
+}
+
 void NcursesCanvas::drawPoint(int x, int y, const IColor& color)
 {
     int colorId = _graphic->getColorIndex(color.getColorCode());
 
     attron(COLOR_PAIR(colorId));
-    mvaddch(y, x, color.getSymbol());
+    mvaddch(y, x * 2, color.getSymbol());
+    mvaddch(y, x * 2 + 1, ' ');
     attroff(COLOR_PAIR(colorId));
 }
 }

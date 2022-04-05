@@ -35,7 +35,11 @@ enum KeyCode {
     W = 119,
     X = 120,
     Y = 121,
-    Z = 122
+    Z = 122,
+    UP = 273,
+    DOWN = 274,
+    LEFT = 276,
+    RIGHT = 275,
 };
 
 }  // namespace arc

@@ -14,6 +14,11 @@ SdlCanvas::SdlCanvas(SdlGraphic* graphic) { _graphic = graphic; }
 
 SdlCanvas::~SdlCanvas() { }
 
+CanvasCapacity SdlCanvas::getCapacities() const
+{
+    return CanvasCapacity::BASIC;
+}
+
 void SdlCanvas::startDraw()
 {
     SDL_SetRenderDrawColor(_graphic->_renderer, 0, 0, 0, 255);
