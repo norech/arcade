@@ -9,6 +9,7 @@
 #include <unordered_map>
 
 #include "LoaderError.hpp"
+#include "spc/common/DLType.hpp"
 
 namespace arc::core {
 
@@ -17,6 +18,7 @@ class Loader {
  private:
     typedef T* (*LoaderFunction)();
     typedef void (*UnloaderFunction)(T*);
+    typedef DLType (*GetTypeFunction)();
     static inline std::unordered_map<T*, void*> _loaded;
 
  public:
@@ -27,12 +29,22 @@ class Loader {
             throw LoaderError(dlerror());
         }
 
-        LoaderFunction func = (LoaderFunction)dlsym(handle, "expose");
-        if (!func) {
+        LoaderFunction load = (LoaderFunction)dlsym(handle, "expose");
+        if (!load) {
             throw LoaderError(dlerror());
         }
 
-        T* ret = func();
+        GetTypeFunction getType = (GetTypeFunction)dlsym(handle, "getType");
+        if (!getType) {
+            throw LoaderError(dlerror());
+        }
+        int type = getType();
+        if (type != DLType::GRAPHICAL && type != DLType::GAME) {
+            throw LoaderError("Trying to load a library that is not of game or "
+                              "graphical type");
+        }
+
+        T* ret = load();
         if (!ret) {
             throw LoaderError("Returned nullptr");
         }
@@ -53,11 +65,22 @@ class Loader {
         if (handle == nullptr) {
             throw LoaderError("Trying to unload an unexisting object");
         }
-        UnloaderFunction func = (UnloaderFunction)dlsym(handle, "unexpose");
-        if (!func) {
+
+        GetTypeFunction getType = (GetTypeFunction)dlsym(handle, "getType");
+        if (!getType) {
             throw LoaderError(dlerror());
         }
-        func(t);
+        int type = getType();
+        if (type != DLType::GRAPHICAL && type != DLType::GAME) {
+            throw LoaderError("Trying to unload a library that is not of game "
+                              "or graphical type");
+        }
+
+        UnloaderFunction unload = (UnloaderFunction)dlsym(handle, "unexpose");
+        if (!unload) {
+            throw LoaderError(dlerror());
+        }
+        unload(t);
 
         if (dlclose(handle) != 0) {
             throw LoaderError(dlerror());

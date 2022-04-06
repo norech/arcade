@@ -18,9 +18,11 @@ class NcursesCanvas : public Canvas {
     NcursesCanvas(NcursesGraphic* graphic);
     ~NcursesCanvas();
 
+    CanvasCapacity getCapacities() const override;
     void startDraw() override;
     void endDraw() override;
     void drawPoint(int x, int y, const IColor& color);
+    void drawText(int x, int y,const std::string &text, const IColor &color);
 
  private:
     NcursesGraphic* _graphic;

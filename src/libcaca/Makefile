@@ -7,20 +7,20 @@
 
 CXX = g++
 
-CXXFLAGS	= -shared -static-libgcc -fPIC -fno-gnu-unique \
-		-W -Wall -Werror -std=c++20 -g -I../../include
+CXXFLAGS	=	-shared -fPIC -fno-gnu-unique -W -Wall -Werror -std=c++20 -g \
+		-I../../include
 
-LFLAGS = -lSDL2 -lSDL2_ttf
+LFLAGS = -lcaca
 
 TEST_FLAGS = $(LFLAGS) -lgtest -lgcov -lpthread --coverage -fprofile-arcs \
 	-ftest-coverage
 
-TARGET = ../../lib/arcade_sdl2.so
+TARGET = ../../lib/arcade_libcaca.so
 
 TARGET_TEST = unit_tests
 
-SRC =	SdlGraphic.cpp \
-		SdlCanvas.cpp
+SRC =	CacaGraphic.cpp \
+		CacaCanvas.cpp
 
 TESTS =	\
 
@@ -47,8 +47,9 @@ clean_tests:
 $(TARGET): build_all
 
 clean:
+	rm -f $(OBJ)
 	rm -f *.gc* unit_tests
-	rm -rf $(OBJ)
+
 
 fclean: clean
 	rm -f $(TARGET)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <caca.h>
+
 #include <ncurses.h>
 
 #include "../common/graphic.hpp"
@@ -7,10 +9,10 @@
 
 namespace arc::grph {
 
-class NcursesGraphic : public Graphic {
+class CacaGraphic : public Graphic {
  public:
-    NcursesGraphic();
-    ~NcursesGraphic();
+    CacaGraphic();
+    ~CacaGraphic();
 
     void init() override;
 
@@ -24,21 +26,21 @@ class NcursesGraphic : public Graphic {
 
     void clear() override;
 
-    bool pollEvent(Event& input) override;
+    bool pollEvent(Event& Input) override;
 
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
-
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
     void destroy() override;
 
+    void registerSprite(game::ISprite& sprite) override;
+
     int getColorIndex(const ColorCode& color);
+    int getCacaColor(const IColor& color);
 
-    void registerSprite(game::ISprite& sprite);
-
-    WINDOW* _window;
-
-    static bool _hasColorsSet;
+    caca_canvas_t* _canvas;
+    caca_display_t* _display;
+    bool _willBeClosed = false;
 };
 
-} // namespace arc::grph
+}

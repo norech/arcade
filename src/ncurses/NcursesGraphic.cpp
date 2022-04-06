@@ -7,9 +7,12 @@
 
 #include "NcursesGraphic.hpp"
 #include "NcursesCanvas.hpp"
+#include "spc/common/KeyCode.hpp"
 #include <iostream>
 
 namespace arc::grph {
+
+bool NcursesGraphic::_hasColorsSet = false;
 
 NcursesGraphic::NcursesGraphic() { }
 
@@ -21,7 +24,8 @@ void NcursesGraphic::init()
     timeout(25);
     curs_set(0);
     noecho();
-    if (has_colors()) {
+    if (has_colors() && !_hasColorsSet) {
+        _hasColorsSet = true;
         start_color();
         use_default_colors();
         init_color(COLOR_BLACK, 1, 1, 1);
@@ -33,7 +37,16 @@ void NcursesGraphic::init()
         init_pair(5, COLOR_YELLOW, COLOR_YELLOW); // yellow
         init_pair(6, COLOR_CYAN, COLOR_CYAN); // cyan
         init_pair(7, COLOR_MAGENTA, COLOR_MAGENTA); // magenta
+        init_pair(8, COLOR_BLACK, COLOR_BLACK); // black
+        init_pair(9, COLOR_WHITE, COLOR_BLACK); // white
+        init_pair(10, COLOR_RED, COLOR_BLACK); // red
+        init_pair(11, COLOR_GREEN, COLOR_BLACK); // green
+        init_pair(12, COLOR_BLUE, COLOR_BLACK); // blue
+        init_pair(13, COLOR_YELLOW, COLOR_BLACK); // yellow
+        init_pair(14, COLOR_CYAN, COLOR_BLACK); // cyan
+        init_pair(15, COLOR_MAGENTA, COLOR_BLACK); // magenta
     }
+    keypad(_window, TRUE);
 }
 
 bool NcursesGraphic::isOpen()
@@ -55,7 +68,7 @@ void NcursesGraphic::render() { refresh(); }
 
 void NcursesGraphic::clear()
 {
-    int backgroundColor = getColorIndex(ColorCode::RED);
+    int backgroundColor = getColorIndex(ColorCode::BLACK);
     wclear(_window);
 
     attron(COLOR_PAIR(backgroundColor));
@@ -70,14 +83,36 @@ bool NcursesGraphic::pollEvent(Event& input)
     int key = getch();
 
     if (key != ERR) {
+        switch(key) {
+            case KEY_UP:
+                input.keyboardInput.keyCode = KeyCode::Z;
+                break;
+            case KEY_DOWN:
+                input.keyboardInput.keyCode = KeyCode::S;
+                break;
+            case KEY_LEFT:
+                input.keyboardInput.keyCode = KeyCode::Q;
+                break;
+            case KEY_RIGHT:
+                input.keyboardInput.keyCode = KeyCode::D;
+                break;
+            case KEY_ENTER:
+                input.keyboardInput.keyCode = KeyCode::I;
+                break;
+            case ' ':
+                input.keyboardInput.keyCode = KeyCode::U;
+                break;
+            default:
+                input.keyboardInput.keyCode = key;
+                break;
+        }
         input.type = Event::EventType::KEYDOWN;
-        input.keyboardInput.keyCode = key;
         return (true);
     }
     return (false);
 }
 
-float NcursesGraphic::tick() { return (0); }
+float NcursesGraphic::tick() { return (0.025); }
 
 void NcursesGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
 {
@@ -104,5 +139,9 @@ int NcursesGraphic::getColorIndex(const ColorCode& color)
             colorId = i;
     }
     return colorId;
+}
+void NcursesGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
+{
+    return;
 }
 }
