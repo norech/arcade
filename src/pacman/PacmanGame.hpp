@@ -1,14 +1,15 @@
 #pragma once
 
 #include <memory>
-#include <ncurses.h>
+#include <vector>
 
 #include "../common/Palette.hpp"
 #include "../common/VectorInt.hpp"
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
-#include "vector"
+#include "../common/VectorInt.hpp"
+
 
 namespace arc::game {
 
@@ -41,6 +42,8 @@ class PacmanGame : public IGame {
     bool mustLoadAnotherGraphic() const override;
 
     void unloadGraphic() override;
+
+    void setManager(IManager *manager) override;
 
     void destroy() override;
 

@@ -25,6 +25,8 @@ class SdlCanvas : public Canvas {
 
     void drawPoint(int x, int y, const IColor& color) override;
 
+    void drawText(int x, int y, const std::string &text, const IColor &ForeColor) override;
+
  protected:
  private:
     SdlGraphic* _graphic;

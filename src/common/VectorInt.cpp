@@ -9,13 +9,16 @@
 
 namespace arc::game {
 
-    VectorInt::VectorInt() : _x(0), _y(0)
+    VectorInt::VectorInt()
     {
+        value.x = 0;
+        value.y = 0;
     }
 
-    VectorInt::VectorInt(int x, int y) : _x(x), _y(y)
+    VectorInt::VectorInt(int x, int y)
     {
-
+        value.x = x;
+        value.y = y;
     }
 
     VectorInt::~VectorInt()
@@ -24,27 +27,27 @@ namespace arc::game {
 
     VectorInt &VectorInt::operator+=(VectorInt &vect)
     {
-        this->_x += vect._x;
-        this->_y += vect._y;
+        this->value.x += vect.value.x;
+        this->value.y += vect.value.y;
         return (*this);
     }
 
     VectorInt &VectorInt::operator-=(VectorInt &vect)
     {
-        this->_x -= vect._x;
-        this->_y -= vect._y;
+        this->value.x  -= vect.value.x;
+        this->value.y  -= vect.value.y;
         return (*this);
     }
 
     void VectorInt::reset()
     {
-        this->_x = 0;
-        this->_y = 0;
+        this->value.x = 0;
+        this->value.y = 0;
     }
 
     void VectorInt::setValue(int x, int y)
     {
-        this->_x = x;
-        this->_y = y;
+        this->value.x = x;
+        this->value.y = y;
     }
 }

@@ -20,13 +20,7 @@ CacaGraphic::~CacaGraphic() { }
 void CacaGraphic::init()
 {
     _display = caca_create_display(NULL);
-    // if (_display == NULL) {
-    //    throw std::runtime_error("Can't create display");
-    //}
     _canvas = caca_get_canvas(_display);
-    // if (_canvas == NULL) {
-    //    throw std::runtime_error("Can't get canvas");
-    //}
     caca_set_display_title(_display, "Arcade");
     caca_set_display_time(_display, 25000);
     caca_set_color_ansi(_canvas, CACA_BLACK, CACA_WHITE);
@@ -55,7 +49,7 @@ bool CacaGraphic::pollEvent(Event& event)
 {
     caca_event_t ev;
 
-    caca_get_event(_display, CACA_EVENT_KEY_PRESS, &ev, 25);
+    caca_get_event(_display, CACA_EVENT_KEY_PRESS | CACA_EVENT_QUIT, &ev, 25);
 
     if (ev.type == CACA_EVENT_QUIT) {
         event.type = Event::QUIT;

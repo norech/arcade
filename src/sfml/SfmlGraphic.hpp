@@ -33,6 +33,7 @@ class SfmlGraphic : public IGraphic {
     void registerSprite(game::ISprite &sprite);
 
     sf::RenderWindow _window;
+    sf::Font _font;
 
  protected:
  private:

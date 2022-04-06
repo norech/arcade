@@ -1,7 +1,8 @@
-#include "PacmanGame.hpp"
+
 #include "spc/common/KeyCode.hpp"
 #include <iostream>
-
+#include "../common/VectorInt.hpp"
+#include "PacmanGame.hpp"
 #include <iostream>
 
 namespace arc::game {
@@ -9,12 +10,13 @@ namespace arc::game {
 void PacmanGame::init()
 {
     _timer = 0;
-    _player = arc::game::VectorInt(9, 15);
-    _player_mov = arc::game::VectorInt(-1, 0);
-    _Blink = arc::game::VectorInt(9, 9);
+    _player = VectorInt(9, 15);
+    _player_mov = VectorInt(-1, 0);
+    _Blink = VectorInt(9, 9);
     _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
+    _palette.setColor(3, 't', WHITE);
     _map.push_back(std::string("###################"));
     _map.push_back(std::string("#        #        #"));
     _map.push_back(std::string("# ## ### # ### ## #"));
@@ -68,11 +70,11 @@ void PacmanGame::update(float dt [[maybe_unused]])
         }
     }
     _timer += dt;
-    if (_player._x + _player_mov._x == -1) {
-        _player._x = 18;
+    if (_player.value.x + _player_mov.value.x == -1) {
+        _player.value.x = 18;
     }
-    if (_player._x + _player_mov._x >= 19) {
-        _player._x = 0;
+    if (_player.value.x + _player_mov.value.x >= 19) {
+        _player.value.x = 0;
     }
     if (this->getCollide(_player_mov) == true) {
         _player_mov = arc::game::VectorInt(0, 0);
@@ -101,10 +103,11 @@ void PacmanGame::render()
         }
     }
 
-    _canvas->drawPoint(this->_Blink._x, this->_Blink._y, this->_palette[1]);
+    _canvas->drawPoint(this->_Blink.value.x, this->_Blink.value.y, this->_palette[1]);
 
-    _canvas->drawPoint(this->_player._x, this->_player._y, this->_palette[0]);
+    _canvas->drawPoint(this->_player.value.x, this->_player.value.y, this->_palette[0]);
 
+    _canvas->drawText(1, 1, "abcdefghijklmnopqrstuvwxyz", this->_palette[1]);
     _canvas->endDraw();
     _graphic->render();
 }
@@ -124,11 +127,17 @@ void PacmanGame::setManager(IManager* manager) { _manager = manager; }
 
 bool PacmanGame::getCollide(VectorInt nextPos)
 {
-    if (this->_map.at(_player._y + nextPos._y).at(_player._x + nextPos._x)
-        == '#') {
+    if (_player.value.x + nextPos.value.x < 0 || _player.value.x + nextPos.value.x > 18)
+        return (false);
+    if (this->_map.at(_player.value.y + nextPos.value.y).at(_player.value.x + nextPos.value.x) == '#') {
         return (true);
     }
     return (false);
+}
+
+void PacmanGame::setManager(IManager *manager [[maybe_unused]])
+{
+    return;
 }
 
 } // namespace arc::game
