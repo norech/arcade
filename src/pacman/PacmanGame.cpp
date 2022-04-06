@@ -123,7 +123,7 @@ void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void PacmanGame::destroy() { }
 
-void PacmanGame::setManager(IManager* manager) { _manager = manager; }
+void PacmanGame::setManager(IManager *manager) { _manager = manager; }
 
 bool PacmanGame::getCollide(VectorInt nextPos)
 {
@@ -133,11 +133,6 @@ bool PacmanGame::getCollide(VectorInt nextPos)
         return (true);
     }
     return (false);
-}
-
-void PacmanGame::setManager(IManager *manager [[maybe_unused]])
-{
-    return;
 }
 
 } // namespace arc::game

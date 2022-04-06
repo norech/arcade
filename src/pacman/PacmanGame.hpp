@@ -47,8 +47,6 @@ class PacmanGame : public IGame {
 
     void destroy() override;
 
-    void setManager(IManager* manager) override;
-
     bool getCollide(VectorInt nextPos);
 };
 
