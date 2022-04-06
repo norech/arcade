@@ -8,6 +8,13 @@ namespace arc::core {
 using GraphicLoader = arc::core::Loader<grph::IGraphic>;
 using GameLoader = arc::core::Loader<game::IGame>;
 
+void Manager::loadGame(arc::game::IGame* game)
+{
+    _game = game;
+    _isGameFromLoader = false;
+    game->init();
+}
+
 void Manager::loadGame(const std::string& game)
 {
     if (_game != nullptr) {
@@ -15,6 +22,7 @@ void Manager::loadGame(const std::string& game)
     }
     _game = GameLoader::load(game);
     _game->init();
+    _isGameFromLoader = true;
 }
 
 void Manager::loadGraphic(const std::string& graphic)
@@ -29,6 +37,7 @@ void Manager::loadGraphic(const std::string& graphic)
     }
     _graphic = GraphicLoader::load(graphic);
     _graphic->init();
+    _isGraphicFromLoader = true;
 
     _game->loadGraphic(_graphic);
 }
@@ -57,8 +66,16 @@ void Manager::destroy()
     _game->unloadGraphic();
     _graphic->destroy();
     _game->destroy();
-    GraphicLoader::unload(_graphic);
-    GameLoader::unload(_game);
+    if (_isGameFromLoader) {
+        GameLoader::unload(_game);
+    }
+    if (_isGraphicFromLoader) {
+        GraphicLoader::unload(_graphic);
+    }
+    _isGraphicFromLoader = false;
+    _isGameFromLoader = false;
+    _game = nullptr;
+    _graphic = nullptr;
 }
 
 bool Manager::canUpdate() { return _graphic->isOpen(); }

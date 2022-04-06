@@ -14,11 +14,14 @@ class Manager : IManager {
               "./lib/arcade_ncurses.so", "./lib/arcade_libcaca.so" };
     int _currentGraphicId = 0;
     bool _mustLoadAnotherGraphic = false;
+    bool _isGameFromLoader = false;
+    bool _isGraphicFromLoader = false;
 
  public:
     Manager() = default;
     ~Manager() = default;
 
+    void loadGame(arc::game::IGame* game);
     void loadGame(const std::string& gamePath) override;
     void loadGraphic(const std::string& graphicPath) override;
     grph::IGraphic* getGraphic() override;
