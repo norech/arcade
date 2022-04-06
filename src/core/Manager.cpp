@@ -28,8 +28,9 @@ void Manager::loadGraphic(const std::string& graphic)
     _graphic = GraphicLoader::load(graphic);
     _graphic->init();
 
-    if (_game != nullptr)
-        _game->loadGraphic(_graphic);
+    if (_game == nullptr)
+        throw ManagerError("Game not yet loaded!");
+    _game->loadGraphic(_graphic);
 }
 
 game::IGame* Manager::getGame() { return _game; }
@@ -49,7 +50,6 @@ void Manager::init()
         throw ManagerError("Game not loaded");
     }
     _game->setManager(this);
-    _game->loadGraphic(_graphic);
 }
 
 void Manager::destroy()
