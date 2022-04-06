@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../common/Palette.hpp"
+#include "../common/VectorInt.hpp"
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
@@ -17,6 +18,7 @@ class PacmanGame : public IGame {
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic;
+    IManager* _manager;
     bool _mustLoadAnotherGraphic = false;
     VectorInt _player;
     VectorInt _player_mov;
@@ -44,8 +46,10 @@ class PacmanGame : public IGame {
     void setManager(IManager *manager) override;
 
     void destroy() override;
-    bool getCollide(VectorInt nextPos);
 
+    void setManager(IManager* manager) override;
+
+    bool getCollide(VectorInt nextPos);
 };
 
 } // namespace arc::grph

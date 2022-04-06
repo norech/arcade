@@ -8,35 +8,39 @@
 #include "spc/graphic/IGraphic.hpp"
 
 namespace arc::grph {
-    class CacaGraphic : public Graphic {
-        public:
-            CacaGraphic();
-            ~CacaGraphic();
 
-            void init() override;
+class CacaGraphic : public Graphic {
+ public:
+    CacaGraphic();
+    ~CacaGraphic();
 
-            bool isOpen() override;
+    void init() override;
 
-            void close() override;
+    bool isOpen() override;
 
-            void render() override;
+    void close() override;
 
-            float tick() override;
+    void render() override;
 
-            void clear() override;
+    float tick() override;
 
-            bool pollEvent(Event& Input) override;
+    void clear() override;
 
-            void loadCanvas(std::shared_ptr<ICanvas> &canvas) override;
-            void unloadCanvas(std::shared_ptr<ICanvas> &canvas) override;
+    bool pollEvent(Event& Input) override;
 
-            void destroy() override;
+    void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
+    void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
-            void registerSprite(game::ISprite &sprite) override;
+    void destroy() override;
 
-            int getColorIndex(const ColorCode& color);
-            int getCacaColor(const IColor& color);
-            caca_canvas_t *_canvas;
-            caca_display_t *_display;
-    };
+    void registerSprite(game::ISprite& sprite) override;
+
+    int getColorIndex(const ColorCode& color);
+    int getCacaColor(const IColor& color);
+
+    caca_canvas_t* _canvas;
+    caca_display_t* _display;
+    bool _willBeClosed = false;
+};
+
 }

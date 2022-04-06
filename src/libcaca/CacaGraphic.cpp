@@ -7,21 +7,15 @@
 
 #include "CacaGraphic.hpp"
 #include "CacaCanvas.hpp"
-#include <iostream>
-#include <thread>         // std::this_thread::sleep_for
 #include <chrono>
+#include <iostream>
+#include <thread> // std::this_thread::sleep_for
 
 namespace arc::grph {
 
-CacaGraphic::CacaGraphic()
-{
+CacaGraphic::CacaGraphic() { }
 
-}
-
-CacaGraphic::~CacaGraphic()
-{
-
-}
+CacaGraphic::~CacaGraphic() { }
 
 void CacaGraphic::init()
 {
@@ -34,36 +28,24 @@ void CacaGraphic::init()
 
 bool CacaGraphic::isOpen()
 {
+    if (_willBeClosed)
+        return false;
     if (_display != NULL) {
-        return (true);
+        return true;
     } else {
-        return (false);
+        return false;
     }
 }
 
-void CacaGraphic::close()
-{
-    caca_free_display(_display);
-}
+void CacaGraphic::close() { _willBeClosed = true; }
 
+void CacaGraphic::clear() { caca_clear_canvas(_canvas); }
 
-void CacaGraphic::clear()
-{
-    caca_clear_canvas(_canvas);
-}
+void CacaGraphic::render() { caca_refresh_display(_display); }
 
-void CacaGraphic::render()
-{
-    caca_refresh_display(_display);
-}
+float CacaGraphic::tick() { return 0.025; }
 
-float CacaGraphic::tick()
-{
-    return 0.025;
-}
-
-
-bool CacaGraphic::pollEvent(Event &event)
+bool CacaGraphic::pollEvent(Event& event)
 {
     caca_event_t ev;
 
@@ -81,50 +63,45 @@ bool CacaGraphic::pollEvent(Event &event)
     return false;
 }
 
-
-void CacaGraphic::loadCanvas(std::shared_ptr<ICanvas> &canvas)
+void CacaGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
 {
     canvas = std::make_shared<CacaCanvas>(this);
 }
 
-void CacaGraphic::unloadCanvas(std::shared_ptr<ICanvas> &canvas)
+void CacaGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
 {
     canvas.reset();
 }
 
-void CacaGraphic::destroy()
-{
-    close();
-}
+void CacaGraphic::destroy() { caca_free_display(_display); }
 
-void CacaGraphic::registerSprite(game::ISprite &sprite [[maybe_unused]])
+void CacaGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
 {
     return;
 }
 
-int CacaGraphic::getCacaColor(const IColor &code)
+int CacaGraphic::getCacaColor(const IColor& code)
 {
     switch (code.getColorCode()) {
-        case ColorCode::BLACK:
-            return CACA_BLACK;
-        case ColorCode::RED:
-            return CACA_RED;
-        case ColorCode::GREEN:
-            return CACA_GREEN;
-        case ColorCode::YELLOW:
-            return CACA_YELLOW;
-        case ColorCode::BLUE:
-            return CACA_BLUE;
-        case ColorCode::MAGENTA:
-            return CACA_MAGENTA;
-        case ColorCode::CYAN:
-            return CACA_CYAN;
-        case ColorCode::WHITE:
-            return CACA_WHITE;
-        default:
-            return CACA_BLACK;
+    case ColorCode::BLACK:
+        return CACA_BLACK;
+    case ColorCode::RED:
+        return CACA_RED;
+    case ColorCode::GREEN:
+        return CACA_GREEN;
+    case ColorCode::YELLOW:
+        return CACA_YELLOW;
+    case ColorCode::BLUE:
+        return CACA_BLUE;
+    case ColorCode::MAGENTA:
+        return CACA_MAGENTA;
+    case ColorCode::CYAN:
+        return CACA_CYAN;
+    case ColorCode::WHITE:
+        return CACA_WHITE;
+    default:
+        return CACA_BLACK;
     }
 }
 
 }
-

@@ -36,30 +36,35 @@ void PacmanGame::init()
     _map.push_back(std::string("# ## ### # ### ## #"));
     _map.push_back(std::string("#        #        #"));
     _map.push_back(std::string("###################"));
-
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])
 {
     Event event;
+    // TODO: replace _graphic->pollEvent(event) with _manager->pollEvent(event)
     while (_graphic->pollEvent(event)) {
 
         if (event.type == Event::QUIT) {
             _graphic->close();
         }
         if (event.type == Event::KEYDOWN) {
+            // TODO: remove this condition
             if (event.keyboardInput.keyCode == KeyCode::P)
                 _mustLoadAnotherGraphic = true;
-            if (event.keyboardInput.keyCode == KeyCode::Z && this->getCollide(arc::game::VectorInt(0, -1)) == false) {
-               _player_mov.setValue(0, -1);
+            if (event.keyboardInput.keyCode == KeyCode::Z
+                && this->getCollide(arc::game::VectorInt(0, -1)) == false) {
+                _player_mov.setValue(0, -1);
             }
-            if (event.keyboardInput.keyCode == KeyCode::S && this->getCollide(arc::game::VectorInt(0, 1)) == false) {
+            if (event.keyboardInput.keyCode == KeyCode::S
+                && this->getCollide(arc::game::VectorInt(0, 1)) == false) {
                 _player_mov.setValue(0, 1);
             }
-            if (event.keyboardInput.keyCode == KeyCode::Q && this->getCollide(arc::game::VectorInt(-1, 0)) == false) {
+            if (event.keyboardInput.keyCode == KeyCode::Q
+                && this->getCollide(arc::game::VectorInt(-1, 0)) == false) {
                 _player_mov.setValue(-1, 0);
             }
-            if (event.keyboardInput.keyCode == KeyCode::D && this->getCollide(arc::game::VectorInt(1, 0)) == false) {
+            if (event.keyboardInput.keyCode == KeyCode::D
+                && this->getCollide(arc::game::VectorInt(1, 0)) == false) {
                 _player_mov.setValue(1, 0);
             }
         }
@@ -118,6 +123,8 @@ void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void PacmanGame::destroy() { }
 
+void PacmanGame::setManager(IManager* manager) { _manager = manager; }
+
 bool PacmanGame::getCollide(VectorInt nextPos)
 {
     if (_player.value.x + nextPos.value.x < 0 || _player.value.x + nextPos.value.x > 18)
@@ -134,5 +141,3 @@ void PacmanGame::setManager(IManager *manager [[maybe_unused]])
 }
 
 } // namespace arc::game
-
-

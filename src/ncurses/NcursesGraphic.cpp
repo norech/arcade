@@ -11,6 +11,8 @@
 
 namespace arc::grph {
 
+bool NcursesGraphic::_hasColorsSet = false;
+
 NcursesGraphic::NcursesGraphic() { }
 
 NcursesGraphic::~NcursesGraphic() { }
@@ -21,7 +23,8 @@ void NcursesGraphic::init()
     timeout(25);
     curs_set(0);
     noecho();
-    if (has_colors()) {
+    if (has_colors() && !_hasColorsSet) {
+        _hasColorsSet = true;
         start_color();
         use_default_colors();
         init_color(COLOR_BLACK, 1, 1, 1);
@@ -105,5 +108,8 @@ int NcursesGraphic::getColorIndex(const ColorCode& color)
     }
     return colorId;
 }
-void NcursesGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }
+void NcursesGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
+{
+    return;
+}
 }

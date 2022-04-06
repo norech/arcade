@@ -34,9 +34,11 @@ class NcursesGraphic : public Graphic {
 
     int getColorIndex(const ColorCode& color);
 
-    void registerSprite(game::ISprite &sprite);
+    void registerSprite(game::ISprite& sprite);
 
     WINDOW* _window;
+
+    static bool _hasColorsSet;
 };
 
 } // namespace arc::grph
