@@ -35,6 +35,7 @@ void SdlGraphic::init()
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
+    SDL_SetWindowTitle(_window, "SDL");
     SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
     TTF_Init();
     _font = TTF_OpenFont("./font.ttf", 20);
@@ -53,7 +54,11 @@ void SdlGraphic::clear()
     SDL_RenderClear(_renderer);
 }
 
-void SdlGraphic::render() { SDL_RenderPresent(_renderer); SDL_Delay(25);}
+void SdlGraphic::render()
+{
+    SDL_RenderPresent(_renderer);
+    SDL_Delay(25);
+}
 
 bool SdlGraphic::pollEvent(Event& input [[maybe_unused]])
 {
@@ -65,33 +70,33 @@ bool SdlGraphic::pollEvent(Event& input [[maybe_unused]])
             return (true);
         }
         if (event.type == SDL_KEYDOWN) {
-            switch(event.key.keysym.sym) {
-                case SDLK_DOWN:
-                    input.type = Event::KEYDOWN;
-                    input.keyboardInput.keyCode = KeyCode::S;
-                    return (true);
-                case SDLK_UP:
-                    input.type = Event::KEYDOWN;
-                    input.keyboardInput.keyCode = KeyCode::Z;
-                    return (true);
-                case SDLK_LEFT:
-                    input.type = Event::KEYDOWN;
-                    input.keyboardInput.keyCode = KeyCode::Q;
-                    return (true);
-                case SDLK_RIGHT:
-                    input.type = Event::KEYDOWN;
-                    input.keyboardInput.keyCode = KeyCode::D;
-                    return (true);
-                case SDLK_RETURN:
-                    input.type = Event::KEYDOWN;
-                    input.keyboardInput.keyCode = KeyCode::I;
-                    return (true);
-                case SDLK_SPACE:
-                    input.type = Event::KEYDOWN;
-                    input.keyboardInput.keyCode = KeyCode::U;
-                    return (true);
-                default:
-                    break;
+            switch (event.key.keysym.sym) {
+            case SDLK_DOWN:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::S;
+                return (true);
+            case SDLK_UP:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::Z;
+                return (true);
+            case SDLK_LEFT:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::Q;
+                return (true);
+            case SDLK_RIGHT:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::D;
+                return (true);
+            case SDLK_RETURN:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::I;
+                return (true);
+            case SDLK_SPACE:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::U;
+                return (true);
+            default:
+                break;
             }
             if (event.key.keysym.sym >= 'a' && event.key.keysym.sym <= 'z') {
                 input.type = Event::KEYDOWN;
@@ -133,9 +138,11 @@ void SdlGraphic::destroy()
     _window = nullptr;
 }
 
-
 float SdlGraphic::tick() { return (0.025); }
 
-void SdlGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }
+void SdlGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
+{
+    return;
+}
 
 }

@@ -35,11 +35,12 @@ void arc::grph::SfmlCanvas::drawPoint(int x, int y, const IColor& color)
     this->_graphic->_window.draw(rectangle);
 }
 
-void arc::grph::SfmlCanvas::drawText(int x, int y, const std::string &text, const IColor &color [[maybe_unused]])
+void arc::grph::SfmlCanvas::drawText(
+    int x, int y, const std::string& text, const IColor& color)
 {
     sf::Text toDraw(text, _graphic->_font, 20);
-    toDraw.setFillColor(sf::Color((color.getColorCode() << 8) + 0xFF ));
+    toDraw.setFillColor(sf::Color((color.getColorCode() << 8) + 0xFF));
     toDraw.setPosition((x * 20) + 3, (y * 20) - 3);
-    toDraw.setLetterSpacing(3);
+    toDraw.setLetterSpacing(1);
     this->_graphic->_window.draw(toDraw);
 }

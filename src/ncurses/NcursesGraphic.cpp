@@ -83,28 +83,28 @@ bool NcursesGraphic::pollEvent(Event& input)
     int key = getch();
 
     if (key != ERR) {
-        switch(key) {
-            case KEY_UP:
-                input.keyboardInput.keyCode = KeyCode::Z;
-                break;
-            case KEY_DOWN:
-                input.keyboardInput.keyCode = KeyCode::S;
-                break;
-            case KEY_LEFT:
-                input.keyboardInput.keyCode = KeyCode::Q;
-                break;
-            case KEY_RIGHT:
-                input.keyboardInput.keyCode = KeyCode::D;
-                break;
-            case KEY_ENTER:
-                input.keyboardInput.keyCode = KeyCode::I;
-                break;
-            case ' ':
-                input.keyboardInput.keyCode = KeyCode::U;
-                break;
-            default:
-                input.keyboardInput.keyCode = key;
-                break;
+        switch (key) {
+        case KEY_UP:
+            input.keyboardInput.keyCode = KeyCode::Z;
+            break;
+        case KEY_DOWN:
+            input.keyboardInput.keyCode = KeyCode::S;
+            break;
+        case KEY_LEFT:
+            input.keyboardInput.keyCode = KeyCode::Q;
+            break;
+        case KEY_RIGHT:
+            input.keyboardInput.keyCode = KeyCode::D;
+            break;
+        case KEY_ENTER:
+            input.keyboardInput.keyCode = KeyCode::I;
+            break;
+        case ' ':
+            input.keyboardInput.keyCode = KeyCode::U;
+            break;
+        default:
+            input.keyboardInput.keyCode = key;
+            break;
         }
         input.type = Event::EventType::KEYDOWN;
         return (true);

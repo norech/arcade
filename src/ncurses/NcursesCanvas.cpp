@@ -39,8 +39,8 @@ void NcursesCanvas::drawText(
 {
     int colorId = _graphic->getColorIndex(color.getColorCode()) + 8;
 
-    attron(COLOR_PAIR(colorId));
+    attron(COLOR_PAIR(colorId) | A_BOLD);
     mvprintw(y, x * 2, "%s", text.c_str());
-    attroff(COLOR_PAIR(colorId));
+    attroff(COLOR_PAIR(colorId) | A_BOLD);
 }
 }
