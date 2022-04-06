@@ -12,6 +12,7 @@ void Manager::loadGame(arc::game::IGame* game)
 {
     _game = game;
     _isGameFromLoader = false;
+    _game->setManager(this);
     game->init();
 }
 
@@ -21,6 +22,7 @@ void Manager::loadGame(const std::string& game)
         throw ManagerError("Game already loaded");
     }
     _game = GameLoader::load(game);
+    _game->setManager(this);
     _game->init();
     _isGameFromLoader = true;
 }
@@ -58,7 +60,7 @@ void Manager::init()
     if (_game == nullptr) {
         throw ManagerError("Game not loaded");
     }
-    _game->setManager(this);
+    listGraphics(_graphicPaths);
 }
 
 void Manager::destroy()
@@ -113,6 +115,28 @@ bool Manager::pollEvent(Event& input)
         return false;
     }
     return event;
+}
+
+void Manager::listGames(std::vector<std::string>& games)
+{
+    std::vector<std::string> g = { "./lib/arcade_pacman.so" };
+
+    games.clear();
+    for (auto& game : g) {
+        games.push_back(game);
+    }
+}
+
+void Manager::listGraphics(std::vector<std::string>& graphics)
+{
+    std::vector<std::string> g
+        = { "./lib/arcade_sdl2.so", "./lib/arcade_sfml.so",
+              "./lib/arcade_ncurses.so", "./lib/arcade_libcaca.so" };
+
+    graphics.clear();
+    for (auto& game : g) {
+        graphics.push_back(game);
+    }
 }
 
 } // namespace arc::core

@@ -15,10 +15,12 @@ class GameMenu : public IGame {
  private:
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
-    grph::IGraphic* _graphic;
+    grph::IGraphic* _graphic = nullptr;
     IManager* _manager;
     int _gameIndex = 0;
     int _graphicIndex = 0;
+    std::vector<std::string> _games;
+    std::vector<std::string> _graphics;
     bool _hasSelectedGame = false;
 
  public:
@@ -46,6 +48,10 @@ class GameMenu : public IGame {
     const std::string getSelectedGraphicPath() const;
 
     bool hasSelectedGame() const;
+
+    const IColor& getGameTextColor(int index);
+
+    const IColor& getGraphicTextColor(int index);
 };
 
 } // namespace arc::grph

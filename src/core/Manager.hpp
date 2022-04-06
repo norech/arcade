@@ -9,9 +9,7 @@ class Manager : IManager {
  private:
     grph::IGraphic* _graphic = nullptr;
     game::IGame* _game = nullptr;
-    std::vector<std::string> _graphicPaths
-        = { "./lib/arcade_sdl2.so", "./lib/arcade_sfml.so",
-              "./lib/arcade_ncurses.so", "./lib/arcade_libcaca.so" };
+    std::vector<std::string> _graphicPaths;
     int _currentGraphicId = 0;
     bool _mustLoadAnotherGraphic = false;
     bool _isGameFromLoader = false;
@@ -33,6 +31,8 @@ class Manager : IManager {
     bool canUpdate() override;
     void update() override;
     bool pollEvent(Event& input) override;
+    void listGames(std::vector<std::string>& games);
+    void listGraphics(std::vector<std::string>& graphics);
 };
 
 }
