@@ -65,6 +65,34 @@ bool SdlGraphic::pollEvent(Event& input [[maybe_unused]])
             return (true);
         }
         if (event.type == SDL_KEYDOWN) {
+            switch(event.key.keysym.sym) {
+                case SDLK_DOWN:
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = KeyCode::S;
+                    return (true);
+                case SDLK_UP:
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = KeyCode::Z;
+                    return (true);
+                case SDLK_LEFT:
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = KeyCode::Q;
+                    return (true);
+                case SDLK_RIGHT:
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = KeyCode::D;
+                    return (true);
+                case SDLK_RETURN:
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = KeyCode::I;
+                    return (true);
+                case SDLK_SPACE:
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = KeyCode::U;
+                    return (true);
+                default:
+                    break;
+            }
             if (event.key.keysym.sym >= 'a' && event.key.keysym.sym <= 'z') {
                 input.type = Event::KEYDOWN;
                 input.keyboardInput.keyCode = event.key.keysym.sym;

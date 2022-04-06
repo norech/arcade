@@ -42,7 +42,7 @@ void SdlCanvas::drawPoint(int x, int y, const IColor& color)
 
 void SdlCanvas::drawText(int x [[maybe_unused]], int y [[maybe_unused]], const std::string &text [[maybe_unused]], const IColor &foreColor [[maybe_unused]])
 {
-    SDL_Color color = {static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000) >> 16), static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000) >> 8), static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000)), 255};
+    SDL_Color color = {static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000) << 16), static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000) << 8), static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000)), 255};
     SDL_Surface *surface = TTF_RenderText_Solid(_graphic->_font, text.c_str(), color);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(_graphic->_renderer, surface);
     SDL_Rect trect = {(x * 20) + 3, (y * 20) - 3, 0, 0};

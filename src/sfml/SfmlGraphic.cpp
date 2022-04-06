@@ -52,14 +52,40 @@ bool arc::grph::SfmlGraphic::pollEvent(Event& input [[maybe_unused]])
         return true;
     }
     if (sfmlEvent.type == sf::Event::KeyPressed) {
-        if (sfmlEvent.key.code < sf::Keyboard::A
-            || sfmlEvent.key.code > sf::Keyboard::Z) {
-            return false;
+        switch (sfmlEvent.key.code) {
+            case sf::Keyboard::Left:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::Q;
+                return true;
+            case sf::Keyboard::Right:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::D;
+                return true;
+            case sf::Keyboard::Up:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::Z;
+                return true;
+            case sf::Keyboard::Down:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::S;
+                return true;
+            case sf::Keyboard::Space:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::U;
+                return true;
+            case sf::Keyboard::Return:
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = KeyCode::I;
+                return true;
+            default:
+                if (sfmlEvent.key.code < sf::Keyboard::A
+                    || sfmlEvent.key.code > sf::Keyboard::Z) {
+                    break;
+                }
+                input.type = Event::KEYDOWN;
+                input.keyboardInput.keyCode = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
+                return true;
         }
-        input.type = Event::KEYDOWN;
-        input.keyboardInput.keyCode
-            = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
-        return true;
     }
     return false;
 }

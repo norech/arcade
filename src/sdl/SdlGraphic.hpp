@@ -2,6 +2,7 @@
 
 #include "../common/graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
+#include "spc/common/KeyCode.hpp"
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 

@@ -7,6 +7,7 @@
 
 #include "CacaGraphic.hpp"
 #include "CacaCanvas.hpp"
+#include "spc/common/KeyCode.hpp"
 #include <chrono>
 #include <iostream>
 #include <thread> // std::this_thread::sleep_for
@@ -56,8 +57,30 @@ bool CacaGraphic::pollEvent(Event& event)
         return true;
     }
     if (ev.type == CACA_EVENT_KEY_PRESS) {
+        switch(ev.data.key.ch) {
+            case CACA_KEY_RETURN:
+                event.keyboardInput.keyCode = KeyCode::I;
+                break;
+            case CACA_KEY_UP:
+                event.keyboardInput.keyCode = KeyCode::Z;
+                break;
+            case CACA_KEY_DOWN:
+                event.keyboardInput.keyCode = KeyCode::S;
+                break;
+            case CACA_KEY_LEFT:
+                event.keyboardInput.keyCode = KeyCode::Q;
+                break;
+            case CACA_KEY_RIGHT:
+                event.keyboardInput.keyCode = KeyCode::D;
+                break;
+            case ' ':
+                event.keyboardInput.keyCode = KeyCode::U;
+                break;
+            default:
+                event.keyboardInput.keyCode = ev.data.key.ch;
+                break;
+        }
         event.type = Event::EventType::KEYDOWN;
-        event.keyboardInput.keyCode = ev.data.key.ch;
         return true;
     }
     return false;
