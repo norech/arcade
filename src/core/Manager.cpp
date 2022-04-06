@@ -19,17 +19,17 @@ void Manager::loadGame(const std::string& game)
 
 void Manager::loadGraphic(const std::string& graphic)
 {
+    if (_game == nullptr)
+        throw ManagerError("Game not yet loaded!");
+
     if (_graphic != nullptr) {
-        if (_game != nullptr)
-            _game->unloadGraphic();
+        _game->unloadGraphic();
         _graphic->destroy();
         GraphicLoader::unload(_graphic);
     }
     _graphic = GraphicLoader::load(graphic);
     _graphic->init();
 
-    if (_game == nullptr)
-        throw ManagerError("Game not yet loaded!");
     _game->loadGraphic(_graphic);
 }
 
