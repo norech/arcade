@@ -13,7 +13,7 @@
 
 namespace arc::core {
 
-template <typename T>
+template <DLType Type, typename T>
 class Loader {
  private:
     typedef T* (*LoaderFunction)();
@@ -38,10 +38,10 @@ class Loader {
         if (!getType) {
             throw LoaderError(dlerror());
         }
-        int type = getType();
-        if (type != DLType::GRAPHICAL && type != DLType::GAME) {
-            throw LoaderError("Trying to load a library that is not of game or "
-                              "graphical type");
+        int libType = getType();
+        if (libType != Type) {
+            throw LoaderError("Trying to load a library that is"
+                              " not of correct type.");
         }
 
         T* ret = load();
@@ -70,10 +70,10 @@ class Loader {
         if (!getType) {
             throw LoaderError(dlerror());
         }
-        int type = getType();
-        if (type != DLType::GRAPHICAL && type != DLType::GAME) {
-            throw LoaderError("Trying to unload a library that is not of game "
-                              "or graphical type");
+        int libType = getType();
+        if (libType != Type) {
+            throw LoaderError("Trying to unload a library that is"
+                              " not of correct type.");
         }
 
         UnloaderFunction unload = (UnloaderFunction)dlsym(handle, "unexpose");

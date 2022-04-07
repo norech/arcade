@@ -5,8 +5,8 @@
 
 namespace arc::core {
 
-using GraphicLoader = arc::core::Loader<grph::IGraphic>;
-using GameLoader = arc::core::Loader<game::IGame>;
+using GraphicLoader = arc::core::Loader<DLType::GRAPHICAL, grph::IGraphic>;
+using GameLoader = arc::core::Loader<DLType::GAME, game::IGame>;
 
 void Manager::loadGame(arc::game::IGame* game)
 {
