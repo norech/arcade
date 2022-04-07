@@ -54,6 +54,11 @@
         "hash_map": "cpp",
         "list": "cpp",
         "ctime": "cpp",
+<<<<<<< HEAD
+        "map": "cpp",
+        "ranges": "cpp"
+=======
         "map": "cpp"
+>>>>>>> cmake
     }
 }
