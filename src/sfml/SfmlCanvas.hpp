@@ -10,23 +10,25 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "spc/graphic/ICanvas.hpp"
+#include "../common/Canvas.hpp"
 #include "SfmlGraphic.hpp"
 
 namespace arc::grph {
-    class SfmlCanvas : public ICanvas {
-        public:
-            SfmlCanvas(SfmlGraphic *graphic);
-            ~SfmlCanvas();
+class SfmlCanvas : public Canvas {
+ public:
+    SfmlCanvas(SfmlGraphic* graphic);
+    ~SfmlCanvas();
 
-            void startDraw() override;
-            void endDraw() override;
-            void drawPoint(int x, int y, const IColor &color) override;
+    CanvasCapacity getCapacities() const override;
+    void startDraw() override;
+    void endDraw() override;
+    void drawPoint(int x, int y, const IColor& color) override;
+    void drawText(int x, int y, const std::string &text, const IColor &color);
 
-        protected:
-        private:
-            SfmlGraphic *_graphic;
-    };
+ protected:
+ private:
+    SfmlGraphic* _graphic;
+};
 }
 
 #endif /* !SFMLCANVAS_HPP_ */

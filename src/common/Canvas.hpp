@@ -10,17 +10,31 @@
 
 namespace arc::grph {
 
-    class Canvas : public ICanvas
+class Canvas : public ICanvas {
+ public:
+    Canvas() = default;
+    ~Canvas() = default;
+
+    CanvasCapacity getCapacities() const override
     {
-        public:
-            Canvas() = default;
-            ~Canvas() = default;
+        return CanvasCapacity::NONE;
+    }
 
-            void startDraw() override {}
-            void endDraw() override {}
+    void startDraw() override { }
+    void endDraw() override { }
 
-            void drawPoint(int x [[maybe_unused]], int y [[maybe_unused]], const IColor &color [[maybe_unused]]) override {}
+    void drawPoint(int x [[maybe_unused]], int y [[maybe_unused]],
+        const IColor& color [[maybe_unused]]) override
+    {
+    }
 
-    };
+    void drawText(int x [[maybe_unused]], int y [[maybe_unused]],
+        const std::string& text [[maybe_unused]],
+        const IColor& foreColor [[maybe_unused]]) override
+    {
+    }
+
+    void drawSprite(const game::ISprite& sprite [[maybe_unused]]) override { }
+};
 
 }

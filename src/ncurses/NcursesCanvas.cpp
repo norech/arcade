@@ -19,6 +19,11 @@ void NcursesCanvas::startDraw() { }
 
 void NcursesCanvas::endDraw() { }
 
+CanvasCapacity NcursesCanvas::getCapacities() const
+{
+    return CanvasCapacity::BASIC;
+}
+
 void NcursesCanvas::drawPoint(int x, int y, const IColor& color)
 {
     int colorId = _graphic->getColorIndex(color.getColorCode());
@@ -27,5 +32,15 @@ void NcursesCanvas::drawPoint(int x, int y, const IColor& color)
     mvaddch(y, x * 2, color.getSymbol());
     mvaddch(y, x * 2 + 1, ' ');
     attroff(COLOR_PAIR(colorId));
+}
+
+void NcursesCanvas::drawText(
+    int x, int y, const std::string& text, const IColor& color [[maybe_unused]])
+{
+    int colorId = _graphic->getColorIndex(color.getColorCode()) + 8;
+
+    attron(COLOR_PAIR(colorId) | A_BOLD);
+    mvprintw(y, x * 2, "%s", text.c_str());
+    attroff(COLOR_PAIR(colorId) | A_BOLD);
 }
 }

@@ -77,6 +77,7 @@ void arc::game::NibblerGame::render() {
     _graphic->clear();
     _canvas->startDraw();
 
+    _canvas->drawText(1, 23, "Score:", this->_palette[1]);
     this->drawMap();
     this->drawTail();
 
@@ -97,6 +98,11 @@ void arc::game::NibblerGame::unloadGraphic() {
 bool arc::game::NibblerGame::mustLoadAnotherGraphic() const {
     return this->_mustLoadAnotherGraphic;
 };
+
+void arc::game::NibblerGame::setManager(IManager* manager)
+{
+    _manager = manager;
+}
 
 void arc::game::NibblerGame::destroy() {}
 
@@ -139,7 +145,7 @@ void arc::game::NibblerGame::movePlayer()
 {
     size_t y = 0;
 
-    if (!this->check_wall(_position.at(0).at(1), _position.at(0).at(0), _map) && _move == 100) {
+    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) != '#' && _move == 7) {
         _position.at(0).at(0) += _velocityX;
         _position.at(0).at(1) += _velocityY;
         for (size_t i = 1; i < _position.size(); i++) {
@@ -176,27 +182,27 @@ void arc::game::NibblerGame::collision()
 
 bool arc::game::NibblerGame::check_wall(int x, int y, std::vector<std::string> map)
 {
-    if (map.at(y - 1).at(x) == '#') {
+    if (map.at(y - 1).at(x) == '#' && _velocityY == -1) {
         std::cout << "left: " << x << " " << y << std::endl;
         return true;
     }
-    if (map.at(y + 1).at(x) == '#') {
+    if (map.at(y + 1).at(x) == '#' && _velocityY == 1) {
         std::cout << "right: " << x << " " << y << std::endl;
         return true;
     }
-    if (map.at(y).at(x - 1) == '#') {
+    if (map.at(y).at(x - 1) == '#' && _velocityX == -1) {
         std::cout << "up: " << x << " " << y << std::endl;
         return true;
     }
-    if (map.at(y).at(x + 1) == '#') {
+    if (map.at(y).at(x + 1) == '#' && _velocityX == 1) {
         std::cout << "down: " << x << " " << y << std::endl;
         return true;
     }
-    if (map.at(y).at(x) == '#') {
-        std::cout << "middle: " << x << " " << y << std::endl;
-        this->collision();
-        return true;
-    }
+    //if (map.at(y).at(x) == '#') {
+    //    std::cout << "middle: " << x << " " << y << std::endl;
+    //    this->collision();
+    //    return true;
+    //}
     return false;
 }
 

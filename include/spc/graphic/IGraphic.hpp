@@ -8,6 +8,8 @@
 #include <memory>
 
 #include "../common/Event.hpp"
+#include "../common/IManager.hpp"
+#include "../game/ISprite.hpp"
 #include "./ICanvas.hpp"
 
 namespace arc::grph {
@@ -60,8 +62,8 @@ public:
      * @param input An event to fill.
      *
      * @return true An input was found since the last call to this method.
-     * The input is then available in the `getLastInput` method.
      * @return false No input was found since the last call to this method.
+     * @note The games should use IManager::pollEvent instead.
      */
     virtual bool pollEvent(Event &input) = 0;
 
@@ -78,6 +80,11 @@ public:
      * Is a modifiable shared pointer to the canvas.
      */
     virtual void unloadCanvas(std::shared_ptr<ICanvas> &canvas) = 0;
+
+    /**
+     * @brief Registers the sprite to the graphical library
+     */
+    virtual void registerSprite(game::ISprite &sprite) = 0;
 
     /**
      * @brief Destroy the graphical library.

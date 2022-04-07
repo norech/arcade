@@ -8,6 +8,7 @@
 API_DIR = $(PWD)/include/spc
 
 all:
+	mkdir -p lib
 	make -C src/common/
 	make -C src/core/
 	make -C src/ncurses/
@@ -15,20 +16,25 @@ all:
 	make -C src/pacman/
 	make -C src/sfml/
 	make -C src/nibbler
+	make -C src/libcaca/
 
 core:
+	mkdir -p lib
 	make -C src/core/
 
 games:
+	mkdir -p lib
 	make -C src/common/
 	make -C src/pacman/
 	make -C src/nibbler/
 
 graphicals:
+	mkdir -p lib
 	make -C src/common/
 	make -C src/ncurses/
 	make -C src/sdl/
 	make -C src/sfml/
+	make -C src/libcaca/
 
 clean:
 	make -C src/common/ clean
@@ -38,6 +44,7 @@ clean:
 	make -C src/pacman/ clean
 	make -C src/sfml/ clean
 	make -C src/nibbler/ clean
+	make -C src/libcaca/ clean
 
 fclean:
 	make -C src/common/ fclean
@@ -47,7 +54,7 @@ fclean:
 	make -C src/pacman/ fclean
 	make -C src/sfml/ fclean
 	make -C src/nibbler/ fclean
-
+	make -C src/libcaca/ fclean
 api:
 	git clone git@github.com:norech/special-arcade.git /tmp/arcade
 	cd /tmp/arcade && git checkout impl1

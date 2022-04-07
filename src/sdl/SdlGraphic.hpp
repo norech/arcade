@@ -2,8 +2,9 @@
 
 #include "../common/graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
-#include <SDL2/SDL.h>
+#include "spc/common/KeyCode.hpp"
 #include <iostream>
+#include <SDL2/SDL_ttf.h>
 
 namespace arc::grph {
 
@@ -25,9 +26,12 @@ class SdlGraphic : public Graphic {
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
+    void registerSprite(game::ISprite &sprite);
+
     void destroy() override;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
+    TTF_Font *_font;
 
  private:
     std::string _name;

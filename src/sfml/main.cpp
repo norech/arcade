@@ -6,8 +6,10 @@
 */
 
 #include "SfmlGraphic.hpp"
+#include "spc/common/DLType.hpp"
 
 extern "C" {
+arc::DLType getType(void) { return arc::DLType::GRAPHICAL; }
 arc::grph::IGraphic* expose(void) { return new arc::grph::SfmlGraphic(); }
 void unexpose(arc::grph::IGraphic* g) { delete g; }
 }

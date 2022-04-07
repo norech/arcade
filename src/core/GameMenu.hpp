@@ -8,28 +8,24 @@
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
-#include "../common/VectorInt.hpp"
-
 
 namespace arc::game {
 
-class PacmanGame : public IGame {
+class GameMenu : public IGame {
  private:
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
-    grph::IGraphic* _graphic;
+    grph::IGraphic* _graphic = nullptr;
     IManager* _manager;
-    bool _mustLoadAnotherGraphic = false;
-    VectorInt _player;
-    VectorInt _player_mov;
-    int _score = 0;
-    VectorInt _Blink;
-    std::vector<std::string> _map;
-    float _timer;
+    int _gameIndex = 0;
+    int _graphicIndex = 0;
+    std::vector<std::string> _games;
+    std::vector<std::string> _graphics;
+    bool _hasSelectedGame = false;
 
  public:
-    PacmanGame() = default;
-    ~PacmanGame() = default;
+    GameMenu() = default;
+    ~GameMenu() = default;
 
     void init() override;
 
@@ -43,11 +39,19 @@ class PacmanGame : public IGame {
 
     void unloadGraphic() override;
 
-    void setManager(IManager *manager) override;
+    void setManager(IManager* manager) override;
 
     void destroy() override;
 
-    bool getCollide(VectorInt nextPos);
+    const std::string getSelectedGamePath() const;
+
+    const std::string getSelectedGraphicPath() const;
+
+    bool hasSelectedGame() const;
+
+    const IColor& getGameTextColor(int index);
+
+    const IColor& getGraphicTextColor(int index);
 };
 
 } // namespace arc::grph

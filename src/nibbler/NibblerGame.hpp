@@ -27,6 +27,7 @@ namespace arc::game {
             void loadGraphic(grph::IGraphic* graphic) override;
             void unloadGraphic() override;
             bool mustLoadAnotherGraphic() const override;
+            void setManager(IManager* manager) override;
             void destroy() override;
 
             void initMap();
@@ -43,6 +44,7 @@ namespace arc::game {
             grph::Palette _palette;
             std::shared_ptr<grph::ICanvas> _canvas;
             grph::IGraphic* _graphic;
+            IManager* _manager;
             bool _mustLoadAnotherGraphic = false;
             int _playerX = 0;
             int _playerY = 0;
