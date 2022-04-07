@@ -4,12 +4,12 @@
 
 #include <ncurses.h>
 
-#include "../common/graphic.hpp"
+#include "../common/Graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
 
 namespace arc::grph {
 
-class CacaGraphic : public Graphic {
+class CacaGraphic : public AGraphic {
  public:
     CacaGraphic();
     ~CacaGraphic();

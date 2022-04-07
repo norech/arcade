@@ -36,7 +36,7 @@ void SdlGraphic::init()
         std::exit(84);
     }
     SDL_SetWindowTitle(_window, "SDL");
-    SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
+    //SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
     TTF_Init();
     _font = TTF_OpenFont("./font.ttf", 20);
 

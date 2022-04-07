@@ -13,9 +13,10 @@
 
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
+#include "../common/Graphic.hpp"
 
 namespace arc::grph {
-class SfmlGraphic : public IGraphic {
+class SfmlGraphic : public AGraphic {
  public:
     SfmlGraphic();
     ~SfmlGraphic();

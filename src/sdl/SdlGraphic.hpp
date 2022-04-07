@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common/graphic.hpp"
+#include "../common/Graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
 #include "spc/common/KeyCode.hpp"
 #include <iostream>
@@ -8,7 +8,7 @@
 
 namespace arc::grph {
 
-class SdlGraphic : public Graphic {
+class SdlGraphic : public AGraphic {
  public:
     SdlGraphic();
     ~SdlGraphic();

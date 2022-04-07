@@ -2,12 +2,12 @@
 
 #include <ncurses.h>
 
-#include "../common/graphic.hpp"
+#include "../common/Graphic.hpp"
 #include "spc/graphic/IGraphic.hpp"
 
 namespace arc::grph {
 
-class NcursesGraphic : public Graphic {
+class NcursesGraphic : public AGraphic {
  public:
     NcursesGraphic();
     ~NcursesGraphic();

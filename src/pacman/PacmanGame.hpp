@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "../common/Palette.hpp"
-#include "../common/VectorInt.hpp"
+#include "../common/Game.hpp"
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
@@ -13,7 +13,7 @@
 
 namespace arc::game {
 
-class PacmanGame : public IGame {
+class PacmanGame : public AGame {
  private:
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;

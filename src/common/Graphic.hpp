@@ -10,10 +10,10 @@
 
 namespace arc::grph {
 
-class Graphic : public IGraphic {
+class AGraphic : public IGraphic {
  public:
-    Graphic() = default;
-    ~Graphic() = default;
+    AGraphic() = default;
+    ~AGraphic() = default;
 
     void init() override { }
     void close() override { }
