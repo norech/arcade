@@ -139,7 +139,7 @@ void arc::game::NibblerGame::movePlayer()
 {
     size_t y = 0;
 
-    if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) != '#' && _move == 100) {
+    if (!this->check_wall(_position.at(0).at(1), _position.at(0).at(0), _map) && _move == 100) {
         _position.at(0).at(0) += _velocityX;
         _position.at(0).at(1) += _velocityY;
         for (size_t i = 1; i < _position.size(); i++) {
@@ -172,6 +172,32 @@ void arc::game::NibblerGame::collision()
     if (_map.at(_position.at(0).at(1)).at(_position.at(0).at(0)) == '#' && _velocityY == -1) {
         _position.at(0).at(1)++;
     }
+}
+
+bool arc::game::NibblerGame::check_wall(int x, int y, std::vector<std::string> map)
+{
+    if (map.at(y - 1).at(x) == '#') {
+        std::cout << "left: " << x << " " << y << std::endl;
+        return true;
+    }
+    if (map.at(y + 1).at(x) == '#') {
+        std::cout << "right: " << x << " " << y << std::endl;
+        return true;
+    }
+    if (map.at(y).at(x - 1) == '#') {
+        std::cout << "up: " << x << " " << y << std::endl;
+        return true;
+    }
+    if (map.at(y).at(x + 1) == '#') {
+        std::cout << "down: " << x << " " << y << std::endl;
+        return true;
+    }
+    if (map.at(y).at(x) == '#') {
+        std::cout << "middle: " << x << " " << y << std::endl;
+        this->collision();
+        return true;
+    }
+    return false;
 }
 
 void arc::game::NibblerGame::tailPosition()

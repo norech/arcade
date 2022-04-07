@@ -36,7 +36,7 @@ namespace arc::game {
             void tailPosition();
             void drawTail();
             void eatFood();
-            void followTail(std::vector<std::vector<int>> position, size_t pos, int px, int py);
+            bool check_wall(int x, int y, std::vector<std::string> map);
 
         protected:
         private:
