@@ -31,7 +31,7 @@ void GameMenu::init()
 void GameMenu::update(float dt [[maybe_unused]])
 {
     Event event;
-    while (_manager->pollEvent(event)) {
+    while (_graphic->pollEvent(event)) {
         if (event.type == Event::QUIT) {
             _graphic->close();
         }
