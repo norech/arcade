@@ -11,22 +11,24 @@ int main()
 {
     arc::core::Manager manager;
     arc::game::GameMenu gameMenu;
+    manager.init();
 
     manager.loadGame(&gameMenu);
     manager.loadGraphic("./lib/arcade_sdl2.so");
 
-    manager.init();
     while (manager.canUpdate()) {
         manager.update();
     }
-    manager.destroy();
 
-    if (!gameMenu.hasSelectedGame())
+    if (!gameMenu.hasSelectedGame()) {
+        manager.destroy();
         return 0;
+    }
+    manager.unloadGraphic();
+    manager.unloadGame();
     manager.loadGame(gameMenu.getSelectedGamePath());
     manager.loadGraphic(gameMenu.getSelectedGraphicPath());
 
-    manager.init();
     while (manager.canUpdate()) {
         manager.update();
     }

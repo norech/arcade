@@ -10,10 +10,16 @@ using GameLoader = arc::core::Loader<game::IGame>;
 
 void Manager::loadGame(arc::game::IGame* game)
 {
+    if (_game != nullptr) {
+        throw ManagerError("Game already loaded");
+    }
+    if (game == nullptr) {
+        throw ManagerError("Game is null");
+    }
     _game = game;
-    _isGameFromLoader = false;
     _game->setManager(this);
     game->init();
+    _isGameFromLoader = false;
 }
 
 void Manager::loadGame(const std::string& game)
@@ -44,6 +50,31 @@ void Manager::loadGraphic(const std::string& graphic)
     _game->loadGraphic(_graphic);
 }
 
+void Manager::unloadGame()
+{
+    if (_game == nullptr)
+        throw ManagerError("Game not yet loaded!");
+    if (_graphic != nullptr)
+        _game->unloadGraphic();
+    _game->destroy();
+    if (_isGameFromLoader) {
+        GameLoader::unload(_game);
+    }
+    _game = nullptr;
+}
+
+void Manager::unloadGraphic()
+{
+    if (_graphic == nullptr)
+        throw ManagerError("Graphic not yet loaded!");
+    if (_game != nullptr)
+        _game->unloadGraphic();
+    _graphic->destroy();
+    if (_isGraphicFromLoader) {
+        GraphicLoader::unload(_graphic);
+    }
+    _graphic = nullptr;
+}
 game::IGame* Manager::getGame() { return _game; }
 
 grph::IGraphic* Manager::getGraphic() { return _graphic; }
@@ -52,16 +83,7 @@ void Manager::setGraphic(grph::IGraphic* graphic) { _graphic = graphic; }
 
 void Manager::setGame(game::IGame* game) { _game = game; }
 
-void Manager::init()
-{
-    if (_graphic == nullptr) {
-        throw ManagerError("Graphic not loaded");
-    }
-    if (_game == nullptr) {
-        throw ManagerError("Game not loaded");
-    }
-    listGraphics(_graphicPaths);
-}
+void Manager::init() { listGraphics(_graphicPaths); }
 
 void Manager::destroy()
 {

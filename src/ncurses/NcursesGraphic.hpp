@@ -9,8 +9,8 @@ namespace arc::grph {
 
 class NcursesGraphic : public Graphic {
  public:
-    NcursesGraphic();
-    ~NcursesGraphic();
+    NcursesGraphic() = default;
+    ~NcursesGraphic() = default;
 
     void init() override;
 
@@ -36,9 +36,12 @@ class NcursesGraphic : public Graphic {
 
     void registerSprite(game::ISprite& sprite);
 
+ private:
     WINDOW* _window;
 
     static bool _hasColorsSet;
+
+    bool _willBeClosed = false;
 };
 
 } // namespace arc::grph

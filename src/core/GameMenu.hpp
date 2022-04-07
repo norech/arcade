@@ -19,6 +19,7 @@ class GameMenu : public IGame {
     IManager* _manager;
     int _gameIndex = 0;
     int _graphicIndex = 0;
+    bool gameSelected = false;
     std::vector<std::string> _games;
     std::vector<std::string> _graphics;
     bool _hasSelectedGame = false;

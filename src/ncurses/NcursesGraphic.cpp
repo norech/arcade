@@ -14,10 +14,6 @@ namespace arc::grph {
 
 bool NcursesGraphic::_hasColorsSet = false;
 
-NcursesGraphic::NcursesGraphic() { }
-
-NcursesGraphic::~NcursesGraphic() { }
-
 void NcursesGraphic::init()
 {
     _window = initscr();
@@ -51,6 +47,8 @@ void NcursesGraphic::init()
 
 bool NcursesGraphic::isOpen()
 {
+    if (_willBeClosed)
+        return false;
     if (_window == nullptr) {
         return false;
     } else {
@@ -58,13 +56,9 @@ bool NcursesGraphic::isOpen()
     }
 }
 
-void NcursesGraphic::close()
-{
-    echo();
-    endwin();
-}
+void NcursesGraphic::close() { _willBeClosed = true; }
 
-void NcursesGraphic::render() { refresh(); }
+void NcursesGraphic::render() { wrefresh(_window); }
 
 void NcursesGraphic::clear()
 {
@@ -124,7 +118,11 @@ void NcursesGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
     canvas.reset();
 }
 
-void NcursesGraphic::destroy() { this->close(); }
+void NcursesGraphic::destroy()
+{
+    echo();
+    endwin();
+}
 
 int NcursesGraphic::getColorIndex(const ColorCode& color)
 {

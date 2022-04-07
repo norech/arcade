@@ -14,10 +14,6 @@
 
 namespace arc::grph {
 
-CacaGraphic::CacaGraphic() { }
-
-CacaGraphic::~CacaGraphic() { }
-
 void CacaGraphic::init()
 {
     _display = caca_create_display(NULL);

@@ -1,4 +1,3 @@
-
 #include "GameMenu.hpp"
 #include "../common/VectorInt.hpp"
 #include "Manager.hpp"
@@ -15,6 +14,7 @@ void GameMenu::init()
     manager->listGraphics(_graphics);
     _palette.setColor(0, '>', YELLOW);
     _palette.setColor(1, ' ', WHITE);
+    _palette.setColor(2, ' ', BLUE);
 }
 
 void GameMenu::update(float dt [[maybe_unused]])
@@ -25,15 +25,28 @@ void GameMenu::update(float dt [[maybe_unused]])
             _graphic->close();
         }
         if (event.type == Event::KEYDOWN) {
-            if (event.keyboardInput.keyCode == KeyCode::Z)
-                _gameIndex--;
-            if (event.keyboardInput.keyCode == KeyCode::S)
-                _gameIndex++;
+            if (event.keyboardInput.keyCode == KeyCode::Z) {
+                if (_hasSelectedGame)
+                    _gameIndex--;
+                else
+                    _graphicIndex--;
+            }
+            if (event.keyboardInput.keyCode == KeyCode::S) {
+                if (_hasSelectedGame)
+                    _graphicIndex++;
+                else
+                    _gameIndex++;
+            }
+            if (event.keyboardInput.keyCode == KeyCode::Q
+                || event.keyboardInput.keyCode == KeyCode::D) {
+                _hasSelectedGame = !_hasSelectedGame;
+            }
             if (event.keyboardInput.keyCode == KeyCode::I) {
                 _hasSelectedGame = true;
                 _graphic->close();
             }
             _gameIndex = _gameIndex % _games.size();
+            _graphicIndex = _graphicIndex % _graphics.size();
         }
     }
 }
@@ -44,9 +57,11 @@ const IColor& GameMenu::getGameTextColor(int index)
 {
     const IColor& selectedColor = this->_palette[0];
     const IColor& textColor = this->_palette[1];
+    const IColor& disabledColor = this->_palette[2];
 
     if (index == _gameIndex)
-        return selectedColor;
+        return _hasSelectedGame ? disabledColor : selectedColor;
+    return _hasSelectedGame ? textColor : textColor;
     return textColor;
 }
 
@@ -54,10 +69,11 @@ const IColor& GameMenu::getGraphicTextColor(int index)
 {
     const IColor& selectedColor = this->_palette[0];
     const IColor& textColor = this->_palette[1];
+    const IColor& disabledColor = this->_palette[2];
 
-    if (index == _gameIndex)
-        return selectedColor;
-    return textColor;
+    if (index == _graphicIndex)
+        return !_hasSelectedGame ? disabledColor : selectedColor;
+    return !_hasSelectedGame ? textColor : textColor;
 }
 
 void GameMenu::render()
