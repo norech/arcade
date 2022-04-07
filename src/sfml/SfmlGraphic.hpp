@@ -17,8 +17,8 @@
 namespace arc::grph {
 class SfmlGraphic : public IGraphic {
  public:
-    SfmlGraphic();
-    ~SfmlGraphic();
+    SfmlGraphic() = default;
+    ~SfmlGraphic() = default;
 
     void init() override;
     bool isOpen() override;
@@ -30,7 +30,7 @@ class SfmlGraphic : public IGraphic {
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void destroy() override;
     void clear() override;
-    void registerSprite(game::ISprite &sprite);
+    void registerSprite(game::ISprite& sprite);
 
     sf::RenderWindow _window;
     sf::Font _font;

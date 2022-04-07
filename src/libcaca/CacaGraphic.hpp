@@ -11,8 +11,8 @@ namespace arc::grph {
 
 class CacaGraphic : public Graphic {
  public:
-    CacaGraphic();
-    ~CacaGraphic();
+    CacaGraphic() = default;
+    ~CacaGraphic() = default;
 
     void init() override;
 

@@ -20,6 +20,8 @@ class Manager : IManager {
     ~Manager() = default;
 
     void loadGame(arc::game::IGame* game);
+    void unloadGame();
+    void unloadGraphic();
     void loadGame(const std::string& gamePath) override;
     void loadGraphic(const std::string& graphicPath) override;
     grph::IGraphic* getGraphic() override;
