@@ -2,6 +2,7 @@
 #include "./Loader.hpp"
 #include "./ManagerError.hpp"
 #include "spc/common/KeyCode.hpp"
+#include <filesystem>
 
 namespace arc::core {
 
@@ -87,14 +88,18 @@ void Manager::init() { listGraphics(_graphicPaths); }
 
 void Manager::destroy()
 {
-    _game->unloadGraphic();
-    _graphic->destroy();
-    _game->destroy();
-    if (_isGameFromLoader) {
-        GameLoader::unload(_game);
+    if (_graphic != nullptr) {
+        _game->unloadGraphic();
+        _graphic->destroy();
+        if (_isGraphicFromLoader) {
+            GraphicLoader::unload(_graphic);
+        }
     }
-    if (_isGraphicFromLoader) {
-        GraphicLoader::unload(_graphic);
+    if (_game != nullptr) {
+        _game->destroy();
+        if (_isGameFromLoader) {
+            GameLoader::unload(_game);
+        }
     }
     _isGraphicFromLoader = false;
     _isGameFromLoader = false;
@@ -115,16 +120,11 @@ void Manager::update()
     _game->update(_graphic->tick());
     _game->render();
     if (_mustLoadAnotherGraphic || _game->mustLoadAnotherGraphic()) {
-        _game->unloadGraphic();
-        _graphic->destroy();
-        GraphicLoader::unload(_graphic);
-        _graphic = nullptr;
+        unloadGraphic();
 
         _mustLoadAnotherGraphic = false;
         _currentGraphicId = (_currentGraphicId + 1) % _graphicPaths.size();
-        _graphic = GraphicLoader::load(_graphicPaths[_currentGraphicId]);
-        _graphic->init();
-        _game->loadGraphic(_graphic);
+        loadGraphic(_graphicPaths[_currentGraphicId]);
     }
 }
 
@@ -141,24 +141,24 @@ bool Manager::pollEvent(Event& input)
 
 void Manager::listGames(std::vector<std::string>& games)
 {
-    std::vector<std::string> g = { "./lib/arcade_pacman.so" };
-
     games.clear();
-    for (auto& game : g) {
-        games.push_back(game);
+    for (auto& lib : std::filesystem::directory_iterator("./lib")) {
+        if (GameLoader::isLoadable(lib.path()))
+            games.push_back(lib.path());
     }
+    if (games.size() == 0)
+        throw ManagerError("No games has been found in ./lib");
 }
 
 void Manager::listGraphics(std::vector<std::string>& graphics)
 {
-    std::vector<std::string> g
-        = { "./lib/arcade_sdl2.so", "./lib/arcade_sfml.so",
-              "./lib/arcade_ncurses.so", "./lib/arcade_libcaca.so" };
-
     graphics.clear();
-    for (auto& game : g) {
-        graphics.push_back(game);
+    for (auto& lib : std::filesystem::directory_iterator("./lib")) {
+        if (GraphicLoader::isLoadable(lib.path()))
+            graphics.push_back(lib.path());
     }
+    if (graphics.size() == 0)
+        throw ManagerError("No graphic library has been found in ./lib");
 }
 
 } // namespace arc::core
