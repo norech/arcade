@@ -40,6 +40,7 @@ class Loader {
         }
         int libType = getType();
         if (libType != Type) {
+            dlclose(handle);
             throw LoaderError("Trying to load a library that is"
                               " not of correct type.");
         }
