@@ -34,6 +34,10 @@ void runArcade(const std::string& graphic)
     manager.init();
 
     showGameMenu(manager, gameMenu, graphic);
+    if (!gameMenu.hasSelectedGame()) {
+        manager.destroy();
+        return;
+    }
     manager.loadGame(gameMenu.getSelectedGamePath());
     manager.loadGraphic(gameMenu.getSelectedGraphicPath());
 

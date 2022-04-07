@@ -22,7 +22,10 @@ class GameMenu : public IGame {
     bool gameSelected = false;
     std::vector<std::string> _games;
     std::vector<std::string> _graphics;
+    std::vector<std::string> _gamesNames;
+    std::vector<std::string> _graphicsNames;
     bool _hasSelectedGame = false;
+    bool _hasValidatedInput = false;
 
  public:
     GameMenu() = default;

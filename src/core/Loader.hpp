@@ -19,9 +19,42 @@ class Loader {
     typedef T* (*LoaderFunction)();
     typedef void (*UnloaderFunction)(T*);
     typedef DLType (*GetTypeFunction)();
+    typedef char* (*GetNameFunction)();
     static inline std::unordered_map<T*, void*> _loaded;
 
  public:
+    static std::string getName(const std::string& name)
+    {
+        void* handle = dlopen(name.c_str(), RTLD_LAZY);
+        if (!handle) {
+            throw LoaderError(dlerror());
+        }
+
+        GetNameFunction getName = (GetNameFunction)dlsym(handle, "getName");
+        if (!getName) {
+            return name;
+        }
+        std::string libName = getName();
+        dlclose(handle);
+        return (libName);
+    }
+
+    static bool isLoadable(const std::string& name)
+    {
+        void* handle = dlopen(name.c_str(), RTLD_LAZY);
+        if (!handle) {
+            throw LoaderError(dlerror());
+        }
+
+        GetTypeFunction getType = (GetTypeFunction)dlsym(handle, "getType");
+        if (!getType) {
+            throw LoaderError(dlerror());
+        }
+        int libType = getType();
+        dlclose(handle);
+        return (libType == Type);
+    }
+
     static T* load(const std::string& name)
     {
         void* handle = dlopen(name.c_str(), RTLD_LAZY);

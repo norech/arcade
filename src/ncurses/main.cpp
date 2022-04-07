@@ -6,6 +6,7 @@
 #include "spc/graphic/IGraphic.hpp"
 
 extern "C" {
+const char* getName(void) { return "ncurses"; }
 arc::DLType getType(void) { return arc::DLType::GRAPHICAL; }
 arc::grph::IGraphic* expose(void) { return new arc::grph::NcursesGraphic(); }
 void unexpose(arc::grph::NcursesGraphic* g) { delete g; }
