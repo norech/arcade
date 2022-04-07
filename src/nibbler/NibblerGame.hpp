@@ -9,8 +9,10 @@
 #define NIBBLERGAME_HPP_
 
 #include <vector>
+#include <memory>
 
 #include "../common/Palette.hpp"
+#include "../common/VectorInt.hpp"
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
@@ -54,8 +56,8 @@ namespace arc::game {
             int _move = 0;
             int _turn = 0;
             std::vector<std::string> _map;
-            std::vector<std::vector<int>> _position;
-            std::vector<std::vector<int>> _pos_copy;
+            std::vector<Vector2> _position;
+            std::vector<Vector2> _pos_copy;
     };
 };
 
