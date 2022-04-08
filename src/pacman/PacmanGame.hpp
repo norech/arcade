@@ -15,6 +15,11 @@ namespace arc::game {
 
 class PacmanGame : public IGame {
  private:
+    typedef struct score_s {
+       size_t score;
+       char name[8];
+    } score_t;
+    score_t score[3];
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic;
@@ -22,10 +27,12 @@ class PacmanGame : public IGame {
     bool _mustLoadAnotherGraphic = false;
     VectorInt _player;
     VectorInt _player_mov;
-    int _score = 0;
     VectorInt _Blink;
     std::vector<std::string> _map;
+    std::vector<std::string> _mapCpy;
+    size_t _score;
     float _timer;
+
 
  public:
     PacmanGame() = default;
@@ -48,6 +55,12 @@ class PacmanGame : public IGame {
     void destroy() override;
 
     bool getCollide(VectorInt nextPos);
+
+    void reset(void);
+
+    void hardReset(void);
+    void eat(const VectorInt &vec);
+    void printScore();
 };
 
 } // namespace arc::grph

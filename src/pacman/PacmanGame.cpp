@@ -10,32 +10,39 @@ namespace arc::game {
 void PacmanGame::init()
 {
     _timer = 0;
-    _player = VectorInt(9, 15);
+    _player = VectorInt(11, 17);
     _player_mov = VectorInt(-1, 0);
     _Blink = VectorInt(9, 9);
     _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
     _palette.setColor(3, 't', WHITE);
-    _map.push_back(std::string("###################"));
-    _map.push_back(std::string("#        #        #"));
-    _map.push_back(std::string("# ## ### # ### ## #"));
-    _map.push_back(std::string("#                 #"));
-    _map.push_back(std::string("# ## # ##### # ## #"));
-    _map.push_back(std::string("#    #   #   #    #"));
-    _map.push_back(std::string("#### ### # ### ####"));
-    _map.push_back(std::string("   # #       # #   "));
-    _map.push_back(std::string("#### # ## ## # ####"));
-    _map.push_back(std::string("       #   #       "));
-    _map.push_back(std::string("#### # ##### # ####"));
-    _map.push_back(std::string("   # #       # #   "));
-    _map.push_back(std::string("#### ### # ### ####"));
-    _map.push_back(std::string("#    #   #   #    #"));
-    _map.push_back(std::string("# ## # ##### # ## #"));
-    _map.push_back(std::string("#                 #"));
-    _map.push_back(std::string("# ## ### # ### ## #"));
-    _map.push_back(std::string("#        #        #"));
-    _map.push_back(std::string("###################"));
+    _palette.setColor(4, '#', WHITE);
+    _score  = 0;
+    _map.push_back(std::string("#######################"));
+    _map.push_back(std::string("#oooooooooo#oooooooooo#"));
+    _map.push_back(std::string("#O###o####o#o####o###O#"));
+    _map.push_back(std::string("#ooooooooooooooooooooo#"));
+    _map.push_back(std::string("#o###o#o#######o#o###o#"));
+    _map.push_back(std::string("#ooooo#oooo#oooo#ooooo#"));
+    _map.push_back(std::string("#####o####o#o####o#####"));
+    _map.push_back(std::string("    #o#         #o#    "));
+    _map.push_back(std::string("    #o# ### ### #o#    "));
+    _map.push_back(std::string("#####o# #     # #o#####"));
+    _map.push_back(std::string("     o  #     #  o     "));
+    _map.push_back(std::string("#####o# #     # #o#####"));
+    _map.push_back(std::string("    #o# ####### #o#    "));
+    _map.push_back(std::string("    #o#         #o#    "));
+    _map.push_back(std::string("#####o# ####### #o#####"));
+    _map.push_back(std::string("#oooooooooo#oooooooooo#"));
+    _map.push_back(std::string("#o###o####o#o####o###o#"));
+    _map.push_back(std::string("#Ooo#oooooo oooooo#ooO#"));
+    _map.push_back(std::string("###o#o#o#######o#o#o###"));
+    _map.push_back(std::string("#ooooo#oooo#oooo#ooooo#"));
+    _map.push_back(std::string("#o########o#o########o#"));
+    _map.push_back(std::string("#oooooooooo#oooooooooo#"));
+    _map.push_back(std::string("#######################"));
+    _mapCpy = _map;
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])
@@ -71,9 +78,9 @@ void PacmanGame::update(float dt [[maybe_unused]])
     }
     _timer += dt;
     if (_player.value.x + _player_mov.value.x == -1) {
-        _player.value.x = 18;
+        _player.value.x = 23;
     }
-    if (_player.value.x + _player_mov.value.x >= 19) {
+    if (_player.value.x + _player_mov.value.x >= 23) {
         _player.value.x = 0;
     }
     if (this->getCollide(_player_mov) == true) {
@@ -81,6 +88,7 @@ void PacmanGame::update(float dt [[maybe_unused]])
     }
     if (_timer >= 0.50) {
         _player += _player_mov;
+        eat(_player);
         _timer = 0;
     }
 }
@@ -92,6 +100,7 @@ bool PacmanGame::mustLoadAnotherGraphic() const
 
 void PacmanGame::render()
 {
+    char test[2] = {' ', '\0'};
     _graphic->clear();
     _canvas->startDraw();
 
@@ -99,6 +108,9 @@ void PacmanGame::render()
         for (size_t x = 0; x < _map.at(y).size(); x++) {
             if (_map.at(y).at(x) == '#') {
                 _canvas->drawPoint(x, y, this->_palette[2]);
+            } else if (_map.at(y).at(x) == 'O' || _map.at(y).at(x) == 'o') {
+                test[0] = _map.at(y).at(x);
+                _canvas->drawText(x, y, test, this->_palette[3]);
             }
         }
     }
@@ -106,8 +118,8 @@ void PacmanGame::render()
     _canvas->drawPoint(this->_Blink.value.x, this->_Blink.value.y, this->_palette[1]);
 
     _canvas->drawPoint(this->_player.value.x, this->_player.value.y, this->_palette[0]);
+    printScore();
 
-    _canvas->drawText(1, 1, "abcdefghijklmnopqrstuvwxyz", this->_palette[1]);
     _canvas->endDraw();
     _graphic->render();
 }
@@ -127,12 +139,51 @@ void PacmanGame::setManager(IManager *manager) { _manager = manager; }
 
 bool PacmanGame::getCollide(VectorInt nextPos)
 {
-    if (_player.value.x + nextPos.value.x < 0 || _player.value.x + nextPos.value.x > 18)
+    if (_player.value.x + nextPos.value.x < 0 || _player.value.x + nextPos.value.x > 22)
         return (false);
     if (this->_map.at(_player.value.y + nextPos.value.y).at(_player.value.x + nextPos.value.x) == '#') {
         return (true);
     }
     return (false);
+}
+
+void PacmanGame::eat(const VectorInt &vec)
+{
+    if (_map.at(vec.value.y).at(vec.value.x) == 'o') {
+        _map.at(vec.value.y).at(vec.value.x) = ' ';
+        _score += 1;
+    }
+}
+
+void PacmanGame::reset(void)
+{
+    this->_map = _mapCpy;
+    this->_player = VectorInt(11, 17);
+    this->_player_mov = VectorInt(-1, 0);
+    this->_Blink = VectorInt(9, 9);
+
+}
+
+void PacmanGame::hardReset(void)
+{
+    reset();
+    this->_score = 0;
+}
+
+void PacmanGame::printScore(void)
+{
+    for (size_t i = 0; i <= 16; i++) {
+        _canvas->drawPoint(_map.at(0).size() + i, 0, _palette[4]);
+    }
+    for (size_t z = 1; z < _map.at(0).size(); z++) {
+        _canvas->drawPoint(_map.at(0).size(), z, _palette[4]);
+        _canvas->drawPoint(_map.at(0).size() + 16, z, _palette[4]);
+    }
+    for (size_t i = 0; i <= 16; i++) {
+        _canvas->drawPoint(_map.at(0).size() + i, _map.size()-1, _palette[4]);
+    }
+    _canvas->drawText(_map.at(0).size() + 1, 1, "SCORE:", _palette[4]);
+    _canvas->drawText(_map.at(0).size() + 1, 2, std::to_string(this->_score), _palette[4]);
 }
 
 } // namespace arc::game
