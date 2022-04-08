@@ -19,13 +19,13 @@ arc::game::NibblerGame::~NibblerGame()
 }
 
 void arc::game::NibblerGame::init() {
-    _palette.setColor(0, 'P', GREEN);
+    _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'P', MAGENTA);
-    _palette.setColor(2, 'W', YELLOW);
-    _palette.setColor(3, 'O', RED);
-    _palette.setColor(4, 'Y', BLUE);
-    _palette.setColor(5, 'Y', CYAN);
-    _palette.setColor(6, 'Y', WHITE);
+    _palette.setColor(2, 'W', CYAN);
+    _palette.setColor(3, 'O', WHITE);
+    _palette.setColor(4, 'G', RED);
+    _palette.setColor(5, 'Y', GREEN);
+    _palette.setColor(6, 'Y', BLUE);
     this->initMap();
     this->initPlayer();
     _velocityX = 0;
@@ -62,7 +62,7 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
                 }
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::Q) {
-                if (_back != 2) {
+                if (_back == 1) {
                     _velocityX = -1;
                     _velocityY = 0;
                     _back = 2;
@@ -85,7 +85,6 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
         this->tailPosition();
         this->eatFood();
         this->movePlayer();
-        this->collision();
         _move = 0;
     }
 }
@@ -94,15 +93,15 @@ void arc::game::NibblerGame::render() {
     _graphic->clear();
     _canvas->startDraw();
 
-    _canvas->drawText(1, 23, "Score: " + std::to_string(_score), this->_palette[2]);
+    _canvas->drawText(1, 23, "Score: " + std::to_string(_score), this->_palette[6]);
 
     this->drawMap();
     this->drawTail();
 
     if (_vectory == 1)
-        _canvas->drawText(17, 9, "GAME OVER", this->_palette[5]);
+        _canvas->drawText(17, 9, "GAME OVER", this->_palette[4]);
     if (_vectory == 2)
-        _canvas->drawText(17, 9, "YOU WIN", this->_palette[6]);
+        _canvas->drawText(17, 9, "YOU WIN", this->_palette[5]);
 
     _canvas->endDraw();
     _graphic->render();
@@ -132,24 +131,24 @@ void arc::game::NibblerGame::destroy() {}
 void arc::game::NibblerGame::initMap()
 {
     _map.push_back("########################################");
-    _map.push_back("#                                      #");
-    _map.push_back("#    O         ######       ######     #");
-    _map.push_back("#                  #    O          O   #");
-    _map.push_back("#                  #                   #");
-    _map.push_back("#                                      #");
-    _map.push_back("#          O              O            #");
-    _map.push_back("#                                      #");
+    _map.push_back("#O                 O                  O#");
+    _map.push_back("# #### #      ############      # #### #");
+    _map.push_back("# #  # #   #            O   #   # #  # #");
+    _map.push_back("# #### #   #     #    #     #   # #### #");
+    _map.push_back("#      #   #     # O  #     #   #      #");
+    _map.push_back("# ######   O  ############    O ###### #");
+    _map.push_back("# #  O                          O    # #");
+    _map.push_back("# #         ################         # #");
+    _map.push_back("#     O            O                   #");
     _map.push_back("#           ################           #");
-    _map.push_back("#     O                                #");
-    _map.push_back("#           ################           #");
-    _map.push_back("#                                O     #");
-    _map.push_back("#          O                           #");
-    _map.push_back("#       #                              #");
-    _map.push_back("#       #         #                    #");
-    _map.push_back("#       #         #      O          O  #");
-    _map.push_back("#       #    O     #                   #");
-    _map.push_back("#   O    #          ## ###########     #");
-    _map.push_back("#                                      #");
+    _map.push_back("#  O                O            O     #");
+    _map.push_back("#  ########O                 ######### #");
+    _map.push_back("#             ############         O   #");
+    _map.push_back("#       #        #    #        #       #");
+    _map.push_back("# ####  #        #    #  O     #  #### #");
+    _map.push_back("# #  #  #    O   #   O#        #  #  # #");
+    _map.push_back("# ####  #####              #####  #### #");
+    _map.push_back("#O                 O                  O#");
     _map.push_back("########################################");
 }
 
@@ -157,8 +156,8 @@ void arc::game::NibblerGame::initPlayer()
 {
     Vector2 pos;
 
-    pos.x = 10;
-    pos.y = 10;
+    pos.x = 21;
+    pos.y = 7;
     for (int i = 0; i < 4; i++) {
         _position.push_back(pos);
         _pos_copy.push_back(_position.at(0));
@@ -180,22 +179,31 @@ void arc::game::NibblerGame::drawMap() {
 void arc::game::NibblerGame::movePlayer()
 {
     size_t y = 0;
-    bool wall = this->check_wall(_position.at(0).x + _velocityX, _position.at(0).y + _velocityY, _map);
+    bool wall = this->check_wall(_position.at(0).x, _position.at(0).y, _map);
 
-    if (wall == false && _vectory != 1) {
+    if ((wall == false && _vectory != 1)) {
         _position.at(0).x += _velocityX;
         _position.at(0).y += _velocityY;
-        for (size_t i = 1; i < _position.size(); i++) {
-            _position.at(i).x = _pos_copy.at(y).x;
-            _position.at(i).y = _pos_copy.at(y).y;
-            y++;
+        if (_vectory == 2)
+            wall = this->check_wall(_position.at(0).x, _position.at(0).y, _map);
+        if (wall == false) {
+            for (size_t i = 1; i < _position.size(); i++) {
+                _position.at(i).x = _pos_copy.at(y).x;
+                _position.at(i).y = _pos_copy.at(y).y;
+                y++;
+            }
         }
         y = 0;
     }
+    if (_vectory == 2)
+        this->collision();
     for (size_t i = 0; i < _position.size(); i++) {
         _pos_copy.at(y).x = _position.at(i).x;
         _pos_copy.at(y).y = _position.at(i).y;
         y++;
+    }
+    if (this->hitSelf() == true && _vectory != 2) {
+        _vectory = 1;
     }
 }
 
@@ -213,9 +221,6 @@ void arc::game::NibblerGame::collision()
     }
     if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#' && _velocityY == -1) {
         _position.at(0).y++;
-    }
-    if (this->hitSelf() == true && _vectory != 2) {
-        _vectory = 1;
     }
 }
 
@@ -259,9 +264,9 @@ void arc::game::NibblerGame::tailPosition()
 void arc::game::NibblerGame::drawTail()
 {
     for (size_t i = 1; i < _position.size(); i++) {
-        _canvas->drawPoint(_position.at(i).x, _position.at(i).y, this->_palette[0]);
+        _canvas->drawPoint(_position.at(i).x, _position.at(i).y, this->_palette[1]);
     }
-    _canvas->drawPoint(_position.at(0).x, _position.at(0).y, this->_palette[1]);
+    _canvas->drawPoint(_position.at(0).x, _position.at(0).y, this->_palette[0]);
 }
 
 void arc::game::NibblerGame::eatFood()
