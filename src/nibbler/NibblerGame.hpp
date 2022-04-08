@@ -42,6 +42,8 @@ namespace arc::game {
             void eatFood();
             bool check_wall(int x, int y, std::vector<std::string> map);
             void reset();
+            bool hitSelf();
+            bool eatAll();
 
         protected:
         private:
@@ -58,6 +60,8 @@ namespace arc::game {
             float _move = 0;
             int _turn = 0;
             bool _touch = false;
+            int _vectory = 0;
+            int _back = 0;
             std::vector<std::string> _map;
             std::vector<Vector2> _position;
             std::vector<Vector2> _pos_copy;
