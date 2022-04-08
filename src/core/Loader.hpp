@@ -41,7 +41,7 @@ class Loader {
 
     static bool isLoadable(const std::string& name)
     {
-        void* handle = dlopen(name.c_str(), RTLD_LAZY);
+        void* handle = dlopen(name.c_str(), RTLD_LAZY | RTLD_NODELETE);
         if (!handle) {
             return false;
         }
