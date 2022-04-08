@@ -58,6 +58,7 @@ int main(int ac, char* av[])
                   << " I / Enter\t\tConfirm" << std::endl
                   << " R\t\t\tRestart game" << std::endl
                   << "Core input:" << std::endl
+                  << " K\t\t\tExit game" << std::endl
                   << " O\t\t\tPrevious graphical library" << std::endl
                   << " P\t\t\tNext graphical library" << std::endl;
         return 84;

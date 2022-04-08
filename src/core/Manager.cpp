@@ -133,17 +133,20 @@ void Manager::update()
 bool Manager::pollEvent(Event& input)
 {
     bool event = _graphic->pollEvent(input);
-    if (event && input.type == Event::KEYDOWN
-        && input.keyboardInput.keyCode == KeyCode::O) {
-        _mustLoadAnotherGraphic = true;
-        _mustLoadNext = false;
-        return false;
-    }
-    if (event && input.type == Event::KEYDOWN
-        && input.keyboardInput.keyCode == KeyCode::P) {
-        _mustLoadAnotherGraphic = true;
-        _mustLoadNext = true;
-        return false;
+    if (event && input.type == Event::KEYDOWN) {
+        if (input.keyboardInput.keyCode == KeyCode::O) {
+            _mustLoadAnotherGraphic = true;
+            _mustLoadNext = false;
+            return false;
+        }
+        if (input.keyboardInput.keyCode == KeyCode::P) {
+            _mustLoadAnotherGraphic = true;
+            _mustLoadNext = true;
+            return false;
+        }
+        if (input.keyboardInput.keyCode == KeyCode::K) {
+            this->_graphic->close();
+        }
     }
     return event;
 }
