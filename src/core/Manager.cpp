@@ -119,11 +119,13 @@ void Manager::update()
     }
     _game->update(_graphic->tick());
     _game->render();
-    if (_mustLoadAnotherGraphic || _game->mustLoadAnotherGraphic()) {
+    if (_mustLoadAnotherGraphic) {
         unloadGraphic();
+        int movement = _mustLoadNext ? 1 : -1;
 
         _mustLoadAnotherGraphic = false;
-        _currentGraphicId = (_currentGraphicId + 1) % _graphicPaths.size();
+        _currentGraphicId
+            = (_currentGraphicId + movement) % _graphicPaths.size();
         loadGraphic(_graphicPaths[_currentGraphicId]);
     }
 }
@@ -132,8 +134,15 @@ bool Manager::pollEvent(Event& input)
 {
     bool event = _graphic->pollEvent(input);
     if (event && input.type == Event::KEYDOWN
+        && input.keyboardInput.keyCode == KeyCode::O) {
+        _mustLoadAnotherGraphic = true;
+        _mustLoadNext = false;
+        return false;
+    }
+    if (event && input.type == Event::KEYDOWN
         && input.keyboardInput.keyCode == KeyCode::P) {
         _mustLoadAnotherGraphic = true;
+        _mustLoadNext = true;
         return false;
     }
     return event;

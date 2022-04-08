@@ -12,6 +12,7 @@ class Manager : IManager {
     std::vector<std::string> _graphicPaths;
     int _currentGraphicId = 0;
     bool _mustLoadAnotherGraphic = false;
+    bool _mustLoadNext = false;
     bool _isGameFromLoader = false;
     bool _isGraphicFromLoader = false;
 
