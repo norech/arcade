@@ -43,12 +43,13 @@ class Loader {
     {
         void* handle = dlopen(name.c_str(), RTLD_LAZY);
         if (!handle) {
-            throw LoaderError(dlerror());
+            return false;
         }
 
         GetTypeFunction getType = (GetTypeFunction)dlsym(handle, "getType");
         if (!getType) {
-            throw LoaderError(dlerror());
+            dlclose(handle);
+            return false;
         }
         int libType = getType();
         dlclose(handle);
@@ -64,11 +65,13 @@ class Loader {
 
         LoaderFunction load = (LoaderFunction)dlsym(handle, "expose");
         if (!load) {
+            dlclose(handle);
             throw LoaderError(dlerror());
         }
 
         GetTypeFunction getType = (GetTypeFunction)dlsym(handle, "getType");
         if (!getType) {
+            dlclose(handle);
             throw LoaderError(dlerror());
         }
         int libType = getType();

@@ -54,11 +54,14 @@
         "hash_map": "cpp",
         "list": "cpp",
         "ctime": "cpp",
-<<<<<<< HEAD
         "map": "cpp",
-        "ranges": "cpp"
-=======
-        "map": "cpp"
->>>>>>> cmake
+        "ranges": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp",
+        "codecvt": "cpp",
+        "iomanip": "cpp"
     }
 }
