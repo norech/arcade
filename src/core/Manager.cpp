@@ -267,4 +267,23 @@ std::unordered_map<std::string, long> Manager::getAllHighScores(
     return scores;
 }
 
+std::vector<Score> Manager::getAllHighScores()
+{
+    std::vector<Score> scores;
+    if (!std::filesystem::is_directory("./highscore")
+        || !std::filesystem::exists("./highscore")) {
+        return scores;
+    }
+    for (auto& file : std::filesystem::directory_iterator("./highscore")) {
+        for (auto& score : getAllHighScores(file.path().stem().string())) {
+            Score s
+                = { score.first, file.path().stem().string(), score.second };
+            scores.emplace_back(s);
+        }
+    }
+    std::sort(scores.begin(), scores.end(),
+        [](const Score& a, const Score& b) { return a.score > b.score; });
+    return scores;
+}
+
 } // namespace arc::core

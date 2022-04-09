@@ -6,6 +6,12 @@
 
 namespace arc::core {
 
+struct Score {
+    std::string name;
+    std::string game;
+    long score;
+};
+
 class Manager : IManager {
  private:
     grph::IGraphic* _graphic = nullptr;
@@ -44,5 +50,6 @@ class Manager : IManager {
     long getHighScore(const std::string& gameName) override;
     std::unordered_map<std::string, long> getAllHighScores(
         const std::string& gameName);
+    std::vector<Score> getAllHighScores();
 };
 }

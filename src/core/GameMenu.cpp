@@ -27,6 +27,8 @@ void GameMenu::init()
     for (auto& graphic : _graphics) {
         _graphicsNames.emplace_back(GraphicLoader::getName(graphic));
     }
+
+    _scores = manager->getAllHighScores();
 }
 
 void GameMenu::update(float dt [[maybe_unused]])
@@ -39,27 +41,29 @@ void GameMenu::update(float dt [[maybe_unused]])
         if (event.type != Event::KEYDOWN) {
             continue;
         }
-        if (_showNameInput
-            && event.keyboardInput.keyCode == KeyCode::BACKSPACE) {
+        if (_focusOnName && event.keyboardInput.keyCode == KeyCode::BACKSPACE) {
             if (_name.length() > 0) {
                 _name.pop_back();
             }
             continue;
         }
         if (event.keyboardInput.keyCode == KeyCode::ENTER) {
-            if (_showNameInput) {
+            if (_focusOnName) {
+                _focusOnName = false;
+            } else {
                 _hasValidatedInput = true;
                 _graphic->close();
-            } else {
-                _showNameInput = true;
             }
             continue;
         }
-        if (_showNameInput && _name.length() < 20) {
-            if (isprint(event.keyboardInput.keyCode)) {
+        if (_focusOnName) {
+            if (isprint(event.keyboardInput.keyCode) && _name.length() < 15) {
                 _name.append(1, event.keyboardInput.keyCode);
             }
         } else {
+            if (event.keyboardInput.keyCode == KeyCode::P) {
+                _focusOnName = true;
+            }
             if (event.keyboardInput.keyCode == KeyCode::Z) {
                 if (_hasSelectedGame)
                     _graphicIndex--;
@@ -91,7 +95,8 @@ const IColor& GameMenu::getGameTextColor(int index)
     const IColor& disabledColor = this->_palette[2];
 
     if (index == _gameIndex)
-        return _hasSelectedGame ? disabledColor : selectedColor;
+        return (_hasSelectedGame || _focusOnName) ? disabledColor
+                                                  : selectedColor;
     return textColor;
 }
 
@@ -102,8 +107,50 @@ const IColor& GameMenu::getGraphicTextColor(int index)
     const IColor& disabledColor = this->_palette[2];
 
     if (index == _graphicIndex)
-        return !_hasSelectedGame ? disabledColor : selectedColor;
+        return (!_hasSelectedGame || _focusOnName) ? disabledColor
+                                                   : selectedColor;
     return textColor;
+}
+
+void GameMenu::renderBoxes()
+{
+    for (int y = 3; y <= 11; y++) {
+        _canvas->drawText(20, y, ".", this->_palette[3]);
+    }
+    for (int y = 3; y <= 24; y++) {
+        _canvas->drawText(1, y, ".", this->_palette[3]);
+        _canvas->drawText(38, y, ".", this->_palette[3]);
+    }
+    for (int x = 1; x < 38; x++) {
+        _canvas->drawText(x, 3, ".", this->_palette[3]);
+        _canvas->drawText(x, 11, ".", this->_palette[3]);
+        _canvas->drawText(x, 15, ".", this->_palette[3]);
+        _canvas->drawText(x, 24, ".", this->_palette[3]);
+    }
+
+    for (unsigned int i = 0; i < _games.size(); i++) {
+        const IColor& textColor = getGameTextColor(i);
+        _canvas->drawText(3, 5 + i, _gamesNames[i], textColor);
+    }
+
+    for (unsigned int i = 0; i < _graphics.size(); i++) {
+        const IColor& textColor = getGraphicTextColor(i);
+        _canvas->drawText(22, 5 + i, _graphicsNames[i], textColor);
+    }
+
+    if (_scores.size() == 0) {
+        _canvas->drawText(3, 17, "The scoreboard is empty", this->_palette[1]);
+    }
+    for (unsigned int i = 0; i < std::min(_scores.size(), 6ul); i++) {
+        _canvas->drawText(3, 17 + i, _scores[i].name, this->_palette[1]);
+        _canvas->drawText(15, 17 + i, _scores[i].game, this->_palette[1]);
+        _canvas->drawText(
+            27, 17 + i, std::to_string(_scores[i].score), this->_palette[1]);
+    }
+
+    _canvas->drawText(3, 20 - 7,
+        std::string("Your Name:  ") + _name + (_focusOnName ? "_" : ""),
+        _focusOnName ? this->_palette[0] : this->_palette[1]);
 }
 
 void GameMenu::render()
@@ -111,38 +158,17 @@ void GameMenu::render()
     _graphic->clear();
     _canvas->startDraw();
 
-    _canvas->drawText(17, 5, "ARCADE", this->_palette[1]);
+    _canvas->drawText(17, 1, "ARCADE", this->_palette[1]);
 
-    if (_showNameInput) {
-        _canvas->drawText(3, 12, "Enter your name", this->_palette[1]);
-        _canvas->drawText(
-            3, 15, std::string("Name: ") + _name + "_", this->_palette[0]);
-    } else {
-        for (int y = 10; y <= 18; y++) {
-            _canvas->drawText(1, y, ".", this->_palette[3]);
-            _canvas->drawText(20, y, ".", this->_palette[3]);
-            _canvas->drawText(38, y, ".", this->_palette[3]);
-        }
-        for (int x = 1; x < 38; x++) {
-            _canvas->drawText(x, 10, ".", this->_palette[3]);
-            _canvas->drawText(x, 18, ".", this->_palette[3]);
-        }
+    renderBoxes();
 
-        for (unsigned int i = 0; i < _games.size(); i++) {
-            const IColor& textColor = getGameTextColor(i);
-            _canvas->drawText(3, 12 + i, _gamesNames[i], textColor);
-        }
+    _canvas->drawText(
+        1, 26, "Press P to change player name", this->_palette[1]);
 
-        for (unsigned int i = 0; i < _graphics.size(); i++) {
-            const IColor& textColor = getGraphicTextColor(i);
-            _canvas->drawText(22, 12 + i, _graphicsNames[i], textColor);
-        }
+    _canvas->drawText(
+        1, 27, "Press arrows to select a game", this->_palette[1]);
 
-        _canvas->drawText(
-            3, 27, "Press arrows to select a game", this->_palette[1]);
-    }
-
-    _canvas->drawText(3, 28, "Press Enter to confirm", this->_palette[1]);
+    _canvas->drawText(1, 28, "Press Enter to confirm", this->_palette[1]);
 
     _canvas->endDraw();
     _graphic->render();

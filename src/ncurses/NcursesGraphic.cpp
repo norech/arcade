@@ -72,17 +72,7 @@ void NcursesGraphic::close() { _willBeClosed = true; }
 
 void NcursesGraphic::render() { wrefresh(_window); }
 
-void NcursesGraphic::clear()
-{
-    int backgroundColor = getColorIndex(ColorCode::BLACK);
-    wclear(_window);
-
-    attron(COLOR_PAIR(backgroundColor));
-    for (int i = 0; i < 600 / 20; i++) {
-        mvprintw(i, 0, std::string(800 / 20 * 2, ' ').c_str());
-    }
-    attroff(COLOR_PAIR(backgroundColor));
-}
+void NcursesGraphic::clear() { wclear(_window); }
 
 bool NcursesGraphic::pollEvent(Event& input)
 {
