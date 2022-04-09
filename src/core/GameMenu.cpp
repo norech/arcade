@@ -39,7 +39,8 @@ void GameMenu::update(float dt [[maybe_unused]])
         if (event.type != Event::KEYDOWN) {
             continue;
         }
-        if (_showNameInput && event.keyboardInput.keyCode == KeyCode::ESCAPE) {
+        if (_showNameInput
+            && event.keyboardInput.keyCode == KeyCode::BACKSPACE) {
             if (_name.length() > 0) {
                 _name.pop_back();
             }
@@ -55,7 +56,9 @@ void GameMenu::update(float dt [[maybe_unused]])
             continue;
         }
         if (_showNameInput && _name.length() < 20) {
-            _name.append(1, event.keyboardInput.keyCode);
+            if (isprint(event.keyboardInput.keyCode)) {
+                _name.append(1, event.keyboardInput.keyCode);
+            }
         } else {
             if (event.keyboardInput.keyCode == KeyCode::Z) {
                 if (_hasSelectedGame)
@@ -169,6 +172,6 @@ const std::string GameMenu::getSelectedGraphicPath() const
 
 bool GameMenu::hasSelectedGame() const { return _hasValidatedInput; }
 
-std::string getPlayerName() { return _name; }
+std::string GameMenu::getPlayerName() { return _name; }
 
 } // namespace arc::game

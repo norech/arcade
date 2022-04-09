@@ -16,8 +16,8 @@ bool NcursesGraphic::_hasColorsSet = false;
 // clang-format off
 std::unordered_map<int, arc::KeyCode> NcursesGraphic::_keyMap
     = {
-        { KEY_ENTER, KeyCode::ENTER },
-        { KEY_BACKSPACE, KeyCode::ESCAPE },
+        { '\n', KeyCode::ENTER },
+        { KEY_BACKSPACE, KeyCode::BACKSPACE },
         { KEY_UP, KeyCode::Z },
         { KEY_DOWN, KeyCode::Q },
         { KEY_LEFT, KeyCode::S },

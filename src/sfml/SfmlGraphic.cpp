@@ -13,7 +13,7 @@
 std::unordered_map<int, arc::KeyCode> arc::grph::SfmlGraphic::_keyMap
     = {
         { sf::Keyboard::Return, arc::KeyCode::ENTER },
-        { sf::Keyboard::Backspace, arc::KeyCode::ESCAPE },
+        { sf::Keyboard::Backspace, arc::KeyCode::BACKSPACE },
         { sf::Keyboard::Up, arc::KeyCode::Z },
         { sf::Keyboard::Down, arc::KeyCode::Q },
         { sf::Keyboard::Left, arc::KeyCode::S },

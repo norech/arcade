@@ -43,6 +43,7 @@ enum KeyCode {
     SPACE = 32,
     ESCAPE = 27,
     ENTER = 13,
+    BACKSPACE = 8,
     UNKNOWN = -1,
 };
 

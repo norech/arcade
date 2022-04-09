@@ -13,8 +13,8 @@ namespace arc::grph {
 // clang-format off
 std::unordered_map<int, arc::KeyCode> SdlGraphic::_keyMap
     = {
-        { SDLK_DOWN, arc::KeyCode::ENTER },
-        { SDLK_BACKSPACE, arc::KeyCode::ESCAPE },
+        { SDLK_RETURN, arc::KeyCode::ENTER },
+        { SDLK_BACKSPACE, arc::KeyCode::BACKSPACE },
         { SDLK_UP, arc::KeyCode::Z },
         { SDLK_DOWN, arc::KeyCode::Q },
         { SDLK_LEFT, arc::KeyCode::S },
