@@ -7,12 +7,25 @@
 
 #include "CacaGraphic.hpp"
 #include "CacaCanvas.hpp"
-#include "spc/common/KeyCode.hpp"
 #include <chrono>
 #include <iostream>
 #include <thread> // std::this_thread::sleep_for
+#include <unordered_map>
 
 namespace arc::grph {
+
+// clang-format off
+std::unordered_map<int, KeyCode> CacaGraphic::_keyMap
+    = {
+        { CACA_KEY_RETURN, KeyCode::ENTER },
+        { CACA_KEY_BACKSPACE, KeyCode::ESCAPE },
+        { CACA_KEY_UP, KeyCode::Z },
+        { CACA_KEY_DOWN, KeyCode::Q },
+        { CACA_KEY_LEFT, KeyCode::S },
+        { CACA_KEY_RIGHT, KeyCode::D },
+        { ' ', KeyCode::SPACE }
+    };
+// clang-format on
 
 void CacaGraphic::init()
 {
@@ -53,30 +66,14 @@ bool CacaGraphic::pollEvent(Event& event)
         return true;
     }
     if (ev.type == CACA_EVENT_KEY_PRESS) {
-        switch (ev.data.key.ch) {
-        case CACA_KEY_RETURN:
-            event.keyboardInput.keyCode = KeyCode::I;
-            break;
-        case CACA_KEY_UP:
-            event.keyboardInput.keyCode = KeyCode::Z;
-            break;
-        case CACA_KEY_DOWN:
-            event.keyboardInput.keyCode = KeyCode::S;
-            break;
-        case CACA_KEY_LEFT:
-            event.keyboardInput.keyCode = KeyCode::Q;
-            break;
-        case CACA_KEY_RIGHT:
-            event.keyboardInput.keyCode = KeyCode::D;
-            break;
-        case ' ':
-            event.keyboardInput.keyCode = KeyCode::U;
-            break;
-        default:
-            event.keyboardInput.keyCode = ev.data.key.ch;
-            break;
-        }
         event.type = Event::EventType::KEYDOWN;
+        for (auto& it : _keyMap) {
+            if (it.first == ev.data.key.ch) {
+                event.keyboardInput.keyCode = it.second;
+                return true;
+            }
+        }
+        event.keyboardInput.keyCode = ev.data.key.ch;
         return true;
     }
     return false;
@@ -122,5 +119,4 @@ int CacaGraphic::getCacaColor(const IColor& code)
         return CACA_BLACK;
     }
 }
-
 }

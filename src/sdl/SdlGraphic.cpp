@@ -10,6 +10,19 @@
 
 namespace arc::grph {
 
+// clang-format off
+std::unordered_map<int, arc::KeyCode> SdlGraphic::_keyMap
+    = {
+        { SDLK_DOWN, arc::KeyCode::ENTER },
+        { SDLK_BACKSPACE, arc::KeyCode::ESCAPE },
+        { SDLK_UP, arc::KeyCode::Z },
+        { SDLK_DOWN, arc::KeyCode::Q },
+        { SDLK_LEFT, arc::KeyCode::S },
+        { SDLK_RIGHT, arc::KeyCode::D },
+        { SDLK_SPACE, arc::KeyCode::SPACE }
+    };
+// clang-format on
+
 SdlGraphic::SdlGraphic()
     : _name("arcade")
     , _size_x(800)
@@ -70,33 +83,12 @@ bool SdlGraphic::pollEvent(Event& input [[maybe_unused]])
             return (true);
         }
         if (event.type == SDL_KEYDOWN) {
-            switch (event.key.keysym.sym) {
-            case SDLK_DOWN:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::S;
-                return (true);
-            case SDLK_UP:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::Z;
-                return (true);
-            case SDLK_LEFT:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::Q;
-                return (true);
-            case SDLK_RIGHT:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::D;
-                return (true);
-            case SDLK_RETURN:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::I;
-                return (true);
-            case SDLK_SPACE:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::U;
-                return (true);
-            default:
-                break;
+            for (auto& it : _keyMap) {
+                if (it.first == event.key.keysym.sym) {
+                    input.type = Event::KEYDOWN;
+                    input.keyboardInput.keyCode = it.second;
+                    return (true);
+                }
             }
             if (event.key.keysym.sym >= 'a' && event.key.keysym.sym <= 'z') {
                 input.type = Event::KEYDOWN;

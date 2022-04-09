@@ -10,7 +10,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <unordered_map>
 
+#include "spc/common/KeyCode.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
 
@@ -34,6 +36,7 @@ class SfmlGraphic : public IGraphic {
 
     sf::RenderWindow _window;
     sf::Font _font;
+    static std::unordered_map<int, arc::KeyCode> _keyMap;
 
  protected:
  private:

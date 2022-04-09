@@ -19,6 +19,7 @@ void GameMenu::init()
     _palette.setColor(0, '>', YELLOW);
     _palette.setColor(1, ' ', WHITE);
     _palette.setColor(2, ' ', BLUE);
+    _palette.setColor(3, '.', BLUE);
 
     for (auto& game : _games) {
         _gamesNames.emplace_back(GameLoader::getName(game));
@@ -35,7 +36,27 @@ void GameMenu::update(float dt [[maybe_unused]])
         if (event.type == Event::QUIT) {
             _graphic->close();
         }
-        if (event.type == Event::KEYDOWN) {
+        if (event.type != Event::KEYDOWN) {
+            continue;
+        }
+        if (_showNameInput && event.keyboardInput.keyCode == KeyCode::ESCAPE) {
+            if (_name.length() > 0) {
+                _name.pop_back();
+            }
+            continue;
+        }
+        if (event.keyboardInput.keyCode == KeyCode::ENTER) {
+            if (_showNameInput) {
+                _hasValidatedInput = true;
+                _graphic->close();
+            } else {
+                _showNameInput = true;
+            }
+            continue;
+        }
+        if (_showNameInput && _name.length() < 20) {
+            _name.append(1, event.keyboardInput.keyCode);
+        } else {
             if (event.keyboardInput.keyCode == KeyCode::Z) {
                 if (_hasSelectedGame)
                     _graphicIndex--;
@@ -52,13 +73,9 @@ void GameMenu::update(float dt [[maybe_unused]])
                 || event.keyboardInput.keyCode == KeyCode::D) {
                 _hasSelectedGame = !_hasSelectedGame;
             }
-            if (event.keyboardInput.keyCode == KeyCode::I) {
-                _hasValidatedInput = true;
-                _graphic->close();
-            }
-            _gameIndex = _gameIndex % _games.size();
-            _graphicIndex = _graphicIndex % _graphics.size();
         }
+        _gameIndex = _gameIndex % _games.size();
+        _graphicIndex = _graphicIndex % _graphics.size();
     }
 }
 
@@ -93,19 +110,36 @@ void GameMenu::render()
 
     _canvas->drawText(17, 5, "ARCADE", this->_palette[1]);
 
-    for (unsigned int i = 0; i < _games.size(); i++) {
-        const IColor& textColor = getGameTextColor(i);
-        _canvas->drawText(1, 15 + i, _gamesNames[i], textColor);
+    if (_showNameInput) {
+        _canvas->drawText(3, 12, "Enter your name", this->_palette[1]);
+        _canvas->drawText(
+            3, 15, std::string("Name: ") + _name + "_", this->_palette[0]);
+    } else {
+        for (int y = 10; y <= 18; y++) {
+            _canvas->drawText(1, y, ".", this->_palette[3]);
+            _canvas->drawText(20, y, ".", this->_palette[3]);
+            _canvas->drawText(38, y, ".", this->_palette[3]);
+        }
+        for (int x = 1; x < 38; x++) {
+            _canvas->drawText(x, 10, ".", this->_palette[3]);
+            _canvas->drawText(x, 18, ".", this->_palette[3]);
+        }
+
+        for (unsigned int i = 0; i < _games.size(); i++) {
+            const IColor& textColor = getGameTextColor(i);
+            _canvas->drawText(3, 12 + i, _gamesNames[i], textColor);
+        }
+
+        for (unsigned int i = 0; i < _graphics.size(); i++) {
+            const IColor& textColor = getGraphicTextColor(i);
+            _canvas->drawText(22, 12 + i, _graphicsNames[i], textColor);
+        }
+
+        _canvas->drawText(
+            3, 27, "Press arrows to select a game", this->_palette[1]);
     }
 
-    for (unsigned int i = 0; i < _graphics.size(); i++) {
-        const IColor& textColor = getGraphicTextColor(i);
-        _canvas->drawText(20, 15 + i, _graphicsNames[i], textColor);
-    }
-
-    _canvas->drawText(
-        5, 27, "Press arrows to select a game", this->_palette[1]);
-    _canvas->drawText(5, 28, "Press Enter to confirm", this->_palette[1]);
+    _canvas->drawText(3, 28, "Press Enter to confirm", this->_palette[1]);
 
     _canvas->endDraw();
     _graphic->render();
@@ -134,5 +168,7 @@ const std::string GameMenu::getSelectedGraphicPath() const
 }
 
 bool GameMenu::hasSelectedGame() const { return _hasValidatedInput; }
+
+std::string getPlayerName() { return _name; }
 
 } // namespace arc::game

@@ -40,6 +40,10 @@ enum KeyCode {
     DOWN = 274,
     LEFT = 276,
     RIGHT = 275,
+    SPACE = 32,
+    ESCAPE = 27,
+    ENTER = 13,
+    UNKNOWN = -1,
 };
 
 }  // namespace arc

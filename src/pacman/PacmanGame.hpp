@@ -8,13 +8,12 @@
 #include "spc/game/IGame.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
-#include "../common/VectorInt.hpp"
-
 
 namespace arc::game {
 
 class PacmanGame : public IGame {
  private:
+    static std::vector<std::string> _map;
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic;
@@ -24,7 +23,6 @@ class PacmanGame : public IGame {
     VectorInt _player_mov;
     int _score = 0;
     VectorInt _Blink;
-    std::vector<std::string> _map;
     float _timer;
 
  public:
@@ -43,7 +41,7 @@ class PacmanGame : public IGame {
 
     void unloadGraphic() override;
 
-    void setManager(IManager *manager) override;
+    void setManager(IManager* manager) override;
 
     void destroy() override;
 

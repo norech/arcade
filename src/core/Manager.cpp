@@ -3,6 +3,7 @@
 #include "./ManagerError.hpp"
 #include "spc/common/KeyCode.hpp"
 #include <filesystem>
+#include <fstream>
 
 namespace arc::core {
 
@@ -171,6 +172,99 @@ void Manager::listGraphics(std::vector<std::string>& graphics)
     }
     if (graphics.size() == 0)
         throw ManagerError("No graphic library has been found in ./lib");
+}
+
+std::string Manager::getPlayerName() { return _playerName; }
+
+void Manager::setPlayerName(const std::string& name) { _playerName = name; }
+
+void Manager::setHighScore(const std::string& gameName, long score)
+{
+    if (!std::filesystem::is_directory("./highscore")
+        || !std::filesystem::exists("./highscore")) {
+        return;
+    }
+    std::ifstream read("./highscore/" + gameName + ".txt");
+    std::ofstream write("./highscore/" + gameName + "_2.txt");
+    if (!read.is_open()) {
+        return;
+    }
+    if (!write.is_open()) {
+        return;
+    }
+    bool isHighScoreWritten = false;
+    std::string line;
+    long lineScore;
+    while (std::getline(read, line)) {
+        std::stringstream ss(line);
+        std::string name;
+        std::getline(ss, name, ':');
+        ss >> lineScore;
+        if (name == getPlayerName()) {
+            write << name << ":" << lineScore << std::endl;
+            isHighScoreWritten = true;
+        } else {
+            write << line << std::endl;
+        }
+    }
+    if (!isHighScoreWritten) {
+        write << getPlayerName() << ":" << score << std::endl;
+    }
+    read.close();
+    write.close();
+    std::filesystem::remove("./highscore/" + gameName + ".txt");
+    std::filesystem::rename("./highscore/" + gameName + "_2.txt",
+        "./highscore/" + gameName + ".txt");
+}
+
+long Manager::getHighScore(const std::string& gameName)
+{
+    if (!std::filesystem::is_directory("./highscore")
+        || !std::filesystem::exists("./highscore")) {
+        return 0;
+    }
+    std::fstream file("./highscore/" + gameName + ".txt");
+    if (!file.is_open()) {
+        return 0;
+    }
+    std::string line;
+    long score = 0;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string name;
+        std::getline(ss, name, ':');
+        if (name == getPlayerName()) {
+            ss >> score;
+            file.close();
+            return score;
+        }
+    }
+    file.close();
+    return 0;
+}
+
+std::unordered_map<std::string, long> Manager::getAllHighScores(
+    const std::string& gameName)
+{
+    std::unordered_map<std::string, long> scores;
+    if (!std::filesystem::is_directory("./highscore")
+        || !std::filesystem::exists("./highscore")) {
+        return scores;
+    }
+    std::ifstream file("./highscore/" + gameName + ".txt");
+    if (!file.is_open()) {
+        return scores;
+    }
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string name;
+        long score;
+        std::getline(ss, name, ':');
+        ss >> score;
+        scores[name] = score;
+    }
+    return scores;
 }
 
 } // namespace arc::core

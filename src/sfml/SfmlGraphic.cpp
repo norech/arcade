@@ -7,7 +7,20 @@
 
 #include "SfmlGraphic.hpp"
 #include "SfmlCanvas.hpp"
-#include "spc/common/KeyCode.hpp"
+#include <unordered_map>
+
+// clang-format off
+std::unordered_map<int, arc::KeyCode> arc::grph::SfmlGraphic::_keyMap
+    = {
+        { sf::Keyboard::Return, arc::KeyCode::ENTER },
+        { sf::Keyboard::Backspace, arc::KeyCode::ESCAPE },
+        { sf::Keyboard::Up, arc::KeyCode::Z },
+        { sf::Keyboard::Down, arc::KeyCode::Q },
+        { sf::Keyboard::Left, arc::KeyCode::S },
+        { sf::Keyboard::Right, arc::KeyCode::D },
+        { sf::Keyboard::Space, arc::KeyCode::SPACE }
+    };
+// clang-format on
 
 void arc::grph::SfmlGraphic::init()
 {
@@ -46,41 +59,21 @@ bool arc::grph::SfmlGraphic::pollEvent(Event& input [[maybe_unused]])
         return true;
     }
     if (sfmlEvent.type == sf::Event::KeyPressed) {
-        switch (sfmlEvent.key.code) {
-        case sf::Keyboard::Left:
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode = KeyCode::Q;
-            return true;
-        case sf::Keyboard::Right:
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode = KeyCode::D;
-            return true;
-        case sf::Keyboard::Up:
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode = KeyCode::Z;
-            return true;
-        case sf::Keyboard::Down:
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode = KeyCode::S;
-            return true;
-        case sf::Keyboard::Space:
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode = KeyCode::U;
-            return true;
-        case sf::Keyboard::Return:
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode = KeyCode::I;
-            return true;
-        default:
-            if (sfmlEvent.key.code < sf::Keyboard::A
-                || sfmlEvent.key.code > sf::Keyboard::Z) {
-                break;
+        input.type = Event::KEYDOWN;
+        for (auto& it : _keyMap) {
+            if (it.first == sfmlEvent.key.code) {
+                input.keyboardInput.keyCode = it.second;
+                return true;
             }
-            input.type = Event::KEYDOWN;
-            input.keyboardInput.keyCode
-                = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
-            return true;
         }
+        if (sfmlEvent.key.code < sf::Keyboard::A
+            || sfmlEvent.key.code > sf::Keyboard::Z) {
+            return false;
+        }
+        input.type = Event::KEYDOWN;
+        input.keyboardInput.keyCode
+            = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
+        return true;
     }
     return false;
 }

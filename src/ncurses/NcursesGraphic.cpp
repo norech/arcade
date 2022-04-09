@@ -7,12 +7,24 @@
 
 #include "NcursesGraphic.hpp"
 #include "NcursesCanvas.hpp"
-#include "spc/common/KeyCode.hpp"
 #include <iostream>
 
 namespace arc::grph {
 
 bool NcursesGraphic::_hasColorsSet = false;
+
+// clang-format off
+std::unordered_map<int, arc::KeyCode> NcursesGraphic::_keyMap
+    = {
+        { KEY_ENTER, KeyCode::ENTER },
+        { KEY_BACKSPACE, KeyCode::ESCAPE },
+        { KEY_UP, KeyCode::Z },
+        { KEY_DOWN, KeyCode::Q },
+        { KEY_LEFT, KeyCode::S },
+        { KEY_RIGHT, KeyCode::D },
+        { ' ', KeyCode::SPACE }
+    };
+// clang-format on
 
 void NcursesGraphic::init()
 {
@@ -77,29 +89,14 @@ bool NcursesGraphic::pollEvent(Event& input)
     int key = getch();
 
     if (key != ERR) {
-        switch (key) {
-        case KEY_UP:
-            input.keyboardInput.keyCode = KeyCode::Z;
-            break;
-        case KEY_DOWN:
-            input.keyboardInput.keyCode = KeyCode::S;
-            break;
-        case KEY_LEFT:
-            input.keyboardInput.keyCode = KeyCode::Q;
-            break;
-        case KEY_RIGHT:
-            input.keyboardInput.keyCode = KeyCode::D;
-            break;
-        case KEY_ENTER:
-            input.keyboardInput.keyCode = KeyCode::I;
-            break;
-        case ' ':
-            input.keyboardInput.keyCode = KeyCode::U;
-            break;
-        default:
-            input.keyboardInput.keyCode = key;
-            break;
+        for (auto& it : _keyMap) {
+            if (it.first == key) {
+                input.keyboardInput.keyCode = it.second;
+                input.type = Event::EventType::KEYDOWN;
+                return true;
+            }
         }
+        input.keyboardInput.keyCode = key;
         input.type = Event::EventType::KEYDOWN;
         return (true);
     }

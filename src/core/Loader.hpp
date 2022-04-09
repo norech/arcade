@@ -32,7 +32,7 @@ class Loader {
 
         GetNameFunction getName = (GetNameFunction)dlsym(handle, "getName");
         if (!getName) {
-            return name;
+            return name.substr(name.find_last_of("/\\") + 1);
         }
         std::string libName = getName();
         dlclose(handle);

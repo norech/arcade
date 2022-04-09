@@ -6,6 +6,30 @@
 
 namespace arc::game {
 
+// clang-format off
+std::vector<std::string> PacmanGame::_map = {
+    "###################",
+    "#        #        #",
+    "# ## ### # ### ## #",
+    "#                 #",
+    "# ## # ##### # ## #",
+    "#    #   #   #    #",
+    "#### ### # ### ####",
+    "   # #       # #   ",
+    "#### # ## ## # ####",
+    "       #   #       ",
+    "#### # ##### # ####",
+    "   # #       # #   ",
+    "#### ### # ### ####",
+    "#    #   #   #    #",
+    "# ## # ##### # ## #",
+    "#                 #",
+    "# ## ### # ### ## #",
+    "#        #        #",
+    "###################"
+};
+// clang-format on
+
 void PacmanGame::init()
 {
     _timer = 0;
@@ -16,25 +40,6 @@ void PacmanGame::init()
     _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
     _palette.setColor(3, 't', WHITE);
-    _map.push_back(std::string("###################"));
-    _map.push_back(std::string("#        #        #"));
-    _map.push_back(std::string("# ## ### # ### ## #"));
-    _map.push_back(std::string("#                 #"));
-    _map.push_back(std::string("# ## # ##### # ## #"));
-    _map.push_back(std::string("#    #   #   #    #"));
-    _map.push_back(std::string("#### ### # ### ####"));
-    _map.push_back(std::string("   # #       # #   "));
-    _map.push_back(std::string("#### # ## ## # ####"));
-    _map.push_back(std::string("       #   #       "));
-    _map.push_back(std::string("#### # ##### # ####"));
-    _map.push_back(std::string("   # #       # #   "));
-    _map.push_back(std::string("#### ### # ### ####"));
-    _map.push_back(std::string("#    #   #   #    #"));
-    _map.push_back(std::string("# ## # ##### # ## #"));
-    _map.push_back(std::string("#                 #"));
-    _map.push_back(std::string("# ## ### # ### ## #"));
-    _map.push_back(std::string("#        #        #"));
-    _map.push_back(std::string("###################"));
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])
