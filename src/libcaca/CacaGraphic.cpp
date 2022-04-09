@@ -20,8 +20,8 @@ std::unordered_map<int, KeyCode> CacaGraphic::_keyMap
         { CACA_KEY_RETURN, KeyCode::ENTER },
         { CACA_KEY_BACKSPACE, KeyCode::BACKSPACE },
         { CACA_KEY_UP, KeyCode::Z },
-        { CACA_KEY_DOWN, KeyCode::Q },
-        { CACA_KEY_LEFT, KeyCode::S },
+        { CACA_KEY_DOWN, KeyCode::S },
+        { CACA_KEY_LEFT, KeyCode::Q },
         { CACA_KEY_RIGHT, KeyCode::D },
         { ' ', KeyCode::SPACE }
     };

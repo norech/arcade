@@ -19,8 +19,8 @@ std::unordered_map<int, arc::KeyCode> NcursesGraphic::_keyMap
         { '\n', KeyCode::ENTER },
         { KEY_BACKSPACE, KeyCode::BACKSPACE },
         { KEY_UP, KeyCode::Z },
-        { KEY_DOWN, KeyCode::Q },
-        { KEY_LEFT, KeyCode::S },
+        { KEY_DOWN, KeyCode::S },
+        { KEY_LEFT, KeyCode::Q },
         { KEY_RIGHT, KeyCode::D },
         { ' ', KeyCode::SPACE }
     };
