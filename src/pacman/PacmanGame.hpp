@@ -32,6 +32,7 @@ class PacmanGame : public IGame {
     std::vector<std::string> _mapCpy;
     size_t _score;
     float _timer;
+    int _pcCount = 0;
 
 
  public:
@@ -61,6 +62,7 @@ class PacmanGame : public IGame {
     void hardReset(void);
     void eat(const VectorInt &vec);
     void printScore();
+    void blinky(void);
 };
 
 } // namespace arc::grph

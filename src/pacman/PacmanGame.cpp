@@ -1,9 +1,9 @@
-
 #include "spc/common/KeyCode.hpp"
 #include <iostream>
 #include "../common/VectorInt.hpp"
 #include "PacmanGame.hpp"
 #include <iostream>
+#include <stack>
 
 namespace arc::game {
 
@@ -12,13 +12,13 @@ void PacmanGame::init()
     _timer = 0;
     _player = VectorInt(11, 17);
     _player_mov = VectorInt(-1, 0);
-    _Blink = VectorInt(9, 9);
+    _Blink = VectorInt(11, 7);
     _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'B', RED);
     _palette.setColor(2, '#', BLUE);
     _palette.setColor(3, 't', WHITE);
     _palette.setColor(4, '#', WHITE);
-    _score  = 0;
+    _score  = 100;
     _map.push_back(std::string("#######################"));
     _map.push_back(std::string("#oooooooooo#oooooooooo#"));
     _map.push_back(std::string("#O###o####o#o####o###O#"));
@@ -27,9 +27,9 @@ void PacmanGame::init()
     _map.push_back(std::string("#ooooo#oooo#oooo#ooooo#"));
     _map.push_back(std::string("#####o####o#o####o#####"));
     _map.push_back(std::string("    #o#         #o#    "));
-    _map.push_back(std::string("    #o# ### ### #o#    "));
+    _map.push_back(std::string("    #o# ####### #o#    "));
     _map.push_back(std::string("#####o# #     # #o#####"));
-    _map.push_back(std::string("     o  #     #  o     "));
+    _map.push_back(std::string("    Go  #     #  oG    "));
     _map.push_back(std::string("#####o# #     # #o#####"));
     _map.push_back(std::string("    #o# ####### #o#    "));
     _map.push_back(std::string("    #o#         #o#    "));
@@ -43,6 +43,7 @@ void PacmanGame::init()
     _map.push_back(std::string("#oooooooooo#oooooooooo#"));
     _map.push_back(std::string("#######################"));
     _mapCpy = _map;
+    //blinky();
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])
@@ -74,6 +75,9 @@ void PacmanGame::update(float dt [[maybe_unused]])
                 && this->getCollide(arc::game::VectorInt(1, 0)) == false) {
                 _player_mov.setValue(1, 0);
             }
+            if (event.keyboardInput.keyCode == KeyCode::R) {
+                hardReset();
+            }
         }
     }
     _timer += dt;
@@ -90,6 +94,11 @@ void PacmanGame::update(float dt [[maybe_unused]])
         _player += _player_mov;
         eat(_player);
         _timer = 0;
+        blinky();
+    }
+    if (_pcCount == 0) {
+        _score += 1000;
+        reset();
     }
 }
 
@@ -104,6 +113,7 @@ void PacmanGame::render()
     _graphic->clear();
     _canvas->startDraw();
 
+    _pcCount = 0;
     for (size_t y = 0; y < _map.size(); y++) {
         for (size_t x = 0; x < _map.at(y).size(); x++) {
             if (_map.at(y).at(x) == '#') {
@@ -111,6 +121,7 @@ void PacmanGame::render()
             } else if (_map.at(y).at(x) == 'O' || _map.at(y).at(x) == 'o') {
                 test[0] = _map.at(y).at(x);
                 _canvas->drawText(x, y, test, this->_palette[3]);
+                _pcCount++;
             }
         }
     }
@@ -153,6 +164,45 @@ void PacmanGame::eat(const VectorInt &vec)
         _map.at(vec.value.y).at(vec.value.x) = ' ';
         _score += 1;
     }
+    if (_map.at(vec.value.y).at(vec.value.x) == 'O') {
+        _map.at(vec.value.y).at(vec.value.x) = ' ';
+        _score += 10;
+    }
+}
+
+void PacmanGame::blinky(void)
+{
+    std::stack<VectorInt> path;
+    int x = 0;
+
+    path.push(this->_Blink);
+    while (path.top().value.x != _player.value.x && path.top().value.y != _player.value.y) {
+        if (x == 5) {
+            break;
+        }
+        if (path.top().value.x > 21) {
+            break;
+        }
+        if (path.top().value.x < 1) {
+            break;
+        }
+        if ((_map.at(path.top().value.y).at(path.top().value.x + 1) != 'G') && (_map.at(path.top().value.y).at(path.top().value.x + 1) != '#') && (path.top().value.x + 1 != path.top().value.x)) {
+            path.push(VectorInt(path.top().value.x + 1, path.top().value.y ));
+        } else if ((_map.at(path.top().value.y + 1).at(path.top().value.x) != 'G') && (_map.at(path.top().value.y + 1).at(path.top().value.x) != '#') && (path.top().value.y + 1 != path.top().value.y)) {
+            path.push(VectorInt(path.top().value.x, path.top().value.y + 1 ));
+        } else if ((_map.at(path.top().value.y).at(path.top().value.x - 1) != '#') && (_map.at(path.top().value.y).at(path.top().value.x - 1) != '#') && (path.top().value.x - 1 != path.top().value.x)) {
+            path.push(VectorInt(path.top().value.x + -1, path.top().value.y ));
+        } else if ((_map.at(path.top().value.y - 1).at(path.top().value.x) != '#') && (_map.at(path.top().value.y - 1).at(path.top().value.x) != '#') && (path.top().value.y - 1 != path.top().value.y)) {
+            path.push(VectorInt(path.top().value.x, path.top().value.y + -1 ));
+        } else {
+            break;
+        }
+        x++;
+    }
+    while(path.size() > 2) {
+        path.pop();
+    }
+    _Blink = path.top();
 }
 
 void PacmanGame::reset(void)
@@ -160,8 +210,7 @@ void PacmanGame::reset(void)
     this->_map = _mapCpy;
     this->_player = VectorInt(11, 17);
     this->_player_mov = VectorInt(-1, 0);
-    this->_Blink = VectorInt(9, 9);
-
+    //this->_Blink = VectorInt(9, 9);
 }
 
 void PacmanGame::hardReset(void)
