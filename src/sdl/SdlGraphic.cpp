@@ -53,7 +53,7 @@ void SdlGraphic::init()
     TTF_Init();
     _font = TTF_OpenFont("./font.ttf", 20);
 
-    if (_renderer == NULL) {
+    if (_renderer == NULL || _font == NULL) {
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
