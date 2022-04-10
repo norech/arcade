@@ -25,6 +25,8 @@ void arc::game::NibblerGame::init()
     _palette.setColor(6, 'Y', BLUE);
     this->initMap();
     this->initPlayer();
+    _playername = _manager->getPlayerName();
+    _highscore = _manager->getHighScore("nibbler");
     _velocityX = 0;
     _velocityY = 0;
     _move = 0;
@@ -72,6 +74,9 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]])
                 }
             }
             if (event.keyboardInput.keyCode == arc::KeyCode::R) {
+                if (this->_score > this->_highscore) {
+                    _manager->setHighScore("nibbler", this->_score);
+                }
                 this->reset();
             }
         }
@@ -92,14 +97,23 @@ void arc::game::NibblerGame::render()
 
     _canvas->drawText(
         1, 23, "Score: " + std::to_string(_score), this->_palette[6]);
+    _canvas->drawText(
+        1, 24, "Highscore:", this->_palette[6]);
+    _canvas->drawText(
+        1, 25, _playername + ":" + std::to_string(_highscore), this->_palette[6]);
 
     this->drawMap();
     this->drawTail();
 
     if (_vectory == 1)
         _canvas->drawText(17, 9, "GAME OVER", this->_palette[4]);
-    if (_vectory == 2)
+    if (_vectory == 2) {
         _canvas->drawText(17, 9, "YOU WIN", this->_palette[5]);
+        if (this->_score > this->_highscore) {
+            _manager->setHighScore("nibbler", this->_score);
+        }
+        reset();
+    }
 
     _canvas->endDraw();
     _graphic->render();
@@ -116,7 +130,12 @@ void arc::game::NibblerGame::unloadGraphic()
     this->_graphic->unloadCanvas(_canvas);
 }
 
-void arc::game::NibblerGame::destroy() { }
+void arc::game::NibblerGame::destroy()
+{
+    if (this->_score > this->_highscore) {
+        _manager->setHighScore("nibbler", this->_score);
+    }
+}
 
 void arc::game::NibblerGame::initMap()
 {
@@ -271,8 +290,13 @@ void arc::game::NibblerGame::eatFood()
         _map.at(_position.at(0).y).at(_position.at(0).x) = ' ';
         _score += 10;
     }
-    if (this->eatAll() == true)
+    if (this->eatAll() == true) {
         _vectory = 2;
+        if (this->_score > this->_highscore) {
+            std::cout << "sethighscore" << std::endl;
+            _manager->setHighScore("nibbler", this->_score);
+        }
+    }
 }
 
 void arc::game::NibblerGame::reset()
