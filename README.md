@@ -5,7 +5,7 @@
 The goal of this project is to make an app in C++<br>
 to load an unload in runtime games and graphicals library
 
-for this project whe need to share our interfaces with an other group
+for this project whe need to share our interfaces with another group
 
 here the email of the leader of the other group
 
@@ -15,7 +15,7 @@ here the email of the leader of the other group
 all You need to start is make g++ sfml sdl ncurses ...
 and the development kit of the graphic library
 
-for the moment whe have implemented 
+for the moment we have implemented 
 
 | Library | Games |
 |:-------:|:-----:|
@@ -26,9 +26,9 @@ for the moment whe have implemented
 
 ### Documentation
 
-here is the docs [docs](https://github.com/EpitechPromo2025/B-OOP-400-RUN-4-1-arcade-ludovic.peltier/blob/cmake/doc/create_game.pdf) to create games
+here is the docs [docs](./doc/create_game.pdf) to create games
 
-here is the [docs](https://github.com/EpitechPromo2025/B-OOP-400-RUN-4-1-arcade-ludovic.peltier/blob/cmake/doc/create_graphical_lib.pdf) to create graphics api
+here is the [docs](./doc/create_graphical_lib.pdf) to create graphics api
 
 and you can generate doxygen documentation
 
