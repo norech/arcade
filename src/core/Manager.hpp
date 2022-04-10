@@ -40,6 +40,7 @@ class Manager : IManager {
     void unloadGame();
     void unloadGraphic();
     void reloadCurrentGraphic();
+    std::string getGraphicPath() const;
     void loadGame(const std::string& gamePath) override;
     void loadGraphic(const std::string& graphicPath) override;
     grph::IGraphic* getGraphic() override;
