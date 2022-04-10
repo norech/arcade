@@ -136,7 +136,8 @@ void Manager::update()
 bool Manager::pollEvent(Event& input)
 {
     bool event = _graphic->pollEvent(input);
-    if (event && event.type == Event::QUIT) {
+
+    if (event && input.type == Event::QUIT) {
         _graphic->close();
         return false;
     }
