@@ -2,7 +2,7 @@
 % Arcade documentation
 % April Revision
 
-### First steps
+### 1 — First steps
 
 Your game will take the form of a shared library (`.so` file).
 
