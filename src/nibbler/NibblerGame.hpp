@@ -51,7 +51,7 @@ class NibblerGame : public AGame {
     grph::IGraphic* _graphic;
     int _playerX = 0;
     int _playerY = 0;
-    int _score = 0;
+    size_t _score = 0;
     int _velocityX = 0;
     int _velocityY = 0;
     float _move = 0;
@@ -59,6 +59,8 @@ class NibblerGame : public AGame {
     bool _touch = false;
     int _vectory = 0;
     int _back = 0;
+    size_t _highscore;
+    std::string _playername;
     std::vector<std::string> _map;
     std::vector<Vector2> _position;
     std::vector<Vector2> _pos_copy;
