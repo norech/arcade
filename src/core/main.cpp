@@ -26,8 +26,10 @@ bool showGameMenu(arc::core::Manager& manager, arc::game::GameMenu& gameMenu)
 
 void runArcade(const std::string& graphic)
 {
+    bool isBackToMenu = false;
     arc::core::Manager manager;
     arc::game::GameMenu gameMenu;
+
     manager.init();
     manager.loadGraphic(graphic);
 
@@ -47,9 +49,10 @@ void runArcade(const std::string& graphic)
             manager.update();
         }
         manager.unloadGame();
-        if (manager.isBackToMenu())
+        isBackToMenu = manager.isBackToMenu();
+        if (isBackToMenu)
             manager.reloadCurrentGraphic();
-    } while (manager.isBackToMenu());
+    } while (isBackToMenu);
 
     manager.destroy();
 }

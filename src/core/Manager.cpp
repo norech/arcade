@@ -230,16 +230,19 @@ void Manager::setPlayerName(const std::string& name) { _playerName = name; }
 
 void Manager::setHighScore(const std::string& gameName, long score)
 {
-    std::ifstream readfile("./highscore/" + gameName + ".txt");
-    if (!readfile.is_open()) {
-        std::ofstream write("./highscore/" + gameName + ".txt");
-    }
     if (!std::filesystem::is_directory("./highscore")
         || !std::filesystem::exists("./highscore")) {
-        return;
+        std::filesystem::create_directory("./highscore");
     }
     std::ifstream read("./highscore/" + gameName + ".txt");
     std::ofstream write("./highscore/" + gameName + "_2.txt");
+    if (!read.is_open()) {
+        std::ofstream writefile("./highscore/" + gameName + ".txt");
+        if (writefile.is_open()) {
+            writefile.close();
+        }
+        read.open("./highscore/" + gameName + ".txt");
+    }
     if (!read.is_open()) {
         return;
     }
@@ -248,14 +251,12 @@ void Manager::setHighScore(const std::string& gameName, long score)
     }
     bool isHighScoreWritten = false;
     std::string line;
-    long lineScore;
     while (std::getline(read, line)) {
         std::stringstream ss(line);
         std::string name;
         std::getline(ss, name, ':');
-        ss >> lineScore;
         if (name == getPlayerName()) {
-            write << name << ":" << lineScore << std::endl;
+            write << name << ":" << score << std::endl;
             isHighScoreWritten = true;
         } else {
             write << line << std::endl;
