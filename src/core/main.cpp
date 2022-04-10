@@ -34,8 +34,6 @@ void runArcade(const std::string& graphic)
     do {
         if (!showGameMenu(manager, gameMenu))
             break;
-        std::cout << "Starting game: " << gameMenu.getSelectedGamePath()
-                  << std::endl;
 
         if (!gameMenu.hasSelectedGame())
             break;
@@ -79,13 +77,13 @@ int main(int ac, char* av[])
     try {
         runArcade(av[1]);
     } catch (const arc::core::ManagerError& ex) {
-        std::cout << "Internal error: " << ex.what() << std::endl;
+        std::cerr << "Internal error: " << ex.what() << std::endl;
         return 84;
     } catch (const arc::core::LoaderError& ex) {
-        std::cout << "Can't load library: " << ex.what() << std::endl;
+        std::cerr << "Can't load library: " << ex.what() << std::endl;
         return 84;
     } catch (const std::exception& ex) {
-        std::cout << "Error: " << ex.what() << std::endl;
+        std::cerr << "Error: " << ex.what() << std::endl;
         return 84;
     }
 }
