@@ -24,6 +24,8 @@ class PacmanGame : public IGame {
     VectorInt _Blink;
     std::vector<std::string> _mapCpy;
     size_t _score;
+    std::string _playername;
+    size_t _highscore;
     float _timer;
     int _pcCount = 0;
 
