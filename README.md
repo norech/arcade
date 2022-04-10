@@ -48,17 +48,14 @@ Usage: ./arcade [graphical_library.so]
 
 Common game input:
  ZQSD / Arrows          Move
- I / Enter              Confirm
+ Enter                  Confirm
  R                      Restart game
 Core input:
  K                      Exit game
  O                      Previous graphical library
  P                      Next graphical library
+ L                      Previous game
+ M                      Next game
+ I                      Go back to game menu
  ```
  
-
-
-
-
-
-

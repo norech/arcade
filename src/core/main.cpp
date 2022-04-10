@@ -62,7 +62,7 @@ int main(int ac, char* av[])
                   << "" << std::endl
                   << "Common game input:" << std::endl
                   << " ZQSD / Arrows\t\tMove" << std::endl
-                  << " Enter\t\tConfirm" << std::endl
+                  << " Enter\t\t\tConfirm" << std::endl
                   << " R\t\t\tRestart game" << std::endl
                   << "Core input:" << std::endl
                   << " K\t\t\tExit game" << std::endl
