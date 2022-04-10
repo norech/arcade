@@ -34,5 +34,7 @@ class AGraphic : public IGraphic {
     }
 
     void destroy() override { }
+
+    void registerSprite(game::ISprite& sprite [[maybe_unused]]) override { }
 };
 }

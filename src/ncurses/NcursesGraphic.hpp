@@ -36,8 +36,6 @@ class NcursesGraphic : public AGraphic {
 
     int getColorIndex(const ColorCode& color);
 
-    void registerSprite(game::ISprite& sprite);
-
  private:
     static std::unordered_map<int, arc::KeyCode> _keyMap;
     WINDOW* _window;
