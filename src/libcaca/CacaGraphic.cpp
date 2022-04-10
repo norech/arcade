@@ -34,6 +34,7 @@ void CacaGraphic::init()
     caca_set_display_title(display, "libcaca");
     caca_set_display_time(display, 25000);
     caca_set_color_ansi(canvas, CACA_BLACK, CACA_WHITE);
+    _willBeClosed = false;
 }
 
 bool CacaGraphic::isOpen()

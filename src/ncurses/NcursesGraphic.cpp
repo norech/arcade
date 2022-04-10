@@ -29,6 +29,7 @@ std::unordered_map<int, arc::KeyCode> NcursesGraphic::_keyMap
 void NcursesGraphic::init()
 {
     _window = initscr();
+    _willBeClosed = false;
     timeout(25);
     curs_set(0);
     noecho();
