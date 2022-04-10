@@ -69,9 +69,9 @@ Your game must also provide the following methods:
 
 You must have an `std::shared_ptr<arc::grph::ICanvas>` member variable that will hold the current library canvas, used to render the game.
 
-It must be handled in the `loadGraphic` and `unloadGraphic` methods to ensure that the canvas is correctly set, thanks to the `IGraphic::loadCanvas(ICanvas)` and `IGraphic::unloadCanvas()` methods.
+It must be handled in the `loadGraphic` and `unloadGraphic` methods to ensure that the canvas is correctly set, thanks to the `IGraphic::loadCanvas(ICanvas&)` and `IGraphic::unloadCanvas()` methods.
 
-A `arc::IManager` member variable `_manager` is also provided, that you will use when you need to handle events and scoreboard.
+An `arc::IManager` member variable `_manager` is also provided, that you will use when you need to handle events and scoreboard.
 
 \pagebreak
 
