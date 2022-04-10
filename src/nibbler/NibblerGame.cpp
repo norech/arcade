@@ -35,7 +35,7 @@ void arc::game::NibblerGame::init() {
 
 void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
     Event event;
-    while (_graphic->pollEvent(event)) {
+    while (_manager->pollEvent(event)) {
 
         if (event.type == Event::QUIT) {
             _graphic->close();
