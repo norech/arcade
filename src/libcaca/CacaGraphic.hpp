@@ -5,7 +5,9 @@
 #include <ncurses.h>
 
 #include "../common/graphic.hpp"
+#include "spc/common/KeyCode.hpp"
 #include "spc/graphic/IGraphic.hpp"
+#include <unordered_map>
 
 namespace arc::grph {
 
@@ -41,6 +43,6 @@ class CacaGraphic : public Graphic {
     caca_canvas_t* _canvas;
     caca_display_t* _display;
     bool _willBeClosed = false;
+    static std::unordered_map<int, KeyCode> _keyMap;
 };
-
 }

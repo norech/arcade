@@ -1,11 +1,18 @@
 #pragma once
 
 #include "spc/common/IManager.hpp"
+#include <unordered_map>
 #include "spc/graphic/IGraphic.hpp"
 #include <map>
 #include <vector>
 
 namespace arc::core {
+
+struct Score {
+    std::string name;
+    std::string game;
+    long score;
+};
 
 class Manager : IManager {
  private:
@@ -18,6 +25,7 @@ class Manager : IManager {
     bool _mustLoadNext = false;
     bool _isGameFromLoader = false;
     bool _isGraphicFromLoader = false;
+    std::string _playerName;
 
  public:
     Manager() = default;
@@ -39,6 +47,12 @@ class Manager : IManager {
     bool pollEvent(Event& input) override;
     void listGames(std::vector<std::string>& games);
     void listGraphics(std::vector<std::string>& graphics);
+    std::string getPlayerName() override;
+    void setPlayerName(const std::string& name) override;
+    void setHighScore(const std::string& gameName, long score) override;
+    long getHighScore(const std::string& gameName) override;
+    std::unordered_map<std::string, long> getAllHighScores(
+        const std::string& gameName);
+    std::vector<Score> getAllHighScores();
 };
-
 }

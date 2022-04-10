@@ -38,6 +38,7 @@ void runArcade(const std::string& graphic)
         manager.destroy();
         return;
     }
+    manager.setPlayerName(gameMenu.getPlayerName());
     manager.loadGame(gameMenu.getSelectedGamePath());
     manager.loadGraphic(gameMenu.getSelectedGraphicPath());
 

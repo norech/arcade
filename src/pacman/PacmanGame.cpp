@@ -7,6 +7,34 @@
 
 namespace arc::game {
 
+// clang-format off
+std::vector<std::string> PacmanGame::_map = {
+    "#######################",
+    "#oooooooooo#oooooooooo#",
+    "#O###o####o#o####o###O#",
+    "#ooooooooooooooooooooo#",
+    "#o###o#o#######o#o###o#",
+    "#ooooo#oooo#oooo#ooooo#",
+    "#####o####o#o####o#####",
+    "    #o#         #o#    ",
+    "    #o# ####### #o#    ",
+    "#####o# #     # #o#####",
+    "    Go  #     #  oG    ",
+    "#####o# #     # #o#####",
+    "    #o# ####### #o#    ",
+    "    #o#         #o#    ",
+    "#####o# ####### #o#####",
+    "#oooooooooo#oooooooooo#",
+    "#o###o####o#o####o###o#",
+    "#Ooo#oooooo oooooo#ooO#",
+    "###o#o#o#######o#o#o###",
+    "#ooooo#oooo#oooo#ooooo#",
+    "#o########o#o########o#",
+    "#oooooooooo#oooooooooo#",
+    "#######################"
+};
+// clang-format on
+
 void PacmanGame::init()
 {
     _timer = 0;
@@ -19,29 +47,6 @@ void PacmanGame::init()
     _palette.setColor(3, 't', WHITE);
     _palette.setColor(4, '#', WHITE);
     _score  = 100;
-    _map.push_back(std::string("#######################"));
-    _map.push_back(std::string("#oooooooooo#oooooooooo#"));
-    _map.push_back(std::string("#O###o####o#o####o###O#"));
-    _map.push_back(std::string("#ooooooooooooooooooooo#"));
-    _map.push_back(std::string("#o###o#o#######o#o###o#"));
-    _map.push_back(std::string("#ooooo#oooo#oooo#ooooo#"));
-    _map.push_back(std::string("#####o####o#o####o#####"));
-    _map.push_back(std::string("    #o#         #o#    "));
-    _map.push_back(std::string("    #o# ####### #o#    "));
-    _map.push_back(std::string("#####o# #     # #o#####"));
-    _map.push_back(std::string("    Go  #     #  oG    "));
-    _map.push_back(std::string("#####o# #     # #o#####"));
-    _map.push_back(std::string("    #o# ####### #o#    "));
-    _map.push_back(std::string("    #o#         #o#    "));
-    _map.push_back(std::string("#####o# ####### #o#####"));
-    _map.push_back(std::string("#oooooooooo#oooooooooo#"));
-    _map.push_back(std::string("#o###o####o#o####o###o#"));
-    _map.push_back(std::string("#Ooo#oooooo oooooo#ooO#"));
-    _map.push_back(std::string("###o#o#o#######o#o#o###"));
-    _map.push_back(std::string("#ooooo#oooo#oooo#ooooo#"));
-    _map.push_back(std::string("#o########o#o########o#"));
-    _map.push_back(std::string("#oooooooooo#oooooooooo#"));
-    _map.push_back(std::string("#######################"));
     _mapCpy = _map;
     //blinky();
 }
@@ -112,10 +117,10 @@ void PacmanGame::render()
     _pcCount = 0;
     for (size_t y = 0; y < _map.size(); y++) {
         for (size_t x = 0; x < _map.at(y).size(); x++) {
-            if (_map.at(y).at(x) == '#') {
+            if (_mapCpy.at(y).at(x) == '#') {
                 _canvas->drawPoint(x, y, this->_palette[2]);
-            } else if (_map.at(y).at(x) == 'O' || _map.at(y).at(x) == 'o') {
-                test[0] = _map.at(y).at(x);
+            } else if (_mapCpy.at(y).at(x) == 'O' || _map.at(y).at(x) == 'o') {
+                test[0] = _mapCpy.at(y).at(x);
                 _canvas->drawText(x, y, test, this->_palette[3]);
                 _pcCount++;
             }
@@ -161,12 +166,12 @@ bool PacmanGame::getCollide(VectorInt nextPos)
 
 void PacmanGame::eat(const VectorInt &vec)
 {
-    if (_map.at(vec.value.y).at(vec.value.x) == 'o') {
-        _map.at(vec.value.y).at(vec.value.x) = ' ';
+    if (_mapCpy.at(vec.value.y).at(vec.value.x) == 'o') {
+        _mapCpy.at(vec.value.y).at(vec.value.x) = ' ';
         _score += 1;
     }
-    if (_map.at(vec.value.y).at(vec.value.x) == 'O') {
-        _map.at(vec.value.y).at(vec.value.x) = ' ';
+    if (_mapCpy.at(vec.value.y).at(vec.value.x) == 'O') {
+        _mapCpy.at(vec.value.y).at(vec.value.x) = ' ';
         _score += 10;
     }
 }
