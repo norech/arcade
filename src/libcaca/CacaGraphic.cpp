@@ -7,31 +7,40 @@
 
 #include "CacaGraphic.hpp"
 #include "CacaCanvas.hpp"
-#include "spc/common/KeyCode.hpp"
 #include <chrono>
 #include <iostream>
 #include <thread> // std::this_thread::sleep_for
+#include <unordered_map>
 
 namespace arc::grph {
 
-CacaGraphic::CacaGraphic() { }
-
-CacaGraphic::~CacaGraphic() { }
+// clang-format off
+std::unordered_map<int, KeyCode> CacaGraphic::_keyMap
+    = {
+        { CACA_KEY_RETURN, KeyCode::ENTER },
+        { CACA_KEY_BACKSPACE, KeyCode::BACKSPACE },
+        { CACA_KEY_UP, KeyCode::Z },
+        { CACA_KEY_DOWN, KeyCode::S },
+        { CACA_KEY_LEFT, KeyCode::Q },
+        { CACA_KEY_RIGHT, KeyCode::D },
+        { ' ', KeyCode::SPACE }
+    };
+// clang-format on
 
 void CacaGraphic::init()
 {
-    _display = caca_create_display(NULL);
-    _canvas = caca_get_canvas(_display);
-    caca_set_display_title(_display, "Arcade");
-    caca_set_display_time(_display, 25000);
-    caca_set_color_ansi(_canvas, CACA_BLACK, CACA_WHITE);
+    display = caca_create_display(NULL);
+    canvas = caca_get_canvas(display);
+    caca_set_display_title(display, "libcaca");
+    caca_set_display_time(display, 25000);
+    caca_set_color_ansi(canvas, CACA_BLACK, CACA_WHITE);
 }
 
 bool CacaGraphic::isOpen()
 {
     if (_willBeClosed)
         return false;
-    if (_display != NULL) {
+    if (display != NULL) {
         return true;
     } else {
         return false;
@@ -40,9 +49,9 @@ bool CacaGraphic::isOpen()
 
 void CacaGraphic::close() { _willBeClosed = true; }
 
-void CacaGraphic::clear() { caca_clear_canvas(_canvas); }
+void CacaGraphic::clear() { caca_clear_canvas(canvas); }
 
-void CacaGraphic::render() { caca_refresh_display(_display); }
+void CacaGraphic::render() { caca_refresh_display(display); }
 
 float CacaGraphic::tick() { return 0.025; }
 
@@ -50,58 +59,37 @@ bool CacaGraphic::pollEvent(Event& event)
 {
     caca_event_t ev;
 
-    caca_get_event(_display, CACA_EVENT_KEY_PRESS | CACA_EVENT_QUIT, &ev, 25);
+    caca_get_event(display, CACA_EVENT_KEY_PRESS | CACA_EVENT_QUIT, &ev, 25);
 
     if (ev.type == CACA_EVENT_QUIT) {
         event.type = Event::QUIT;
         return true;
     }
     if (ev.type == CACA_EVENT_KEY_PRESS) {
-        switch(ev.data.key.ch) {
-            case CACA_KEY_RETURN:
-                event.keyboardInput.keyCode = KeyCode::I;
-                break;
-            case CACA_KEY_UP:
-                event.keyboardInput.keyCode = KeyCode::Z;
-                break;
-            case CACA_KEY_DOWN:
-                event.keyboardInput.keyCode = KeyCode::S;
-                break;
-            case CACA_KEY_LEFT:
-                event.keyboardInput.keyCode = KeyCode::Q;
-                break;
-            case CACA_KEY_RIGHT:
-                event.keyboardInput.keyCode = KeyCode::D;
-                break;
-            case ' ':
-                event.keyboardInput.keyCode = KeyCode::U;
-                break;
-            default:
-                event.keyboardInput.keyCode = ev.data.key.ch;
-                break;
-        }
         event.type = Event::EventType::KEYDOWN;
+        for (auto& it : _keyMap) {
+            if (it.first == ev.data.key.ch) {
+                event.keyboardInput.keyCode = it.second;
+                return true;
+            }
+        }
+        event.keyboardInput.keyCode = ev.data.key.ch;
         return true;
     }
     return false;
 }
 
-void CacaGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
+void CacaGraphic::loadCanvas(std::shared_ptr<ICanvas>& arcCanvas)
 {
-    canvas = std::make_shared<CacaCanvas>(this);
+    arcCanvas = std::make_shared<CacaCanvas>(this);
 }
 
-void CacaGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
+void CacaGraphic::unloadCanvas(std::shared_ptr<ICanvas>& arcCanvas)
 {
-    canvas.reset();
+    arcCanvas.reset();
 }
 
-void CacaGraphic::destroy() { caca_free_display(_display); }
-
-void CacaGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
-{
-    return;
-}
+void CacaGraphic::destroy() { caca_free_display(display); }
 
 int CacaGraphic::getCacaColor(const IColor& code)
 {
@@ -126,5 +114,4 @@ int CacaGraphic::getCacaColor(const IColor& code)
         return CACA_BLACK;
     }
 }
-
 }

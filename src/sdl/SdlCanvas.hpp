@@ -12,7 +12,7 @@
 
 namespace arc::grph {
 
-class SdlCanvas : public Canvas {
+class SdlCanvas : public ACanvas {
  public:
     SdlCanvas(SdlGraphic* graphic);
     ~SdlCanvas();
@@ -25,7 +25,8 @@ class SdlCanvas : public Canvas {
 
     void drawPoint(int x, int y, const IColor& color) override;
 
-    void drawText(int x, int y, const std::string &text, const IColor &ForeColor) override;
+    void drawText(int x, int y, const std::string& text,
+        const IColor& ForeColor) override;
 
  protected:
  private:

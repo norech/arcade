@@ -10,10 +10,10 @@
 
 namespace arc::grph {
 
-class Canvas : public ICanvas {
+class ACanvas : public ICanvas {
  public:
-    Canvas() = default;
-    ~Canvas() = default;
+    ACanvas() = default;
+    ~ACanvas() = default;
 
     CanvasCapacity getCapacities() const override
     {

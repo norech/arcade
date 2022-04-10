@@ -7,25 +7,34 @@
 
 #include "SfmlGraphic.hpp"
 #include "SfmlCanvas.hpp"
-#include "spc/common/KeyCode.hpp"
+#include <unordered_map>
 
-arc::grph::SfmlGraphic::SfmlGraphic() { }
-
-arc::grph::SfmlGraphic::~SfmlGraphic() { }
+// clang-format off
+std::unordered_map<int, arc::KeyCode> arc::grph::SfmlGraphic::_keyMap
+    = {
+        { sf::Keyboard::Return, arc::KeyCode::ENTER },
+        { sf::Keyboard::Backspace, arc::KeyCode::BACKSPACE },
+        { sf::Keyboard::Up, arc::KeyCode::Z },
+        { sf::Keyboard::Down, arc::KeyCode::S },
+        { sf::Keyboard::Left, arc::KeyCode::Q },
+        { sf::Keyboard::Right, arc::KeyCode::D },
+        { sf::Keyboard::Space, arc::KeyCode::SPACE }
+    };
+// clang-format on
 
 void arc::grph::SfmlGraphic::init()
 {
     _shouldClose = false;
-    this->_window.create(sf::VideoMode(800, 600), "SFML");
-    this->_window.setFramerateLimit(30);
-    this->_font.loadFromFile("./font.ttf");
+    this->window.create(sf::VideoMode(800, 600), "SFML");
+    this->window.setFramerateLimit(30);
+    this->font.loadFromFile("./font.ttf");
 }
 
 bool arc::grph::SfmlGraphic::isOpen()
 {
     if (_shouldClose)
         return false;
-    if (this->_window.isOpen())
+    if (this->window.isOpen())
         return true;
     else
         return false;
@@ -33,59 +42,38 @@ bool arc::grph::SfmlGraphic::isOpen()
 
 void arc::grph::SfmlGraphic::close() { _shouldClose = true; }
 
-void arc::grph::SfmlGraphic::clear() { this->_window.clear(); }
+void arc::grph::SfmlGraphic::clear() { this->window.clear(); }
 
-void arc::grph::SfmlGraphic::render() { this->_window.display(); }
+void arc::grph::SfmlGraphic::render() { this->window.display(); }
 
-float arc::grph::SfmlGraphic::tick() {
-    return (0.025);
-}
+float arc::grph::SfmlGraphic::tick() { return (0.025); }
 
 bool arc::grph::SfmlGraphic::pollEvent(Event& input [[maybe_unused]])
 {
     sf::Event sfmlEvent;
 
-    if (!_window.pollEvent(sfmlEvent))
+    if (!window.pollEvent(sfmlEvent))
         return false;
     if (sfmlEvent.type == sf::Event::Closed) {
         input.type = Event::QUIT;
         return true;
     }
     if (sfmlEvent.type == sf::Event::KeyPressed) {
-        switch (sfmlEvent.key.code) {
-            case sf::Keyboard::Left:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::Q;
+        input.type = Event::KEYDOWN;
+        for (auto& it : _keyMap) {
+            if (it.first == sfmlEvent.key.code) {
+                input.keyboardInput.keyCode = it.second;
                 return true;
-            case sf::Keyboard::Right:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::D;
-                return true;
-            case sf::Keyboard::Up:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::Z;
-                return true;
-            case sf::Keyboard::Down:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::S;
-                return true;
-            case sf::Keyboard::Space:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::U;
-                return true;
-            case sf::Keyboard::Return:
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = KeyCode::I;
-                return true;
-            default:
-                if (sfmlEvent.key.code < sf::Keyboard::A
-                    || sfmlEvent.key.code > sf::Keyboard::Z) {
-                    break;
-                }
-                input.type = Event::KEYDOWN;
-                input.keyboardInput.keyCode = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
-                return true;
+            }
         }
+        if (sfmlEvent.key.code < sf::Keyboard::A
+            || sfmlEvent.key.code > sf::Keyboard::Z) {
+            return false;
+        }
+        input.type = Event::KEYDOWN;
+        input.keyboardInput.keyCode
+            = (sfmlEvent.key.code - sf::Keyboard::A) + arc::KeyCode::A;
+        return true;
     }
     return false;
 }
@@ -102,6 +90,4 @@ void arc::grph::SfmlGraphic::unloadCanvas(
     canvas.reset();
 };
 
-void arc::grph::SfmlGraphic::destroy() { this->_window.close(); };
-
-void arc::grph::SfmlGraphic::registerSprite(game::ISprite &sprite[[maybe_unused]]) { return; }
+void arc::grph::SfmlGraphic::destroy() { this->window.close(); };

@@ -21,8 +21,8 @@ CanvasCapacity SdlCanvas::getCapacities() const
 
 void SdlCanvas::startDraw()
 {
-    SDL_SetRenderDrawColor(_graphic->_renderer, 0, 0, 0, 255);
-    SDL_RenderClear(_graphic->_renderer);
+    SDL_SetRenderDrawColor(_graphic->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(_graphic->renderer);
 }
 
 void SdlCanvas::endDraw() { }
@@ -35,27 +35,27 @@ void SdlCanvas::drawPoint(int x, int y, const IColor& color)
     int g = (color.getColorCode() & 0x00FF00) >> 8;
     int b = (color.getColorCode() & 0x0000FF);
 
-    SDL_SetRenderDrawColor(_graphic->_renderer, r, g, b, 255);
-    SDL_RenderFillRect(_graphic->_renderer, &rect);
-    SDL_RenderDrawRect(_graphic->_renderer, &rect);
+    SDL_SetRenderDrawColor(_graphic->renderer, r, g, b, 255);
+    SDL_RenderFillRect(_graphic->renderer, &rect);
+    SDL_RenderDrawRect(_graphic->renderer, &rect);
 }
 
-void SdlCanvas::drawText(int x [[maybe_unused]], int y [[maybe_unused]],
-    const std::string& text [[maybe_unused]],
-    const IColor& foreColor [[maybe_unused]])
+void SdlCanvas::drawText(
+    int x, int y, const std::string& text, const IColor& foreColor)
 {
-    SDL_Color color
-        = { static_cast<Uint8>((foreColor.getColorCode() & 0xFF0000) >> 16),
-              static_cast<Uint8>((foreColor.getColorCode() & 0x00FF00) >> 8),
-              static_cast<Uint8>((foreColor.getColorCode() & 0x0000FF)), 255 };
+    Uint8 r = (foreColor.getColorCode() & 0xFF0000) >> 16;
+    Uint8 g = (foreColor.getColorCode() & 0x00FF00) >> 8;
+    Uint8 b = (foreColor.getColorCode() & 0x0000FF);
+
+    SDL_Color color = { r, g, b, 255 };
     SDL_Surface* surface
-        = TTF_RenderText_Solid(_graphic->_font, text.c_str(), color);
+        = TTF_RenderText_Solid(_graphic->font, text.c_str(), color);
     SDL_Texture* texture
-        = SDL_CreateTextureFromSurface(_graphic->_renderer, surface);
+        = SDL_CreateTextureFromSurface(_graphic->renderer, surface);
     SDL_Rect trect = { (x * 20) + 3, (y * 20) - 3, 0, 0 };
 
     SDL_QueryTexture(texture, NULL, NULL, &trect.w, &trect.h);
-    SDL_RenderCopy(_graphic->_renderer, texture, NULL, &trect);
+    SDL_RenderCopy(_graphic->renderer, texture, NULL, &trect);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
 }
