@@ -20,6 +20,10 @@ void GameMenu::init()
     _palette.setColor(1, ' ', WHITE);
     _palette.setColor(2, ' ', BLUE);
     _palette.setColor(3, '.', BLUE);
+    _hasSelectedGame = false;
+    _hasValidatedInput = false;
+    _gamesNames.clear();
+    _graphicsNames.clear();
 
     for (auto& game : _games) {
         _gamesNames.emplace_back(GameLoader::getName(game));
