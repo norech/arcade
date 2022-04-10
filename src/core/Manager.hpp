@@ -1,9 +1,9 @@
 #pragma once
 
 #include "spc/common/IManager.hpp"
-#include <unordered_map>
 #include "spc/graphic/IGraphic.hpp"
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 namespace arc::core {
@@ -19,9 +19,12 @@ class Manager : IManager {
     grph::IGraphic* _graphic = nullptr;
     game::IGame* _game = nullptr;
     std::vector<std::string> _graphicPaths;
+    std::vector<std::string> _gamePaths;
     std::map<std::string, grph::IGraphic*> _loadedGraphics = {};
     int _currentGraphicId = 0;
+    int _currentGameId = 0;
     bool _mustLoadAnotherGraphic = false;
+    bool _mustLoadAnotherGame = false;
     bool _mustLoadNext = false;
     bool _isGameFromLoader = false;
     bool _isGraphicFromLoader = false;

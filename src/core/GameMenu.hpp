@@ -18,7 +18,6 @@ class GameMenu : public AGame {
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic = nullptr;
-    IManager* _manager;
     int _gameIndex = 0;
     int _graphicIndex = 0;
     bool gameSelected = false;

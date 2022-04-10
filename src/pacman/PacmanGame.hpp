@@ -18,7 +18,6 @@ class PacmanGame : public AGame {
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
     grph::IGraphic* _graphic;
-    IManager* _manager;
     VectorInt _player;
     VectorInt _player_mov;
     VectorInt _Blink;
@@ -28,7 +27,6 @@ class PacmanGame : public AGame {
     size_t _highscore;
     float _timer;
     int _pcCount = 0;
-
 
  public:
     PacmanGame() = default;
@@ -51,7 +49,7 @@ class PacmanGame : public AGame {
     void reset(void);
 
     void hardReset(void);
-    void eat(const VectorInt &vec);
+    void eat(const VectorInt& vec);
     void printScore();
     void blinky(void);
 };

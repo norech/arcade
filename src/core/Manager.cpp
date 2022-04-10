@@ -86,7 +86,11 @@ void Manager::setGraphic(grph::IGraphic* graphic) { _graphic = graphic; }
 
 void Manager::setGame(game::IGame* game) { _game = game; }
 
-void Manager::init() { listGraphics(_graphicPaths); }
+void Manager::init()
+{
+    listGraphics(_graphicPaths);
+    listGames(_gamePaths);
+}
 
 void Manager::destroy()
 {
@@ -131,6 +135,17 @@ void Manager::update()
             = (_currentGraphicId + movement) % _graphicPaths.size();
         loadGraphic(_graphicPaths[_currentGraphicId]);
     }
+    if (_mustLoadAnotherGame) {
+        unloadGame();
+        int movement = _mustLoadNext ? 1 : -1;
+
+        _mustLoadAnotherGame = false;
+        _currentGameId = (_currentGameId + movement) % _gamePaths.size();
+        loadGame(_gamePaths[_currentGameId]);
+        if (_graphic != nullptr) {
+            _game->loadGraphic(_graphic);
+        }
+    }
 }
 
 bool Manager::pollEvent(Event& input)
@@ -149,6 +164,16 @@ bool Manager::pollEvent(Event& input)
         }
         if (input.keyboardInput.keyCode == KeyCode::P) {
             _mustLoadAnotherGraphic = true;
+            _mustLoadNext = true;
+            return false;
+        }
+        if (input.keyboardInput.keyCode == KeyCode::L) {
+            _mustLoadAnotherGame = true;
+            _mustLoadNext = false;
+            return false;
+        }
+        if (input.keyboardInput.keyCode == KeyCode::M) {
+            _mustLoadAnotherGame = true;
             _mustLoadNext = true;
             return false;
         }
@@ -186,11 +211,11 @@ std::string Manager::getPlayerName() { return _playerName; }
 void Manager::setPlayerName(const std::string& name) { _playerName = name; }
 
 void Manager::setHighScore(const std::string& gameName, long score)
-{   
+{
     std::ifstream readfile("./highscore/" + gameName + ".txt");
     if (!readfile.is_open()) {
         std::ofstream write("./highscore/" + gameName + ".txt");
-    }   
+    }
     if (!std::filesystem::is_directory("./highscore")
         || !std::filesystem::exists("./highscore")) {
         return;
