@@ -10,7 +10,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <unordered_map>
 
+#include "spc/common/KeyCode.hpp"
 #include "spc/graphic/ICanvas.hpp"
 #include "spc/graphic/IGraphic.hpp"
 #include "../common/Graphic.hpp"
@@ -18,8 +20,8 @@
 namespace arc::grph {
 class SfmlGraphic : public AGraphic {
  public:
-    SfmlGraphic();
-    ~SfmlGraphic();
+    SfmlGraphic() = default;
+    ~SfmlGraphic() = default;
 
     void init() override;
     bool isOpen() override;
@@ -31,10 +33,11 @@ class SfmlGraphic : public AGraphic {
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void destroy() override;
     void clear() override;
-    void registerSprite(game::ISprite &sprite);
+    void registerSprite(game::ISprite& sprite);
 
     sf::RenderWindow _window;
     sf::Font _font;
+    static std::unordered_map<int, arc::KeyCode> _keyMap;
 
  protected:
  private:

@@ -45,6 +45,27 @@ public:
     virtual void setGame(game::IGame* game) = 0;
 
     /**
+     * @brief Saves the high score for the specified identifier.
+     */
+    virtual void setHighScore(const std::string& scoreIdentifier,
+                              long score) = 0;
+
+    /**
+     * @brief Gets the high score for the specified identifier
+     */
+    virtual long getHighScore(const std::string& scoreIdentifier) = 0;
+
+    /**
+     * @brief Sets the player name
+     */
+    virtual void setPlayerName(const std::string& playerName) = 0;
+
+    /**
+     * @brief Gets the player name
+     */
+    virtual std::string getPlayerName(void) = 0;
+
+    /**
      * @brief Init the game and the graphic, and then load the graphic lib into
      * the game
      */

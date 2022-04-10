@@ -7,16 +7,24 @@
 
 #include "NcursesGraphic.hpp"
 #include "NcursesCanvas.hpp"
-#include "spc/common/KeyCode.hpp"
 #include <iostream>
 
 namespace arc::grph {
 
 bool NcursesGraphic::_hasColorsSet = false;
 
-NcursesGraphic::NcursesGraphic() { }
-
-NcursesGraphic::~NcursesGraphic() { }
+// clang-format off
+std::unordered_map<int, arc::KeyCode> NcursesGraphic::_keyMap
+    = {
+        { '\n', KeyCode::ENTER },
+        { KEY_BACKSPACE, KeyCode::BACKSPACE },
+        { KEY_UP, KeyCode::Z },
+        { KEY_DOWN, KeyCode::S },
+        { KEY_LEFT, KeyCode::Q },
+        { KEY_RIGHT, KeyCode::D },
+        { ' ', KeyCode::SPACE }
+    };
+// clang-format on
 
 void NcursesGraphic::init()
 {
@@ -51,6 +59,8 @@ void NcursesGraphic::init()
 
 bool NcursesGraphic::isOpen()
 {
+    if (_willBeClosed)
+        return false;
     if (_window == nullptr) {
         return false;
     } else {
@@ -58,54 +68,25 @@ bool NcursesGraphic::isOpen()
     }
 }
 
-void NcursesGraphic::close()
-{
-    echo();
-    endwin();
-}
+void NcursesGraphic::close() { _willBeClosed = true; }
 
-void NcursesGraphic::render() { refresh(); }
+void NcursesGraphic::render() { wrefresh(_window); }
 
-void NcursesGraphic::clear()
-{
-    int backgroundColor = getColorIndex(ColorCode::BLACK);
-    wclear(_window);
-
-    attron(COLOR_PAIR(backgroundColor));
-    for (int i = 0; i < 600 / 20; i++) {
-        mvprintw(i, 0, std::string(800 / 20 * 2, ' ').c_str());
-    }
-    attroff(COLOR_PAIR(backgroundColor));
-}
+void NcursesGraphic::clear() { wclear(_window); }
 
 bool NcursesGraphic::pollEvent(Event& input)
 {
     int key = getch();
 
     if (key != ERR) {
-        switch (key) {
-        case KEY_UP:
-            input.keyboardInput.keyCode = KeyCode::Z;
-            break;
-        case KEY_DOWN:
-            input.keyboardInput.keyCode = KeyCode::S;
-            break;
-        case KEY_LEFT:
-            input.keyboardInput.keyCode = KeyCode::Q;
-            break;
-        case KEY_RIGHT:
-            input.keyboardInput.keyCode = KeyCode::D;
-            break;
-        case KEY_ENTER:
-            input.keyboardInput.keyCode = KeyCode::I;
-            break;
-        case ' ':
-            input.keyboardInput.keyCode = KeyCode::U;
-            break;
-        default:
-            input.keyboardInput.keyCode = key;
-            break;
+        for (auto& it : _keyMap) {
+            if (it.first == key) {
+                input.keyboardInput.keyCode = it.second;
+                input.type = Event::EventType::KEYDOWN;
+                return true;
+            }
         }
+        input.keyboardInput.keyCode = key;
         input.type = Event::EventType::KEYDOWN;
         return (true);
     }
@@ -116,7 +97,7 @@ float NcursesGraphic::tick() { return (0.025); }
 
 void NcursesGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
 {
-    canvas = std::make_shared<NcursesCanvas>(this);
+    canvas.reset(new NcursesCanvas(this));
 }
 
 void NcursesGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
@@ -124,7 +105,11 @@ void NcursesGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
     canvas.reset();
 }
 
-void NcursesGraphic::destroy() { this->close(); }
+void NcursesGraphic::destroy()
+{
+    echo();
+    endwin();
+}
 
 int NcursesGraphic::getColorIndex(const ColorCode& color)
 {

@@ -54,6 +54,14 @@
         "hash_map": "cpp",
         "list": "cpp",
         "ctime": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "ranges": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp",
+        "codecvt": "cpp",
+        "iomanip": "cpp"
     }
 }

@@ -1,3 +1,5 @@
 arcade
 *.so
 *.o
+highscore
+doc/doxygen
