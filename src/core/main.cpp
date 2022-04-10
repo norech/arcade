@@ -53,10 +53,14 @@ int main(int ac, char* av[])
         std::cout << "Usage: " << av[0] << " [graphical_library.so]"
                   << std::endl
                   << "" << std::endl
-                  << "Inputs:" << std::endl
+                  << "Common game input:" << std::endl
                   << " ZQSD / Arrows\t\tMove" << std::endl
                   << " I / Enter\t\tConfirm" << std::endl
-                  << " P\t\t\tSwitch current graphical library" << std::endl;
+                  << " R\t\t\tRestart game" << std::endl
+                  << "Core input:" << std::endl
+                  << " K\t\t\tExit game" << std::endl
+                  << " O\t\t\tPrevious graphical library" << std::endl
+                  << " P\t\t\tNext graphical library" << std::endl;
         return 84;
     }
 

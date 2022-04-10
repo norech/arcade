@@ -15,6 +15,7 @@ class Manager : IManager {
     std::map<std::string, grph::IGraphic*> _loadedGraphics = {};
     int _currentGraphicId = 0;
     bool _mustLoadAnotherGraphic = false;
+    bool _mustLoadNext = false;
     bool _isGameFromLoader = false;
     bool _isGraphicFromLoader = false;
 

@@ -1,8 +1,8 @@
+
 #include "spc/common/KeyCode.hpp"
 #include <iostream>
 #include "../common/VectorInt.hpp"
 #include "PacmanGame.hpp"
-#include <iostream>
 #include <stack>
 
 namespace arc::game {
@@ -49,16 +49,12 @@ void PacmanGame::init()
 void PacmanGame::update(float dt [[maybe_unused]])
 {
     Event event;
-    // TODO: replace _graphic->pollEvent(event) with _manager->pollEvent(event)
-    while (_graphic->pollEvent(event)) {
+    while (_manager->pollEvent(event)) {
 
         if (event.type == Event::QUIT) {
             _graphic->close();
         }
         if (event.type == Event::KEYDOWN) {
-            // TODO: remove this condition
-            if (event.keyboardInput.keyCode == KeyCode::P)
-                _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == KeyCode::Z
                 && this->getCollide(arc::game::VectorInt(0, -1)) == false) {
                 _player_mov.setValue(0, -1);
@@ -126,10 +122,12 @@ void PacmanGame::render()
         }
     }
 
-    _canvas->drawPoint(this->_Blink.value.x, this->_Blink.value.y, this->_palette[1]);
+    _canvas->drawPoint(
+        this->_Blink.value.x, this->_Blink.value.y, this->_palette[1]);
 
     _canvas->drawPoint(this->_player.value.x, this->_player.value.y, this->_palette[0]);
     printScore();
+
 
     _canvas->endDraw();
     _graphic->render();
@@ -146,13 +144,16 @@ void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void PacmanGame::destroy() { }
 
-void PacmanGame::setManager(IManager *manager) { _manager = manager; }
+void PacmanGame::setManager(IManager* manager) { _manager = manager; }
 
 bool PacmanGame::getCollide(VectorInt nextPos)
 {
     if (_player.value.x + nextPos.value.x < 0 || _player.value.x + nextPos.value.x > 22)
+
         return (false);
-    if (this->_map.at(_player.value.y + nextPos.value.y).at(_player.value.x + nextPos.value.x) == '#') {
+    if (this->_map.at(_player.value.y + nextPos.value.y)
+            .at(_player.value.x + nextPos.value.x)
+        == '#') {
         return (true);
     }
     return (false);
