@@ -134,6 +134,10 @@ void Manager::update()
 bool Manager::pollEvent(Event& input)
 {
     bool event = _graphic->pollEvent(input);
+    if (event && event.type == Event::QUIT) {
+        _graphic->close();
+        return false;
+    }
     if (event && input.type == Event::KEYDOWN) {
         if (input.keyboardInput.keyCode == KeyCode::O) {
             _mustLoadAnotherGraphic = true;

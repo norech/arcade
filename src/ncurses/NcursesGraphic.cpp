@@ -97,7 +97,7 @@ float NcursesGraphic::tick() { return (0.025); }
 
 void NcursesGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
 {
-    canvas = std::make_shared<NcursesCanvas>(this);
+    canvas.reset(new NcursesCanvas(this));
 }
 
 void NcursesGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
