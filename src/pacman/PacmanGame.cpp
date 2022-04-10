@@ -117,10 +117,10 @@ void PacmanGame::render()
     _pcCount = 0;
     for (size_t y = 0; y < _map.size(); y++) {
         for (size_t x = 0; x < _map.at(y).size(); x++) {
-            if (_map.at(y).at(x) == '#') {
+            if (_mapCpy.at(y).at(x) == '#') {
                 _canvas->drawPoint(x, y, this->_palette[2]);
-            } else if (_map.at(y).at(x) == 'O' || _map.at(y).at(x) == 'o') {
-                test[0] = _map.at(y).at(x);
+            } else if (_mapCpy.at(y).at(x) == 'O' || _map.at(y).at(x) == 'o') {
+                test[0] = _mapCpy.at(y).at(x);
                 _canvas->drawText(x, y, test, this->_palette[3]);
                 _pcCount++;
             }
@@ -166,12 +166,12 @@ bool PacmanGame::getCollide(VectorInt nextPos)
 
 void PacmanGame::eat(const VectorInt &vec)
 {
-    if (_map.at(vec.value.y).at(vec.value.x) == 'o') {
-        _map.at(vec.value.y).at(vec.value.x) = ' ';
+    if (_mapCpy.at(vec.value.y).at(vec.value.x) == 'o') {
+        _mapCpy.at(vec.value.y).at(vec.value.x) = ' ';
         _score += 1;
     }
-    if (_map.at(vec.value.y).at(vec.value.x) == 'O') {
-        _map.at(vec.value.y).at(vec.value.x) = ' ';
+    if (_mapCpy.at(vec.value.y).at(vec.value.x) == 'O') {
+        _mapCpy.at(vec.value.y).at(vec.value.x) = ' ';
         _score += 10;
     }
 }
