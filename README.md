@@ -2,20 +2,18 @@
 
 ## Welcome on our Arcade Project!
 
-The goal of this project is to make an app in C++<br>
-to load an unload in runtime games and graphicals library
+The goal of this project is to make a basic gaming platform in C++, that is able to switch between games and graphical libraries at runtime. In this project, each games and graphical libraries are separated in their own shared libraries.
 
-for this project we need to share our interfaces with another group
+For this project, we needed to share a common interface with another group, and make our shared libraries compatible with their platform.
 
-here the email of the leader of the other group
+Here is the email of the leader of the other group:
 
 |mathieu.muty@epitech.eu|
 |:---------------------:|
 
-all You need to start is make g++ sfml sdl ncurses ...
-and the development kit of the graphic library
+All you need to start with this project: make, g++, SFML, SDL2, SDL2_ttf, ncurses. You will need the development packages to build the graphical libraries.
 
-for the moment we have implemented 
+For the moment, we have implemented the following games:
 
 | Library | Games |
 |:-------:|:-----:|
@@ -26,15 +24,16 @@ for the moment we have implemented
 
 ### Documentation
 
-here is the docs [docs](./doc/create_game.pdf) to create games
+Here is the [document](./doc/create_game.pdf) to create games.
 
-here is the [docs](./doc/create_graphical_lib.pdf) to create graphics api
+Here is the [document](./doc/create_graphical_lib.pdf) to create graphical libraries.
 
-and you can generate doxygen documentation
+And you can generate a doxygen documentation with the following command:
 
 ```bash
-$ doxygen .
+$ doxygen Doxyfile
 ```
+
 ### Compile
 
 ```bash
@@ -58,4 +57,3 @@ Core input:
  M                      Next game
  I                      Go back to game menu
  ```
- 
