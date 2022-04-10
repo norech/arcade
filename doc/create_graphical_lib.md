@@ -45,7 +45,7 @@ arc::DLType getType(void) {
 
 ### 2 — Creating the library
 
-In your graphical library, you should inherit the `arc::grph::Graphic` class to interact with the engine.
+Your graphical library main class should inherit from the `arc::grph::AGraphic` abstract class to interact with the engine.
 
 For basic logic, your graphical library must provide the following methods:
 
