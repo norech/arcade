@@ -1,8 +1,8 @@
 
+#include "PacmanGame.hpp"
+#include "../common/VectorInt.hpp"
 #include "spc/common/KeyCode.hpp"
 #include <iostream>
-#include "../common/VectorInt.hpp"
-#include "PacmanGame.hpp"
 #include <stack>
 
 namespace arc::game {
@@ -109,11 +109,6 @@ void PacmanGame::update(float dt [[maybe_unused]])
     }
 }
 
-bool PacmanGame::mustLoadAnotherGraphic() const
-{
-    return this->_mustLoadAnotherGraphic;
-}
-
 void PacmanGame::render()
 {
     char test[2] = {' ', '\0'};
@@ -139,14 +134,12 @@ void PacmanGame::render()
     _canvas->drawPoint(this->_player.value.x, this->_player.value.y, this->_palette[0]);
     printScore();
 
-
     _canvas->endDraw();
     _graphic->render();
 }
 
 void PacmanGame::loadGraphic(grph::IGraphic* graphic)
 {
-    this->_mustLoadAnotherGraphic = false;
     _graphic = graphic;
     _graphic->loadCanvas(_canvas);
 }
@@ -159,8 +152,6 @@ void PacmanGame::destroy() {
         _manager->setHighScore("pacman", _highscore);
     }
 }
-
-void PacmanGame::setManager(IManager* manager) { _manager = manager; }
 
 bool PacmanGame::getCollide(VectorInt nextPos)
 {

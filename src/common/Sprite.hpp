@@ -10,10 +10,10 @@
 
 namespace arc::game {
 
-class Sprite : public ISprite {
+class ASprite : public ISprite {
  public:
-    Sprite() = default;
-    ~Sprite() = default;
+    ASprite() = default;
+    ~ASprite() = default;
 
     void init() override;
 

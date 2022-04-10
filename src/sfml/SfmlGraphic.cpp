@@ -25,16 +25,16 @@ std::unordered_map<int, arc::KeyCode> arc::grph::SfmlGraphic::_keyMap
 void arc::grph::SfmlGraphic::init()
 {
     _shouldClose = false;
-    this->_window.create(sf::VideoMode(800, 600), "SFML");
-    this->_window.setFramerateLimit(30);
-    this->_font.loadFromFile("./font.ttf");
+    this->window.create(sf::VideoMode(800, 600), "SFML");
+    this->window.setFramerateLimit(30);
+    this->font.loadFromFile("./font.ttf");
 }
 
 bool arc::grph::SfmlGraphic::isOpen()
 {
     if (_shouldClose)
         return false;
-    if (this->_window.isOpen())
+    if (this->window.isOpen())
         return true;
     else
         return false;
@@ -42,9 +42,9 @@ bool arc::grph::SfmlGraphic::isOpen()
 
 void arc::grph::SfmlGraphic::close() { _shouldClose = true; }
 
-void arc::grph::SfmlGraphic::clear() { this->_window.clear(); }
+void arc::grph::SfmlGraphic::clear() { this->window.clear(); }
 
-void arc::grph::SfmlGraphic::render() { this->_window.display(); }
+void arc::grph::SfmlGraphic::render() { this->window.display(); }
 
 float arc::grph::SfmlGraphic::tick() { return (0.025); }
 
@@ -52,7 +52,7 @@ bool arc::grph::SfmlGraphic::pollEvent(Event& input [[maybe_unused]])
 {
     sf::Event sfmlEvent;
 
-    if (!_window.pollEvent(sfmlEvent))
+    if (!window.pollEvent(sfmlEvent))
         return false;
     if (sfmlEvent.type == sf::Event::Closed) {
         input.type = Event::QUIT;
@@ -90,10 +90,4 @@ void arc::grph::SfmlGraphic::unloadCanvas(
     canvas.reset();
 };
 
-void arc::grph::SfmlGraphic::destroy() { this->_window.close(); };
-
-void arc::grph::SfmlGraphic::registerSprite(
-    game::ISprite& sprite [[maybe_unused]])
-{
-    return;
-}
+void arc::grph::SfmlGraphic::destroy() { this->window.close(); };

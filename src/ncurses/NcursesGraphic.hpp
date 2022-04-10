@@ -2,14 +2,14 @@
 
 #include <ncurses.h>
 
-#include "../common/graphic.hpp"
+#include "../common/Graphic.hpp"
 #include "spc/common/KeyCode.hpp"
 #include "spc/graphic/IGraphic.hpp"
 #include <unordered_map>
 
 namespace arc::grph {
 
-class NcursesGraphic : public Graphic {
+class NcursesGraphic : public AGraphic {
  public:
     NcursesGraphic() = default;
     ~NcursesGraphic() = default;
@@ -35,8 +35,6 @@ class NcursesGraphic : public Graphic {
     void destroy() override;
 
     int getColorIndex(const ColorCode& color);
-
-    void registerSprite(game::ISprite& sprite);
 
  private:
     static std::unordered_map<int, arc::KeyCode> _keyMap;

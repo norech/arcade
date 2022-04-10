@@ -10,15 +10,12 @@
 #include <iostream>
 #include <string>
 
-arc::game::NibblerGame::NibblerGame()
-{
-}
+arc::game::NibblerGame::NibblerGame() { }
 
-arc::game::NibblerGame::~NibblerGame()
-{
-}
+arc::game::NibblerGame::~NibblerGame() { }
 
-void arc::game::NibblerGame::init() {
+void arc::game::NibblerGame::init()
+{
     _palette.setColor(0, 'P', YELLOW);
     _palette.setColor(1, 'P', MAGENTA);
     _palette.setColor(2, 'W', CYAN);
@@ -36,7 +33,8 @@ void arc::game::NibblerGame::init() {
     _back = 0;
 };
 
-void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
+void arc::game::NibblerGame::update(float dt [[maybe_unused]])
+{
     Event event;
     while (_manager->pollEvent(event)) {
 
@@ -45,8 +43,6 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
         }
 
         if (event.type == Event::KEYDOWN) {
-            if (event.keyboardInput.keyCode == arc::KeyCode::P)
-                _mustLoadAnotherGraphic = true;
             if (event.keyboardInput.keyCode == arc::KeyCode::Z) {
                 if (_back != 1) {
                     _velocityX = 0;
@@ -89,11 +85,13 @@ void arc::game::NibblerGame::update(float dt [[maybe_unused]]) {
     }
 }
 
-void arc::game::NibblerGame::render() {
+void arc::game::NibblerGame::render()
+{
     _graphic->clear();
     _canvas->startDraw();
 
-    _canvas->drawText(1, 23, "Score: " + std::to_string(_score), this->_palette[6]);
+    _canvas->drawText(
+        1, 23, "Score: " + std::to_string(_score), this->_palette[6]);
 
     this->drawMap();
     this->drawTail();
@@ -107,26 +105,18 @@ void arc::game::NibblerGame::render() {
     _graphic->render();
 }
 
-void arc::game::NibblerGame::loadGraphic(grph::IGraphic* graphic) {
-    this->_mustLoadAnotherGraphic = false;
+void arc::game::NibblerGame::loadGraphic(grph::IGraphic* graphic)
+{
     _graphic = graphic;
     _graphic->loadCanvas(_canvas);
 }
 
-void arc::game::NibblerGame::unloadGraphic() {
+void arc::game::NibblerGame::unloadGraphic()
+{
     this->_graphic->unloadCanvas(_canvas);
 }
 
-bool arc::game::NibblerGame::mustLoadAnotherGraphic() const {
-    return this->_mustLoadAnotherGraphic;
-};
-
-void arc::game::NibblerGame::setManager(IManager* manager)
-{
-    _manager = manager;
-}
-
-void arc::game::NibblerGame::destroy() {}
+void arc::game::NibblerGame::destroy() { }
 
 void arc::game::NibblerGame::initMap()
 {
@@ -165,7 +155,8 @@ void arc::game::NibblerGame::initPlayer()
     }
 }
 
-void arc::game::NibblerGame::drawMap() {
+void arc::game::NibblerGame::drawMap()
+{
     for (size_t i = 0; i < _map.size(); i++) {
         for (size_t j = 0; j < _map.at(i).size(); j++) {
             if (_map.at(i).at(j) == '#')
@@ -209,22 +200,26 @@ void arc::game::NibblerGame::movePlayer()
 
 void arc::game::NibblerGame::collision()
 {
-    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#' && _velocityX == 1) {
+    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#'
+        && _velocityX == 1) {
         _position.at(0).x--;
     }
-    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#' && _velocityX == -1) {
+    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#'
+        && _velocityX == -1) {
         _position.at(0).x++;
-
     }
-    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#' && _velocityY == 1) {
+    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#'
+        && _velocityY == 1) {
         _position.at(0).y--;
     }
-    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#' && _velocityY == -1) {
+    if (_map.at(_position.at(0).y).at(_position.at(0).x) == '#'
+        && _velocityY == -1) {
         _position.at(0).y++;
     }
 }
 
-bool arc::game::NibblerGame::check_wall(int x, int y, std::vector<std::string> map)
+bool arc::game::NibblerGame::check_wall(
+    int x, int y, std::vector<std::string> map)
 {
     bool ret = false;
 
@@ -264,7 +259,8 @@ void arc::game::NibblerGame::tailPosition()
 void arc::game::NibblerGame::drawTail()
 {
     for (size_t i = 1; i < _position.size(); i++) {
-        _canvas->drawPoint(_position.at(i).x, _position.at(i).y, this->_palette[1]);
+        _canvas->drawPoint(
+            _position.at(i).x, _position.at(i).y, this->_palette[1]);
     }
     _canvas->drawPoint(_position.at(0).x, _position.at(0).y, this->_palette[0]);
 }
@@ -293,8 +289,9 @@ void arc::game::NibblerGame::reset()
 bool arc::game::NibblerGame::hitSelf()
 {
     for (size_t i = 1; i < _position.size(); i++) {
-        if (_position[0].x == _position[i].x && _position[0].y == _position[i].y)
-        return true;
+        if (_position[0].x == _position[i].x
+            && _position[0].y == _position[i].y)
+            return true;
     }
     return false;
 }

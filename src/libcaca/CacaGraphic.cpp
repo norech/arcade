@@ -29,18 +29,18 @@ std::unordered_map<int, KeyCode> CacaGraphic::_keyMap
 
 void CacaGraphic::init()
 {
-    _display = caca_create_display(NULL);
-    _canvas = caca_get_canvas(_display);
-    caca_set_display_title(_display, "libcaca");
-    caca_set_display_time(_display, 25000);
-    caca_set_color_ansi(_canvas, CACA_BLACK, CACA_WHITE);
+    display = caca_create_display(NULL);
+    canvas = caca_get_canvas(display);
+    caca_set_display_title(display, "libcaca");
+    caca_set_display_time(display, 25000);
+    caca_set_color_ansi(canvas, CACA_BLACK, CACA_WHITE);
 }
 
 bool CacaGraphic::isOpen()
 {
     if (_willBeClosed)
         return false;
-    if (_display != NULL) {
+    if (display != NULL) {
         return true;
     } else {
         return false;
@@ -49,9 +49,9 @@ bool CacaGraphic::isOpen()
 
 void CacaGraphic::close() { _willBeClosed = true; }
 
-void CacaGraphic::clear() { caca_clear_canvas(_canvas); }
+void CacaGraphic::clear() { caca_clear_canvas(canvas); }
 
-void CacaGraphic::render() { caca_refresh_display(_display); }
+void CacaGraphic::render() { caca_refresh_display(display); }
 
 float CacaGraphic::tick() { return 0.025; }
 
@@ -59,7 +59,7 @@ bool CacaGraphic::pollEvent(Event& event)
 {
     caca_event_t ev;
 
-    caca_get_event(_display, CACA_EVENT_KEY_PRESS | CACA_EVENT_QUIT, &ev, 25);
+    caca_get_event(display, CACA_EVENT_KEY_PRESS | CACA_EVENT_QUIT, &ev, 25);
 
     if (ev.type == CACA_EVENT_QUIT) {
         event.type = Event::QUIT;
@@ -79,22 +79,17 @@ bool CacaGraphic::pollEvent(Event& event)
     return false;
 }
 
-void CacaGraphic::loadCanvas(std::shared_ptr<ICanvas>& canvas)
+void CacaGraphic::loadCanvas(std::shared_ptr<ICanvas>& arcCanvas)
 {
-    canvas = std::make_shared<CacaCanvas>(this);
+    arcCanvas = std::make_shared<CacaCanvas>(this);
 }
 
-void CacaGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas)
+void CacaGraphic::unloadCanvas(std::shared_ptr<ICanvas>& arcCanvas)
 {
-    canvas.reset();
+    arcCanvas.reset();
 }
 
-void CacaGraphic::destroy() { caca_free_display(_display); }
-
-void CacaGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
-{
-    return;
-}
+void CacaGraphic::destroy() { caca_free_display(display); }
 
 int CacaGraphic::getCacaColor(const IColor& code)
 {

@@ -4,14 +4,14 @@
 
 #include <ncurses.h>
 
-#include "../common/graphic.hpp"
+#include "../common/Graphic.hpp"
 #include "spc/common/KeyCode.hpp"
 #include "spc/graphic/IGraphic.hpp"
 #include <unordered_map>
 
 namespace arc::grph {
 
-class CacaGraphic : public Graphic {
+class CacaGraphic : public AGraphic {
  public:
     CacaGraphic() = default;
     ~CacaGraphic() = default;
@@ -35,13 +35,13 @@ class CacaGraphic : public Graphic {
 
     void destroy() override;
 
-    void registerSprite(game::ISprite& sprite) override;
-
     int getColorIndex(const ColorCode& color);
     int getCacaColor(const IColor& color);
 
-    caca_canvas_t* _canvas;
-    caca_display_t* _display;
+    caca_canvas_t* canvas;
+    caca_display_t* display;
+
+ private:
     bool _willBeClosed = false;
     static std::unordered_map<int, KeyCode> _keyMap;
 };

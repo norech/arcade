@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common/graphic.hpp"
+#include "../common/Graphic.hpp"
 #include "spc/common/KeyCode.hpp"
 #include "spc/graphic/IGraphic.hpp"
 #include <SDL2/SDL_ttf.h>
@@ -9,7 +9,7 @@
 
 namespace arc::grph {
 
-class SdlGraphic : public Graphic {
+class SdlGraphic : public AGraphic {
  public:
     SdlGraphic();
     ~SdlGraphic();
@@ -27,13 +27,11 @@ class SdlGraphic : public Graphic {
     void loadCanvas(std::shared_ptr<ICanvas>& canvas) override;
     void unloadCanvas(std::shared_ptr<ICanvas>& canvas) override;
 
-    void registerSprite(game::ISprite& sprite);
-
     void destroy() override;
 
-    SDL_Window* _window;
-    SDL_Renderer* _renderer;
-    TTF_Font* _font;
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    TTF_Font* font;
 
  private:
     static std::unordered_map<int, KeyCode> _keyMap;

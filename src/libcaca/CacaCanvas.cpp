@@ -11,34 +11,26 @@
 
 namespace arc::grph {
 
-CacaCanvas::CacaCanvas(CacaGraphic *graphic)
+CacaCanvas::CacaCanvas(CacaGraphic* graphic) { _graphic = graphic; }
+
+CacaCanvas::~CacaCanvas() { }
+
+void CacaCanvas::startDraw() { }
+
+void CacaCanvas::endDraw() { }
+
+void CacaCanvas::drawPoint(int x, int y, const IColor& color)
 {
-    _graphic = graphic;
+    caca_set_color_ansi(
+        _graphic->canvas, _graphic->getCacaColor(color), CACA_BLACK);
+    caca_printf(_graphic->canvas, x, y, "%c", color.getSymbol());
 }
 
-CacaCanvas::~CacaCanvas()
+void CacaCanvas::drawText(
+    int x, int y, const std::string& text, const IColor& color)
 {
-}
-
-void CacaCanvas::startDraw()
-{
-
-}
-
-void CacaCanvas::endDraw()
-{
-
-}
-
-void CacaCanvas::drawPoint(int x, int y, const IColor &color)
-{
-    caca_set_color_ansi(_graphic->_canvas, _graphic->getCacaColor(color), CACA_BLACK);
-    caca_printf(_graphic->_canvas, x, y, "%c", color.getSymbol());
-}
-
-void CacaCanvas::drawText(int x, int y, const std::string &text, const IColor &color)
-{
-    caca_set_color_ansi(_graphic->_canvas, _graphic->getCacaColor(color), CACA_BLACK);
-    caca_printf(_graphic->_canvas, x, y, "%s", text.c_str());
+    caca_set_color_ansi(
+        _graphic->canvas, _graphic->getCacaColor(color), CACA_BLACK);
+    caca_printf(_graphic->canvas, x, y, "%s", text.c_str());
 }
 }

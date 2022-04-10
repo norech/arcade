@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "../common/Game.hpp"
 #include "../common/Palette.hpp"
 #include "../common/VectorInt.hpp"
 #include "Manager.hpp"
@@ -12,7 +13,7 @@
 
 namespace arc::game {
 
-class GameMenu : public IGame {
+class GameMenu : public AGame {
  private:
     grph::Palette _palette;
     std::shared_ptr<grph::ICanvas> _canvas;
@@ -44,11 +45,7 @@ class GameMenu : public IGame {
 
     void loadGraphic(grph::IGraphic* graphic) override;
 
-    bool mustLoadAnotherGraphic() const override;
-
     void unloadGraphic() override;
-
-    void setManager(IManager* manager) override;
 
     void destroy() override;
 

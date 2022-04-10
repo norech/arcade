@@ -53,7 +53,7 @@ It will be used in the game list in order to display the name of your game. If n
 
 ### 2 — Creating the game
 
-In your game, you should use the `arc::game::IGame` interface to interact with the engine.
+Your game main class should inherit from the `arc::game::AGame` abstract class to interact with the engine.
 
 Your game is separated in 4 parts:
 
@@ -64,15 +64,14 @@ Your game is separated in 4 parts:
 
 Your game must also provide the following methods:
 
- - `setManager`: called by the engine to pass the game manager instance to the game.
  - `loadGraphic`: called by the engine each time a graphic library is loaded.
  - `unloadGraphic`: called by the engine each time a graphic library is unloaded.
-
-You must also provide the `mustLoadAnotherGraphic` method, but it is not called by the engine anymore (the graphic switching is now handled by the game manager itself).
 
 You must have an `std::shared_ptr<arc::grph::ICanvas>` member variable that will hold the current library canvas, used to render the game.
 
 It must be handled in the `loadGraphic` and `unloadGraphic` methods to ensure that the canvas is correctly set, thanks to the `IGraphic::loadCanvas(ICanvas)` and `IGraphic::unloadCanvas()` methods.
+
+A `arc::IManager` member variable `_manager` is also provided, that you will use when you need to handle events and scoreboard.
 
 \pagebreak
 
@@ -130,7 +129,7 @@ Events are expected to be handled by the game in the `arc::game::IGame::update` 
 void MyGame::update() {
     arc::Event event;
 
-    while (manager->pollEvent(event)) {
+    while (_manager->pollEvent(event)) {
 
         if (event.type == Event::KEYDOWN) {
             if (event.keyboardInput.keyCode == arc::KeyCode::ESCAPE) {
@@ -153,8 +152,8 @@ You can get and set the high score of the current player thanks to the `arc::gam
 ```cpp
 void MyGame::myGameOverMethod() {
     //...
-    if (this->manager->getHighScore("mygameid") < score) {
-        this->manager->setHighScore("mygameid", score);
+    if (this->_manager->getHighScore("mygameid") < score) {
+        this->_manager->setHighScore("mygameid", score);
     }
 }
 ```

@@ -13,7 +13,7 @@
 
 namespace arc::grph {
 
-class NcursesCanvas : public Canvas {
+class NcursesCanvas : public ACanvas {
  public:
     NcursesCanvas(NcursesGraphic* graphic);
     ~NcursesCanvas();
@@ -22,7 +22,7 @@ class NcursesCanvas : public Canvas {
     void startDraw() override;
     void endDraw() override;
     void drawPoint(int x, int y, const IColor& color);
-    void drawText(int x, int y,const std::string &text, const IColor &color);
+    void drawText(int x, int y, const std::string& text, const IColor& color);
 
  private:
     NcursesGraphic* _graphic;

@@ -43,17 +43,17 @@ void SdlGraphic::init()
     _shouldClose = false;
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_CreateWindowAndRenderer(
-        _size_x, _size_y, windowFlag, &_window, &_renderer);
-    if (_window == NULL) {
+        _size_x, _size_y, windowFlag, &window, &renderer);
+    if (window == NULL) {
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
-    SDL_SetWindowTitle(_window, "SDL");
-    SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
+    SDL_SetWindowTitle(window, "SDL");
+    // SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
     TTF_Init();
-    _font = TTF_OpenFont("./font.ttf", 20);
+    font = TTF_OpenFont("./font.ttf", 20);
 
-    if (_renderer == NULL || _font == NULL) {
+    if (renderer == NULL || font == NULL) {
         std::cerr << SDL_GetError() << std::endl;
         std::exit(84);
     }
@@ -63,13 +63,13 @@ void SdlGraphic::close() { _shouldClose = true; }
 
 void SdlGraphic::clear()
 {
-    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
-    SDL_RenderClear(_renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
 }
 
 void SdlGraphic::render()
 {
-    SDL_RenderPresent(_renderer);
+    SDL_RenderPresent(renderer);
     SDL_Delay(25);
 }
 
@@ -104,7 +104,7 @@ bool SdlGraphic::isOpen()
 {
     if (_shouldClose)
         return (false);
-    if (_window == NULL) {
+    if (window == NULL) {
         return (false);
     } else {
         return (true);
@@ -123,18 +123,13 @@ void SdlGraphic::unloadCanvas(std::shared_ptr<ICanvas>& canvas [[maybe_unused]])
 
 void SdlGraphic::destroy()
 {
-    TTF_CloseFont(_font);
-    SDL_DestroyRenderer(_renderer);
-    SDL_DestroyWindow(_window);
+    TTF_CloseFont(font);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
-    _window = nullptr;
+    window = nullptr;
 }
 
 float SdlGraphic::tick() { return (0.025); }
-
-void SdlGraphic::registerSprite(game::ISprite& sprite [[maybe_unused]])
-{
-    return;
-}
 
 }
