@@ -16,8 +16,8 @@ std::unordered_map<int, arc::KeyCode> SdlGraphic::_keyMap
         { SDLK_RETURN, arc::KeyCode::ENTER },
         { SDLK_BACKSPACE, arc::KeyCode::BACKSPACE },
         { SDLK_UP, arc::KeyCode::Z },
-        { SDLK_DOWN, arc::KeyCode::Q },
-        { SDLK_LEFT, arc::KeyCode::S },
+        { SDLK_DOWN, arc::KeyCode::S },
+        { SDLK_LEFT, arc::KeyCode::Q },
         { SDLK_RIGHT, arc::KeyCode::D },
         { SDLK_SPACE, arc::KeyCode::SPACE }
     };
