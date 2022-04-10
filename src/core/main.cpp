@@ -50,7 +50,7 @@ void runArcade(const std::string& graphic)
 
 int main(int ac, char* av[])
 {
-    if (ac != 2) {
+    if (ac != 2 || *av[1] == '-') {
         std::cout << "Usage: " << av[0] << " [graphical_library.so]"
                   << std::endl
                   << "" << std::endl
@@ -61,7 +61,9 @@ int main(int ac, char* av[])
                   << "Core input:" << std::endl
                   << " K\t\t\tExit game" << std::endl
                   << " O\t\t\tPrevious graphical library" << std::endl
-                  << " P\t\t\tNext graphical library" << std::endl;
+                  << " P\t\t\tNext graphical library" << std::endl
+                  << " L\t\t\tPrevious game" << std::endl
+                  << " M\t\t\tNext game" << std::endl;
         return 84;
     }
 
