@@ -11,28 +11,30 @@
 
 namespace arc::game {
 
-    class AGame : public IGame {
-        public:
-            AGame() = default;
-            ~AGame() = default;
+class AGame : public IGame {
+ public:
+    AGame() = default;
+    ~AGame() = default;
 
-            virtual void init() {};
+    virtual void init() { }
 
-            virtual void update(float dt [[maybe_unused]]) {};
+    virtual void update(float dt [[maybe_unused]]) { }
 
-            virtual void render() {};
+    virtual void render() {};
 
-            virtual void loadGraphic(grph::IGraphic* graphic [[maybe_unused]]) {};
+    virtual void loadGraphic(grph::IGraphic* graphic [[maybe_unused]]) {};
 
-            virtual void unloadGraphic() {};
+    virtual void unloadGraphic() {};
 
-            virtual void setManager(IManager* manager [[maybe_unused]]) {};
+    void setManager(IManager* manager) override { _manager = manager; }
 
-            virtual bool mustLoadAnotherGraphic() { return false;};
+    bool mustLoadAnotherGraphic() const final { return false; };
 
-            virtual void destroy() {};
+    virtual void destroy() {};
 
-        protected:
-        private:
-    };
+ protected:
+    IManager* _manager;
+
+ private:
+};
 }

@@ -38,8 +38,6 @@ void GameMenu::update(float dt [[maybe_unused]])
     }
 }
 
-bool GameMenu::mustLoadAnotherGraphic() const { return false; }
-
 const IColor& GameMenu::getGameTextColor(int index)
 {
     const IColor& selectedColor = this->_palette[0];
@@ -94,8 +92,6 @@ void GameMenu::loadGraphic(grph::IGraphic* graphic)
 void GameMenu::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
 void GameMenu::destroy() { }
-
-void GameMenu::setManager(IManager* manager) { _manager = manager; }
 
 const std::string GameMenu::getSelectedGamePath() const
 {
