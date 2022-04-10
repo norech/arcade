@@ -9,22 +9,19 @@
 
 #include "GameMenu.hpp"
 
-void showGameMenu(arc::core::Manager& manager, arc::game::GameMenu& gameMenu,
-    const std::string& graphicPath)
+bool showGameMenu(arc::core::Manager& manager, arc::game::GameMenu& gameMenu)
 {
     manager.loadGame(&gameMenu);
-    manager.loadGraphic(graphicPath);
 
     while (manager.canUpdate()) {
         manager.update();
     }
 
     if (!gameMenu.hasSelectedGame()) {
-        manager.destroy();
-        return;
+        return false;
     }
-    manager.unloadGraphic();
     manager.unloadGame();
+    return true;
 }
 
 void runArcade(const std::string& graphic)
@@ -32,19 +29,30 @@ void runArcade(const std::string& graphic)
     arc::core::Manager manager;
     arc::game::GameMenu gameMenu;
     manager.init();
+    manager.loadGraphic(graphic);
 
-    showGameMenu(manager, gameMenu, graphic);
-    if (!gameMenu.hasSelectedGame()) {
-        manager.destroy();
-        return;
-    }
-    manager.setPlayerName(gameMenu.getPlayerName());
-    manager.loadGame(gameMenu.getSelectedGamePath());
-    manager.loadGraphic(gameMenu.getSelectedGraphicPath());
+    do {
+        if (!showGameMenu(manager, gameMenu))
+            break;
+        std::cout << "Starting game: " << gameMenu.getSelectedGamePath()
+                  << std::endl;
 
-    while (manager.canUpdate()) {
-        manager.update();
-    }
+        if (!gameMenu.hasSelectedGame())
+            break;
+
+        manager.unloadGraphic();
+        manager.setPlayerName(gameMenu.getPlayerName());
+        manager.loadGraphic(gameMenu.getSelectedGraphicPath());
+        manager.loadGame(gameMenu.getSelectedGamePath());
+
+        while (manager.canUpdate()) {
+            manager.update();
+        }
+        manager.unloadGame();
+        if (manager.isBackToMenu())
+            manager.reloadCurrentGraphic();
+    } while (manager.isBackToMenu());
+
     manager.destroy();
 }
 
@@ -56,14 +64,15 @@ int main(int ac, char* av[])
                   << "" << std::endl
                   << "Common game input:" << std::endl
                   << " ZQSD / Arrows\t\tMove" << std::endl
-                  << " I / Enter\t\tConfirm" << std::endl
+                  << " Enter\t\tConfirm" << std::endl
                   << " R\t\t\tRestart game" << std::endl
                   << "Core input:" << std::endl
                   << " K\t\t\tExit game" << std::endl
                   << " O\t\t\tPrevious graphical library" << std::endl
                   << " P\t\t\tNext graphical library" << std::endl
                   << " L\t\t\tPrevious game" << std::endl
-                  << " M\t\t\tNext game" << std::endl;
+                  << " M\t\t\tNext game" << std::endl
+                  << " I\t\t\tGo back to game menu" << std::endl;
         return 84;
     }
 

@@ -28,15 +28,18 @@ class Manager : IManager {
     bool _mustLoadNext = false;
     bool _isGameFromLoader = false;
     bool _isGraphicFromLoader = false;
+    bool _isBackToMenu = false;
     std::string _playerName;
 
  public:
     Manager() = default;
     ~Manager() = default;
 
+    bool isBackToMenu() const;
     void loadGame(arc::game::IGame* game);
     void unloadGame();
     void unloadGraphic();
+    void reloadCurrentGraphic();
     void loadGame(const std::string& gamePath) override;
     void loadGraphic(const std::string& graphicPath) override;
     grph::IGraphic* getGraphic() override;
