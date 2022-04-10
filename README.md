@@ -33,12 +33,12 @@ here is the [docs](https://github.com/EpitechPromo2025/B-OOP-400-RUN-4-1-arcade-
 and you can generate doxygen documentation
 
 ```bash
-   doxygen .
+$ doxygen .
 ```
 ### Compile
 
 ```bash
-   $ make
+$ make
 ```
 
 ### Usage
