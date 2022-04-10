@@ -39,6 +39,13 @@ namespace arc::game {
         return (*this);
     }
 
+    bool operator==(VectorInt &vect, VectorInt &vect2)
+    {
+        if (vect.value.x == vect2.value.x && vect.value.y == vect2.value.y)
+            return (true);
+        return (false);
+    }
+
     void VectorInt::reset()
     {
         this->value.x = 0;

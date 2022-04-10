@@ -22,6 +22,7 @@ namespace arc::game
 
         virtual Vector2 &operator+=(Vector2 &vect [[maybe_unused]]) { return (vect);};
         virtual Vector2 &operator-=(Vector2 &vect [[maybe_unused]]) { return (vect);};
+        virtual bool operator==(Vector2 &vect [[maybe_unused]]) { return (false);};
     };
 
 }
