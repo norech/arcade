@@ -5,7 +5,7 @@
 The goal of this project is to make an app in C++<br>
 to load an unload in runtime games and graphicals library
 
-for this project whe need to share our interfaces with another group
+for this project we need to share our interfaces with another group
 
 here the email of the leader of the other group
 
