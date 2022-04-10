@@ -58,7 +58,7 @@ class Loader {
 
     static T* load(const std::string& name)
     {
-        void* handle = dlopen(name.c_str(), RTLD_LAZY | RTLD_NODELETE);
+        void* handle = dlopen(name.c_str(), RTLD_LAZY);
         if (!handle) {
             throw LoaderError(dlerror());
         }

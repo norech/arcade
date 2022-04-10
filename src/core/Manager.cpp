@@ -98,6 +98,11 @@ void Manager::reloadCurrentGraphic()
     loadGraphic(_graphicPaths[_currentGraphicId]);
 }
 
+std::string Manager::getGraphicPath() const
+{
+    return _graphicPaths[_currentGraphicId];
+}
+
 void Manager::setGraphic(grph::IGraphic* graphic) { _graphic = graphic; }
 
 void Manager::setGame(game::IGame* game) { _game = game; }
@@ -127,6 +132,11 @@ void Manager::destroy()
     _graphic = nullptr;
 
     for (auto& g : _loadedGraphics) {
+        // ugly and i dont like it, but sfml seems to crash on unload anyway
+        // thanks an uninitialised value of a pthread_mutex_lock of sfml
+        // i really dont know how to fix it
+        if (g.first.find("arcade_sfml") != std::string::npos)
+            continue;
         GraphicLoader::unload(g.second);
     }
 }
