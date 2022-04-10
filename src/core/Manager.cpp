@@ -22,6 +22,10 @@ void Manager::loadGame(arc::game::IGame* game)
     _game->setManager(this);
     game->init();
     _isGameFromLoader = false;
+    _isBackToMenu = false;
+    if (_graphic != nullptr) {
+        _game->loadGraphic(_graphic);
+    }
 }
 
 void Manager::loadGame(const std::string& game)
@@ -33,15 +37,17 @@ void Manager::loadGame(const std::string& game)
     _game->setManager(this);
     _game->init();
     _isGameFromLoader = true;
+    _isBackToMenu = false;
+    if (_graphic != nullptr) {
+        _game->loadGraphic(_graphic);
+    }
 }
 
 void Manager::loadGraphic(const std::string& graphic)
 {
-    if (_game == nullptr)
-        throw ManagerError("Game not yet loaded!");
-
     if (_graphic != nullptr) {
-        _game->unloadGraphic();
+        if (_game == nullptr)
+            _game->unloadGraphic();
         _graphic->destroy();
     }
     if (_loadedGraphics.find(graphic) != _loadedGraphics.end()) {
@@ -53,7 +59,9 @@ void Manager::loadGraphic(const std::string& graphic)
     _graphic->init();
     _isGraphicFromLoader = true;
 
-    _game->loadGraphic(_graphic);
+    if (_game != nullptr) {
+        _game->loadGraphic(_graphic);
+    }
 }
 
 void Manager::unloadGame()
@@ -82,16 +90,29 @@ game::IGame* Manager::getGame() { return _game; }
 
 grph::IGraphic* Manager::getGraphic() { return _graphic; }
 
+bool Manager::isBackToMenu() const { return _isBackToMenu; }
+
+void Manager::reloadCurrentGraphic()
+{
+    unloadGraphic();
+    loadGraphic(_graphicPaths[_currentGraphicId]);
+}
+
 void Manager::setGraphic(grph::IGraphic* graphic) { _graphic = graphic; }
 
 void Manager::setGame(game::IGame* game) { _game = game; }
 
-void Manager::init() { listGraphics(_graphicPaths); }
+void Manager::init()
+{
+    listGraphics(_graphicPaths);
+    listGames(_gamePaths);
+}
 
 void Manager::destroy()
 {
     if (_graphic != nullptr) {
-        _game->unloadGraphic();
+        if (_game != nullptr)
+            _game->unloadGraphic();
         _graphic->destroy();
     }
     if (_game != nullptr) {
@@ -131,6 +152,14 @@ void Manager::update()
             = (_currentGraphicId + movement) % _graphicPaths.size();
         loadGraphic(_graphicPaths[_currentGraphicId]);
     }
+    if (_mustLoadAnotherGame) {
+        unloadGame();
+        int movement = _mustLoadNext ? 1 : -1;
+
+        _mustLoadAnotherGame = false;
+        _currentGameId = (_currentGameId + movement) % _gamePaths.size();
+        loadGame(_gamePaths[_currentGameId]);
+    }
 }
 
 bool Manager::pollEvent(Event& input)
@@ -152,7 +181,21 @@ bool Manager::pollEvent(Event& input)
             _mustLoadNext = true;
             return false;
         }
+        if (input.keyboardInput.keyCode == KeyCode::L) {
+            _mustLoadAnotherGame = true;
+            _mustLoadNext = false;
+            return false;
+        }
+        if (input.keyboardInput.keyCode == KeyCode::M) {
+            _mustLoadAnotherGame = true;
+            _mustLoadNext = true;
+            return false;
+        }
         if (input.keyboardInput.keyCode == KeyCode::K) {
+            this->_graphic->close();
+        }
+        if (input.keyboardInput.keyCode == KeyCode::I) {
+            _isBackToMenu = true;
             this->_graphic->close();
         }
     }
@@ -186,11 +229,11 @@ std::string Manager::getPlayerName() { return _playerName; }
 void Manager::setPlayerName(const std::string& name) { _playerName = name; }
 
 void Manager::setHighScore(const std::string& gameName, long score)
-{   
+{
     std::ifstream readfile("./highscore/" + gameName + ".txt");
     if (!readfile.is_open()) {
         std::ofstream write("./highscore/" + gameName + ".txt");
-    }   
+    }
     if (!std::filesystem::is_directory("./highscore")
         || !std::filesystem::exists("./highscore")) {
         return;
