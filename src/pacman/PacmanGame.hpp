@@ -21,9 +21,12 @@ class PacmanGame : public IGame {
     bool _mustLoadAnotherGraphic = false;
     VectorInt _player;
     VectorInt _player_mov;
-    int _score = 0;
     VectorInt _Blink;
+    std::vector<std::string> _mapCpy;
+    size_t _score;
     float _timer;
+    int _pcCount = 0;
+
 
  public:
     PacmanGame() = default;
@@ -46,6 +49,13 @@ class PacmanGame : public IGame {
     void destroy() override;
 
     bool getCollide(VectorInt nextPos);
+
+    void reset(void);
+
+    void hardReset(void);
+    void eat(const VectorInt &vec);
+    void printScore();
+    void blinky(void);
 };
 
 } // namespace arc::grph

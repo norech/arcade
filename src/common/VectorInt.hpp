@@ -21,6 +21,7 @@ namespace arc::game {
 
             VectorInt &operator+=(VectorInt &vect);
             VectorInt &operator-=(VectorInt &vect);
+            bool operator==(VectorInt &vect2);
 
             void reset(void);
             void setValue(int x, int y);

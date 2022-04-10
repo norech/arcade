@@ -43,9 +43,13 @@ void Manager::loadGraphic(const std::string& graphic)
     if (_graphic != nullptr) {
         _game->unloadGraphic();
         _graphic->destroy();
-        GraphicLoader::unload(_graphic);
     }
-    _graphic = GraphicLoader::load(graphic);
+    if (_loadedGraphics.find(graphic) != _loadedGraphics.end()) {
+        _graphic = _loadedGraphics[graphic];
+    } else {
+        _graphic = GraphicLoader::load(graphic);
+        _loadedGraphics[graphic] = _graphic;
+    }
     _graphic->init();
     _isGraphicFromLoader = true;
 
@@ -72,9 +76,6 @@ void Manager::unloadGraphic()
     if (_game != nullptr)
         _game->unloadGraphic();
     _graphic->destroy();
-    if (_isGraphicFromLoader) {
-        GraphicLoader::unload(_graphic);
-    }
     _graphic = nullptr;
 }
 game::IGame* Manager::getGame() { return _game; }
@@ -92,9 +93,6 @@ void Manager::destroy()
     if (_graphic != nullptr) {
         _game->unloadGraphic();
         _graphic->destroy();
-        if (_isGraphicFromLoader) {
-            GraphicLoader::unload(_graphic);
-        }
     }
     if (_game != nullptr) {
         _game->destroy();
@@ -106,6 +104,10 @@ void Manager::destroy()
     _isGameFromLoader = false;
     _game = nullptr;
     _graphic = nullptr;
+
+    for (auto& g : _loadedGraphics) {
+        GraphicLoader::unload(g.second);
+    }
 }
 
 bool Manager::canUpdate() { return _graphic->isOpen(); }

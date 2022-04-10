@@ -2,6 +2,8 @@
 
 #include "spc/common/IManager.hpp"
 #include <unordered_map>
+#include "spc/graphic/IGraphic.hpp"
+#include <map>
 #include <vector>
 
 namespace arc::core {
@@ -17,6 +19,7 @@ class Manager : IManager {
     grph::IGraphic* _graphic = nullptr;
     game::IGame* _game = nullptr;
     std::vector<std::string> _graphicPaths;
+    std::map<std::string, grph::IGraphic*> _loadedGraphics = {};
     int _currentGraphicId = 0;
     bool _mustLoadAnotherGraphic = false;
     bool _mustLoadNext = false;

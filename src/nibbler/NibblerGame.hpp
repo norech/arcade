@@ -33,6 +33,7 @@ namespace arc::game {
             void destroy() override;
 
             void initMap();
+            void initPlayer();
             void drawMap();
             void movePlayer();
             void collision();
@@ -40,6 +41,9 @@ namespace arc::game {
             void drawTail();
             void eatFood();
             bool check_wall(int x, int y, std::vector<std::string> map);
+            void reset();
+            bool hitSelf();
+            bool eatAll();
 
         protected:
         private:
@@ -53,8 +57,11 @@ namespace arc::game {
             int _score = 0;
             int _velocityX = 0;
             int _velocityY = 0;
-            int _move = 0;
+            float _move = 0;
             int _turn = 0;
+            bool _touch = false;
+            int _vectory = 0;
+            int _back = 0;
             std::vector<std::string> _map;
             std::vector<Vector2> _position;
             std::vector<Vector2> _pos_copy;

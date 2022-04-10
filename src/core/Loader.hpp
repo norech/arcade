@@ -25,7 +25,7 @@ class Loader {
  public:
     static std::string getName(const std::string& name)
     {
-        void* handle = dlopen(name.c_str(), RTLD_LAZY);
+        void* handle = dlopen(name.c_str(), RTLD_LAZY | RTLD_NODELETE);
         if (!handle) {
             throw LoaderError(dlerror());
         }
@@ -41,7 +41,7 @@ class Loader {
 
     static bool isLoadable(const std::string& name)
     {
-        void* handle = dlopen(name.c_str(), RTLD_LAZY);
+        void* handle = dlopen(name.c_str(), RTLD_LAZY | RTLD_NODELETE);
         if (!handle) {
             return false;
         }
@@ -58,7 +58,7 @@ class Loader {
 
     static T* load(const std::string& name)
     {
-        void* handle = dlopen(name.c_str(), RTLD_LAZY);
+        void* handle = dlopen(name.c_str(), RTLD_LAZY | RTLD_NODELETE);
         if (!handle) {
             throw LoaderError(dlerror());
         }

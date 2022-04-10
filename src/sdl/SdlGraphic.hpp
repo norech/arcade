@@ -30,6 +30,7 @@ class SdlGraphic : public Graphic {
     void registerSprite(game::ISprite& sprite);
 
     void destroy() override;
+
     SDL_Window* _window;
     SDL_Renderer* _renderer;
     TTF_Font* _font;
