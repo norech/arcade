@@ -46,9 +46,11 @@ void PacmanGame::init()
     _palette.setColor(2, '#', BLUE);
     _palette.setColor(3, 't', WHITE);
     _palette.setColor(4, '#', WHITE);
-    _score  = 100;
+    _score  = 0;
     _mapCpy = _map;
-    //blinky();
+    _playername = _manager->getPlayerName();
+    _highscore = _manager->getHighScore("pacman");
+    _pcCount = 100;
 }
 
 void PacmanGame::update(float dt [[maybe_unused]])
@@ -78,6 +80,10 @@ void PacmanGame::update(float dt [[maybe_unused]])
             }
             if (event.keyboardInput.keyCode == KeyCode::R) {
                 hardReset();
+                if (_score > _highscore) {
+                    _highscore = _score;
+                    _manager->setHighScore("pacman", _highscore);
+                }
             }
         }
     }
@@ -147,7 +153,12 @@ void PacmanGame::loadGraphic(grph::IGraphic* graphic)
 
 void PacmanGame::unloadGraphic() { this->_graphic->unloadCanvas(_canvas); }
 
-void PacmanGame::destroy() { }
+void PacmanGame::destroy() {
+    if (_score > _highscore) {
+        _highscore = _score;
+        _manager->setHighScore("pacman", _highscore);
+    }
+}
 
 void PacmanGame::setManager(IManager* manager) { _manager = manager; }
 
@@ -213,9 +224,13 @@ void PacmanGame::blinky(void)
 
 void PacmanGame::reset(void)
 {
-    this->_map = _mapCpy;
+    _mapCpy = _map;
     this->_player = VectorInt(11, 17);
     this->_player_mov = VectorInt(-1, 0);
+    if (_score > _highscore) {
+        _highscore = _score;
+        _manager->setHighScore("pacman", _highscore);
+    }
     //this->_Blink = VectorInt(9, 9);
 }
 
@@ -239,6 +254,9 @@ void PacmanGame::printScore(void)
     }
     _canvas->drawText(_map.at(0).size() + 1, 1, "SCORE:", _palette[4]);
     _canvas->drawText(_map.at(0).size() + 1, 2, std::to_string(this->_score), _palette[4]);
+    _canvas->drawText(_map.at(0).size() + 1, 4, "HI-SCORE:", _palette[4]);
+    _canvas->drawText(_map.at(0).size() + 1, 5, this->_playername, _palette[4]);
+    _canvas->drawText(_map.at(0).size() + 1, 6, std::to_string(this->_highscore), _palette[4]);
 }
 
 } // namespace arc::game
