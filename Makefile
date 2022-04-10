@@ -7,6 +7,11 @@
 
 API_DIR = $(PWD)/include/spc
 
+DOCS = 	doc/create_game.md \
+		doc/create_graphical_lib.md \
+
+PDF = $(DOCS:.md=.pdf)
+
 all:
 	mkdir -p lib
 	make -C src/common/
@@ -65,4 +70,11 @@ api:
 
 re: fclean all
 
-.PHONY: all re tests_run coverage clean fclean
+%.pdf: %.md
+	pandoc -s -o $@ $<
+
+doc: $(PDF)
+	mkdir -p doc/doxygen
+	doxygen Doxyfile
+
+.PHONY: all re tests_run coverage clean fclean doc
